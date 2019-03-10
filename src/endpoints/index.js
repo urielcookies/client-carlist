@@ -5,7 +5,7 @@ export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
     get('http://127.0.0.1:5000/upload')
     .then((response) => {
       setLoaded(true);
-      setCarList(response.data);
+      setCarList(response.data.reverse());
     })           
     .catch((error) => {
         console.log(error);

@@ -25,7 +25,7 @@ const Home = () => {
           </Card.Content>
           <Card.Content extra>
           <Button color='teal' size='large' floated='left'>Images</Button>
-          <Button color='blue' size='large' floated='right'><Link style={{color: 'white'}} to={`/details/${1}`}>Details</Link></Button>
+          <Button color='blue' size='large' floated='right'><Link style={{color: 'white'}} to={`/details/${car.id}`}>Details</Link></Button>
           </Card.Content>
         </Card>
       ))}
