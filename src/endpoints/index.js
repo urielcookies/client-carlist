@@ -11,4 +11,30 @@ export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
         console.log(error);
     })
   }
-}
+};
+
+export const fetchCarInfo = ({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCarInfo}) => {
+  if (!isCarInfoLoaded) {
+    get(`http://127.0.0.1:5000/carinfo/${carId}`)
+    .then((response) => {
+      setIsCarInfoLoaded(true);
+      setCarInfo(response.data);
+    })           
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+};
+
+export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCarImages}) => {
+  if (!isImagesLoaded) {
+    get(`http://127.0.0.1:5000/carimages/${carId}`)
+    .then((response) => {
+      setIsImagesLoaded(true);
+      setCarImages(response.data);
+    })           
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+};

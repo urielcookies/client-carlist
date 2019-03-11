@@ -6,7 +6,8 @@ import { Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } f
 
 const AddCarForm = (props) => {
   const {
-      setFieldValue,
+    initialValues,
+    setFieldValue,
   } = props;
 
   return (
@@ -40,7 +41,7 @@ const AddCarForm = (props) => {
             </Form.Field>
             <Form.Field>
               <label htmlFor="cleanTitle">Clean Title</label>
-              <Field id="cleanTitle" type="checkbox" name="cleanTitle" />
+              <Field id="cleanTitle" type="checkbox" name="cleanTitle" checked={initialValues.cleanTitle} />
             </Form.Field>
           </Form.Group>
 
@@ -87,14 +88,14 @@ const AddCarForm = (props) => {
 };
 
 export default withFormik({
-  mapPropsToValues() {
+  mapPropsToValues(formikProps) {
     return {
-      year: '',
-      brand: '',
-      model: '',
-      cost: '',
-      cleanTitle: false,
-      notes: '',
+      year: formikProps.year || '',
+      brand: formikProps.brand || '',
+      model: formikProps.model || '',
+      cost: formikProps.cost || '',
+      cleanTitle: formikProps.cleanTitle,
+      notes: formikProps.notes || '',
       images: ''
     }
   },
