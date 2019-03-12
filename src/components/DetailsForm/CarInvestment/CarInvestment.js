@@ -24,21 +24,26 @@ const dummyData = [
     cost: '60',
   },
 ];
-
-const DeleteExpense = () => (
-  <Modal trigger={<Button size='small' icon='trash alternate' />} basic size='small'>
-    <Header icon='archive' content='Delete Record' />
+// trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen}>Show Modal</Button>}
+{/* <Button size='small' icon='trash alternate' /> */}
+const DeleteExpense = (props) => (
+  <Modal
+    trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen} />}
+    open={props.modalOpen}
+    onClose={props.handleClose}
+    basic
+    size='small'
+  >
+    <Header icon='browser' content='Delete Expense' />
     <Modal.Content>
-      <p>
-        Are you sure you want to delete this expense
-      </p>
+      <h3>Are you sure you want to delete this?</h3>
     </Modal.Content>
     <Modal.Actions>
-      <Button basic color='blue' inverted>
-        <Icon name='remove' /> No
+      <Button basic color='blue' onClick={props.handleClose} inverted>
+        <Icon name='cancel' /> No
       </Button>
-      <Button color='red' inverted>
-        <Icon name='checkmark' /> Yes
+      <Button color='red' onClick={props.removeExpense} inverted>
+        <Icon name='remove' /> Yes
       </Button>
     </Modal.Actions>
   </Modal>
@@ -46,11 +51,31 @@ const DeleteExpense = () => (
 
 const CarInvestment = () => {
   const [edit, setEdit] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
 
   const cancel = () => {
     setEdit({})
   };
 
+  const handleOpen = () => {
+    setModalOpen(true)
+  }
+
+  const removeExpense = () => {
+    console.log('REMOVED');
+    setModalOpen(false);
+  }
+
+  const handleClose = () => {
+    setModalOpen(false);
+  }
+
+  const kiki = {
+    handleOpen,
+    modalOpen,
+    handleClose,
+    removeExpense,
+  }
   console.log('edit', edit);
 
   return (
@@ -103,7 +128,7 @@ const CarInvestment = () => {
                 <Table.Cell>{expense.cost}</Table.Cell>
                 <Table.Cell>
                   <Button size='small' icon='edit outline' onClick={() => setEdit(editInfo)} />
-                  <DeleteExpense />
+                  <DeleteExpense {...kiki} />
                 </Table.Cell>
               </Table.Row>
             );
