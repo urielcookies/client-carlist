@@ -6,28 +6,31 @@ import AddCarForm from '.././AddCarForm/AddCarForm';
 import CarImages from './CarImages/CarImages' ;
 import CarInvestment from './CarInvestment/CarInvestment' ;
 
-import {fetchCarInfo, fetchCarImages} from '../../endpoints';
+import {fetchCarExpenses, fetchCarInfo, fetchCarImages} from '../../endpoints';
 
 const DetailsForm = (props) => {
   const [isCarInfoLoaded, setIsCarInfoLoaded] = useState(false);
+  const [isExpensesLoaded, setIsExpensesLoaded] = useState(false);
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
 
   const [carInfo, setCarInfo] = useState({});
+  const [expenses, setExpenses] = useState([]);
   const [carImages, setCarImages] = useState([]);
 
   useEffect(() => {
     const carId = props.match.params.id;
     fetchCarInfo({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCarInfo});
+    fetchCarExpenses({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses});
     fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
   });
 
   if (!Object.values(carInfo).length) {
-    return <div>...Loading</div>
+    return <div>... Loading</div>
   }
-  
+
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} /></Tab.Pane> },
-    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment /></Tab.Pane> },
+    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses}/></Tab.Pane> },
     { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} /></Tab.Pane> },
   ]
 

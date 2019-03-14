@@ -1,31 +1,8 @@
 import React, {useState} from 'react';
 import { Container, Table, Button, Divider, Icon, Header, Modal } from 'semantic-ui-react'
 import { Form } from 'semantic-ui-react'
+import {withFormik, Form as FormikForm, Field} from 'formik';
 
-const dummyData = [
-  {
-    id: 1,
-    expense: 'Engine',
-    cost: '600',
-  },
-  {
-    id: 2,
-    expense: 'Transmission',
-    cost: '600',
-  },
-  {
-    id: 3,
-    expense: 'Car Wash',
-    cost: '200',
-  },
-  {
-    id: 4,
-    expense: 'Engine',
-    cost: '60',
-  },
-];
-// trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen}>Show Modal</Button>}
-{/* <Button size='small' icon='trash alternate' /> */}
 const DeleteExpense = (props) => (
   <Modal
     trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen} />}
@@ -49,12 +26,20 @@ const DeleteExpense = (props) => (
   </Modal>
 )
 
-const CarInvestment = () => {
-  const [edit, setEdit] = useState({});
+const CarInvestment = (props) => {
+  const {
+    expenses,
+    setFieldValue
+  } = props;
+
   const [modalOpen, setModalOpen] = useState(false);
+  const [updateMode, setUpdateMode] = useState(false)
+
+  const [cost, setCost] = useState('');
+  const [expense, setExpense] = useState('');
 
   const cancel = () => {
-    setEdit({})
+    setUpdateMode(false);
   };
 
   const handleOpen = () => {
@@ -70,13 +55,22 @@ const CarInvestment = () => {
     setModalOpen(false);
   }
 
-  const kiki = {
+  const addExpense = () => {
+    console.log('Add Expense');
+  }
+
+  const updateExpense = () => {
+    setFieldValue('expense', expense);
+    setFieldValue('cost', cost);
+    cancel();
+  }
+
+  const modalProps = {
     handleOpen,
     modalOpen,
     handleClose,
     removeExpense,
   }
-  console.log('edit', edit);
 
   return (
     <div>
@@ -87,15 +81,26 @@ const CarInvestment = () => {
         </Header>
       </Divider>
 
-      <Form>
-        <Form.Group widths='equal'>
-          <Form.Input fluid label='Expense' value={(edit.expense ? edit.expense : '')} />
-          <Form.Input fluid label='Cost' value={(edit.cost ? edit.cost : '')} />
-        </Form.Group>
-        <Container textAlign='right'>
-          <Button>{(!Object.values(edit).length ? 'Add' : 'Update')}</Button>
-          {!!Object.values(edit).length && <Button onClick={cancel}>Cancel</Button>}
-        </Container>
+      <Form as="div">
+        <FormikForm>
+          <Form.Group widths='equal'>
+              <label htmlFor="model">Expense</label>
+              {!updateMode && <Field type="text" name="expense" />}
+              {updateMode && <Field type="text" name="expense" onChange={(event) => setExpense(event.target.value)} value={expense} />}
+              <label htmlFor="model">Cost</label>
+              {!updateMode && <Field type="number" name="cost" />}
+              {updateMode && <Field type="number" name="cost" onChange={(event) => setCost(event.target.value)} value={cost} />}
+            </Form.Group>
+            <div style={{textAlign: 'right'}}>
+              <br />
+              <Button
+                onClick={(!updateMode ? addExpense : updateExpense)}>
+                  {(!updateMode ? 'Add' : 'Update')}
+              </Button>
+              {!updateMode && <Button type='reset'>Cancel</Button>}
+              {updateMode && <Button onClick={cancel}>Cancel</Button>}
+            </div>
+        </FormikForm>
       </Form>
 
       <Divider horizontal>
@@ -115,20 +120,18 @@ const CarInvestment = () => {
         </Table.Header>
 
         <Table.Body>{
-          dummyData.map((expense) => {
-            const editInfo = {
-              id: expense.id,
-              expense: expense.expense,
-              cost: expense.cost,
-            }
-
+          expenses.map((expense) => {
             return (
               <Table.Row key={expense.id}>
                 <Table.Cell>{expense.expense}</Table.Cell>
                 <Table.Cell>{expense.cost}</Table.Cell>
                 <Table.Cell>
-                  <Button size='small' icon='edit outline' onClick={() => setEdit(editInfo)} />
-                  <DeleteExpense {...kiki} />
+                  <Button size='small' icon='edit outline' onClick={() => {
+                    setUpdateMode(true);
+                    setExpense(expense.expense);
+                    setCost(expense.cost);
+                    }} />
+                  <DeleteExpense {...modalProps} />
                 </Table.Cell>
               </Table.Row>
             );
@@ -139,4 +142,16 @@ const CarInvestment = () => {
   );
 };
 
-export default CarInvestment;
+export default withFormik({
+  mapPropsToValues(formikProps) {
+    return {
+      cost: '',
+      expense: '',
+    }
+  },
+  handleSubmit(formValues, formikProps) {
+    formikProps.resetForm();
+    console.log('formValues', formValues);
+    console.log('formikProps', formikProps);
+  }
+})(CarInvestment);

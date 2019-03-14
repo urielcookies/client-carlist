@@ -38,3 +38,16 @@ export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCar
     })
   }
 };
+
+export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses}) => {
+  if (!isExpensesLoaded) {
+    get(`http://127.0.0.1:5000/loadexpenses/${carId}`)
+    .then((response) => {
+      setIsExpensesLoaded(true);
+      setExpenses(response.data);
+    })           
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+};
