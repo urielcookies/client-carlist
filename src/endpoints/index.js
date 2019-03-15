@@ -44,6 +44,7 @@ export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, 
     get(`http://127.0.0.1:5000/loadexpenses/${carId}`)
     .then((response) => {
       setIsExpensesLoaded(true);
+      console.log(response.data);
       setExpenses(response.data);
     })           
     .catch((error) => {

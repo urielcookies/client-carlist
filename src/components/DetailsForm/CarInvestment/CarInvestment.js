@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import { Container, Table, Button, Divider, Icon, Header, Modal } from 'semantic-ui-react'
 import { Form } from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
@@ -122,7 +123,7 @@ const CarInvestment = (props) => {
         <Table.Body>{
           expenses.map((expense) => {
             return (
-              <Table.Row key={expense.id}>
+              <Table.Row key={expense.expenseId}>
                 <Table.Cell>{expense.expense}</Table.Cell>
                 <Table.Cell>{expense.cost}</Table.Cell>
                 <Table.Cell>
@@ -143,15 +144,44 @@ const CarInvestment = (props) => {
 };
 
 export default withFormik({
-  mapPropsToValues(formikProps) {
+  mapPropsToValues() {
     return {
       cost: '',
       expense: '',
     }
   },
   handleSubmit(formValues, formikProps) {
+    if (!formValues.cost.length) {
+      return
+    }
+    if (!formValues.expense.length) {
+      return
+    }
+
     formikProps.resetForm();
+
     console.log('formValues', formValues);
     console.log('formikProps', formikProps);
+
+    const formData = new FormData();
+  
+    for (const key in formValues) {
+      formData.append(key, formValues[key]);
+    }
+    console.log([...formData])
+    axios.post(`http://127.0.0.1:5000/createexpense/${formikProps.props.cardId}`, formData, {
+      headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      'Accept': '*',
+      }
+    })
+    .then(function (response) {
+      formikProps.props.setIsExpensesLoaded(false)
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 })(CarInvestment);

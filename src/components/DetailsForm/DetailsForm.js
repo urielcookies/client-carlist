@@ -9,6 +9,8 @@ import CarInvestment from './CarInvestment/CarInvestment' ;
 import {fetchCarExpenses, fetchCarInfo, fetchCarImages} from '../../endpoints';
 
 const DetailsForm = (props) => {
+  const carId = props.match.params.id;
+
   const [isCarInfoLoaded, setIsCarInfoLoaded] = useState(false);
   const [isExpensesLoaded, setIsExpensesLoaded] = useState(false);
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
@@ -18,7 +20,6 @@ const DetailsForm = (props) => {
   const [carImages, setCarImages] = useState([]);
 
   useEffect(() => {
-    const carId = props.match.params.id;
     fetchCarInfo({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCarInfo});
     fetchCarExpenses({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses});
     fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
@@ -27,10 +28,10 @@ const DetailsForm = (props) => {
   if (!Object.values(carInfo).length) {
     return <div>... Loading</div>
   }
-
+  console.log(isExpensesLoaded);
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} /></Tab.Pane> },
-    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses}/></Tab.Pane> },
+    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} cardId={carId} setIsExpensesLoaded={setIsExpensesLoaded} /></Tab.Pane> },
     { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} /></Tab.Pane> },
   ]
 
