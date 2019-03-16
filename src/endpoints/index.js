@@ -1,4 +1,4 @@
-import {get} from "axios";
+import {get, post} from "axios";
 
 export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
   if (!isLoaded) {
@@ -52,3 +52,24 @@ export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, 
     })
   }
 };
+
+export const deleteCarExpense = (expenseId, state) => {
+  const formData = new FormData();
+  formData.append('expenseId', expenseId);
+
+  post(`http://127.0.0.1:5000/deleteexpense/${expenseId}`, formData, {
+    headers: {
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*",
+    'Accept': '*',
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+    state(false);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+};
+

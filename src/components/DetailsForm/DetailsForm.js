@@ -28,10 +28,10 @@ const DetailsForm = (props) => {
   if (!Object.values(carInfo).length) {
     return <div>... Loading</div>
   }
-  console.log(isExpensesLoaded);
+
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} /></Tab.Pane> },
-    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} cardId={carId} setIsExpensesLoaded={setIsExpensesLoaded} /></Tab.Pane> },
+    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} cardId={carId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
     { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} /></Tab.Pane> },
   ]
 

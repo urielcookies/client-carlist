@@ -51,34 +51,37 @@ const AddCarForm = (props) => {
               <Field id="notes" component="textarea" name="notes" />
             </Form.Field>
           </Form.Group>
-
-          <Form.Group style={{width: '50%', margin: '0 auto'}}>
-            <Form.Field>
-                <label htmlFor="images" style={{
-                  fontSize: '13px',
-                  position: 'relative',
-                  background: 'rgb(224, 225, 226)',
-                  height: '40px',
-                  width: '180px',
-                  borderRadius: '15px'
-                }}>
-                  <span style={{
-                      width: '50%',
-                      height: '50%',
-                      overflow: 'auto',
-                      margin: 'auto',
-                      position: 'absolute',
-                      top: '0', left: '0', bottom: '0', right: '0',
-                    }}>
-                      <i className="upload icon"></i>
-                      Add Images
-                    <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {
-                        setFieldValue("images", event.currentTarget.files);
-                    }} />
-                  </span>
-                </label>
-              </Form.Field>
-          </Form.Group>
+          {
+            !Boolean(props.location)
+            ||
+            <Form.Group style={{width: '50%', margin: '0 auto'}}>
+              <Form.Field>
+                  <label htmlFor="images" style={{
+                    fontSize: '13px',
+                    position: 'relative',
+                    background: 'rgb(224, 225, 226)',
+                    height: '40px',
+                    width: '180px',
+                    borderRadius: '15px'
+                  }}>
+                    <span style={{
+                        width: '50%',
+                        height: '50%',
+                        overflow: 'auto',
+                        margin: 'auto',
+                        position: 'absolute',
+                        top: '0', left: '0', bottom: '0', right: '0',
+                      }}>
+                        <i className="upload icon"></i>
+                        Add Images
+                      <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {
+                          setFieldValue("images", event.currentTarget.files);
+                      }} />
+                    </span>
+                  </label>
+                </Form.Field>
+            </Form.Group>
+          }
           <Divider />
           <Button color='teal'>Submit</Button>
         </FormikForm>

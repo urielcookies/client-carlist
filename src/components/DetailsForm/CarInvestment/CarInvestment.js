@@ -1,31 +1,45 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 import { Container, Table, Button, Divider, Icon, Header, Modal } from 'semantic-ui-react'
+import { Step, Input } from 'semantic-ui-react'
 import { Form } from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
 
-const DeleteExpense = (props) => (
-  <Modal
-    trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen} />}
-    open={props.modalOpen}
-    onClose={props.handleClose}
-    basic
-    size='small'
-  >
-    <Header icon='browser' content='Delete Expense' />
-    <Modal.Content>
-      <h3>Are you sure you want to delete this?</h3>
-    </Modal.Content>
-    <Modal.Actions>
-      <Button basic color='blue' onClick={props.handleClose} inverted>
-        <Icon name='cancel' /> No
-      </Button>
-      <Button color='red' onClick={props.removeExpense} inverted>
-        <Icon name='remove' /> Yes
-      </Button>
-    </Modal.Actions>
-  </Modal>
-)
+import {deleteCarExpense} from '../../../endpoints/index';
+// const DeleteExpense = (props) => (
+//   <Modal
+//     name={props.expenseId}
+//     trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen} />}
+//     open={props.modalOpen}
+//     onClose={props.handleClose}
+//     basic
+//     size='small'
+//   >
+//     <Header icon='browser' content='Delete Expense' />
+//     <Modal.Content>
+//       <h3>Are you sure you want to delete this?</h3>
+//     </Modal.Content>
+//     <Modal.Actions>
+//       <Button basic color='blue' onClick={props.handleClose} inverted>
+//         <Icon name='cancel' /> No
+//       </Button>
+//       {console.log('expense id', props.expenseId)}
+//       <Button color='red' onClick={() => props.removeExpense(props.expenseId)} inverted>
+//         <Icon name='remove' /> Yes
+//       </Button>
+//     </Modal.Actions>
+//   </Modal>
+// )
+
+
+
+// const DeleteExpense = (props) => {
+//   return (
+//     <button onClick={() => alert(props.expenseId)}>
+//       hi
+//     </button>
+//   );
+// };
 
 const CarInvestment = (props) => {
   const {
@@ -35,6 +49,8 @@ const CarInvestment = (props) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [updateMode, setUpdateMode] = useState(false)
+  const [expenseId, setExpenseId] = useState(null)
+  
 
   const [cost, setCost] = useState('');
   const [expense, setExpense] = useState('');
@@ -43,12 +59,14 @@ const CarInvestment = (props) => {
     setUpdateMode(false);
   };
 
-  const handleOpen = () => {
+  const handleOpen = (expenseId) => {
+    setExpenseId(expenseId);
     setModalOpen(true)
   }
 
   const removeExpense = () => {
-    console.log('REMOVED');
+    console.log('REMOVED', expenseId);
+    deleteCarExpense(expenseId, props.setIsExpensesLoaded)
     setModalOpen(false);
   }
 
@@ -57,7 +75,8 @@ const CarInvestment = (props) => {
   }
 
   const addExpense = () => {
-    console.log('Add Expense');
+    // props.submitForm();
+    cancel();
   }
 
   const updateExpense = () => {
@@ -73,6 +92,31 @@ const CarInvestment = (props) => {
     removeExpense,
   }
 
+  // const DeleteExpense = (props) => (
+  //   <Modal
+  //     name={props.expenseId}
+  //     // trigger={<Button size='small' icon='trash alternate' onClick={props.handleOpen} />}
+  //     open={props.modalOpen}
+  //     onClose={props.handleClose}
+  //     basic
+  //     size='small'
+  //   >
+  //     <Header icon='browser' content='Delete Expense' />
+  //     <Modal.Content>
+  //       <h3>Are you sure you want to delete this?</h3>
+  //     </Modal.Content>
+  //     <Modal.Actions>
+  //       <Button basic color='blue' onClick={props.handleClose} inverted>
+  //         <Icon name='cancel' /> No
+  //       </Button>
+  //       {console.log('expense id', props.expenseId)}
+  //       <Button color='red' onClick={() => props.removeExpense(props.expenseId)} inverted>
+  //         <Icon name='remove' /> Yes
+  //       </Button>
+  //     </Modal.Actions>
+  //   </Modal>
+  // )
+
   return (
     <div>
       <Divider horizontal>
@@ -85,15 +129,20 @@ const CarInvestment = (props) => {
       <Form as="div">
         <FormikForm>
           <Form.Group widths='equal'>
-              <label htmlFor="model">Expense</label>
-              {!updateMode && <Field type="text" name="expense" />}
-              {updateMode && <Field type="text" name="expense" onChange={(event) => setExpense(event.target.value)} value={expense} />}
-              <label htmlFor="model">Cost</label>
-              {!updateMode && <Field type="number" name="cost" />}
-              {updateMode && <Field type="number" name="cost" onChange={(event) => setCost(event.target.value)} value={cost} />}
+            <Form.Field>
+              <label htmlFor="expense">Expense</label>
+              {!updateMode && <Field id="expense" type="text" name="expense" />}
+              {updateMode && <Field id="expense" type="text" name="expense" onChange={(event) => setExpense(event.target.value)} value={expense} />}
+            </Form.Field>
+            <Form.Field>
+              <label htmlFor="cost">Cost</label>
+              {!updateMode && <Field id="cost" type="number" name="cost" />}
+              {updateMode && <Field id="cost" type="number" name="cost" onChange={(event) => setCost(event.target.value)} value={cost} />}
+            </Form.Field>
+
             </Form.Group>
             <div style={{textAlign: 'right'}}>
-              <br />
+              {/* <br /> */}
               <Button
                 onClick={(!updateMode ? addExpense : updateExpense)}>
                   {(!updateMode ? 'Add' : 'Update')}
@@ -104,41 +153,115 @@ const CarInvestment = (props) => {
         </FormikForm>
       </Form>
 
-      <Divider horizontal>
-        <Header as='h4'>
-          <Icon name='dollar sign' />
-          Expenses
-        </Header>
-      </Divider>
+      {
+        Boolean(expense.length)
+        ||
+        <div>
+          <Divider horizontal>
+            <Header as='h4'>
+              <Icon name='dollar sign' />
+              {
+                Number(expenses.reduce((result, record) => {
+                  return result + Number(record.cost)
+                }, 0)) + Number(props.cost)
+              } in Total
+            </Header>
+          </Divider>
 
-      <Table unstackable basic='very'>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Expense</Table.HeaderCell>
-            <Table.HeaderCell>Cost</Table.HeaderCell>
-            <Table.HeaderCell>Actions</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>{
-          expenses.map((expense) => {
-            return (
-              <Table.Row key={expense.expenseId}>
-                <Table.Cell>{expense.expense}</Table.Cell>
-                <Table.Cell>{expense.cost}</Table.Cell>
-                <Table.Cell>
-                  <Button size='small' icon='edit outline' onClick={() => {
-                    setUpdateMode(true);
-                    setExpense(expense.expense);
-                    setCost(expense.cost);
-                    }} />
-                  <DeleteExpense {...modalProps} />
-                </Table.Cell>
+          <Table unstackable basic='very'>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Expense</Table.HeaderCell>
+                <Table.HeaderCell>Cost</Table.HeaderCell>
+                <Table.HeaderCell>Actions</Table.HeaderCell>
               </Table.Row>
-            );
-          })
-        }</Table.Body>
-      </Table>
+            </Table.Header>
+
+            <Table.Body>{
+              expenses.map((expense) => {
+                return (
+                  <Table.Row key={expense.expenseId}>
+                    <Table.Cell>{expense.expense}</Table.Cell>
+                    <Table.Cell>{expense.cost}</Table.Cell>
+                    <Table.Cell>
+                      <Button size='small' icon='edit outline' onClick={() => {
+                        setUpdateMode(true);
+                        setExpense(expense.expense);
+                        setCost(expense.cost);
+                        }} />
+                      {/* <DeleteExpense {...modalProps} expenseId={expense.expenseId} /> */}
+                      {/* <DeleteExpense expenseId={expense.expenseId} /> */}
+                      
+                      <Button size='small' icon='trash alternate' onClick={() => handleOpen(expense.expenseId)} />
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
+            }</Table.Body>
+          </Table>
+
+          <Divider horizontal>
+          <Header as='h4'>
+              <Icon name='check' />
+              {
+                expenses.reduce((result, record) => {
+                  return result + Number(record.cost)
+                }, 0)
+              } in Expenses
+            </Header>
+          </Divider>
+
+          <Step.Group fluid>
+            <Step>
+              <Step.Content>
+                <Step.Title>Total</Step.Title>
+                <Step.Description>400</Step.Description>
+              </Step.Content>
+            </Step>
+
+            <Step>
+              <Step.Content>
+                <Step.Title>Total</Step.Title>
+                <Step.Description>621</Step.Description>
+              </Step.Content>
+            </Step>
+            
+            <Step>
+              <Step.Content>
+                <Step.Title>Halfed</Step.Title>
+                <Step.Description>100</Step.Description>
+              </Step.Content>
+            </Step>
+
+            <Step active>
+              <Step.Content>
+                <Step.Title>Estimate Sale</Step.Title>
+                <Step.Description><Input /></Step.Description>
+              </Step.Content>
+            </Step>
+          </Step.Group>
+
+          <Modal
+            open={modalOpen}
+            onClose={handleClose}
+            basic
+            size='small'
+          >
+            <Header icon='browser' content='Delete Expense' />
+            <Modal.Content>
+              <h3>Are you sure you want to delete this?</h3>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button basic color='blue' onClick={handleClose} inverted>
+                <Icon name='cancel' /> No
+              </Button>
+              <Button color='red' onClick={removeExpense} inverted>
+                <Icon name='remove' /> Yes
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        </div>
+      }
     </div>
   );
 };
@@ -151,7 +274,11 @@ export default withFormik({
     }
   },
   handleSubmit(formValues, formikProps) {
-    if (!formValues.cost.length) {
+    console.log('formValues', formValues);
+    if (!formValues.cost) {
+      return
+    }
+    if (typeof formValues.cost === 'string') {
       return
     }
     if (!formValues.expense.length) {
@@ -160,7 +287,6 @@ export default withFormik({
 
     formikProps.resetForm();
 
-    console.log('formValues', formValues);
     console.log('formikProps', formikProps);
 
     const formData = new FormData();
@@ -168,7 +294,7 @@ export default withFormik({
     for (const key in formValues) {
       formData.append(key, formValues[key]);
     }
-    console.log([...formData])
+    console.log('formdata', [...formData])
     axios.post(`http://127.0.0.1:5000/createexpense/${formikProps.props.cardId}`, formData, {
       headers: {
       'Content-Type': 'application/json',
