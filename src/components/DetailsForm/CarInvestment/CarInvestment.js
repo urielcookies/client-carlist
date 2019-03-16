@@ -41,6 +41,22 @@ import {deleteCarExpense} from '../../../endpoints/index';
 //   );
 // };
 
+
+
+
+
+
+
+
+
+// need to update ezxpenses!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!S
+// update car info
+// delete images
+// delete car id
+// upload images
+// veichle sold???
+// How Much???
+// image modal in home page
 const CarInvestment = (props) => {
   const {
     expenses,
@@ -210,36 +226,6 @@ const CarInvestment = (props) => {
               } in Expenses
             </Header>
           </Divider>
-
-          <Step.Group fluid>
-            <Step>
-              <Step.Content>
-                <Step.Title>Total</Step.Title>
-                <Step.Description>400</Step.Description>
-              </Step.Content>
-            </Step>
-
-            <Step>
-              <Step.Content>
-                <Step.Title>Total</Step.Title>
-                <Step.Description>621</Step.Description>
-              </Step.Content>
-            </Step>
-            
-            <Step>
-              <Step.Content>
-                <Step.Title>Halfed</Step.Title>
-                <Step.Description>100</Step.Description>
-              </Step.Content>
-            </Step>
-
-            <Step active>
-              <Step.Content>
-                <Step.Title>Estimate Sale</Step.Title>
-                <Step.Description><Input /></Step.Description>
-              </Step.Content>
-            </Step>
-          </Step.Group>
 
           <Modal
             open={modalOpen}
