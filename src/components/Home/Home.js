@@ -16,6 +16,7 @@ const Home = () => {
   return (
     <Container textAlign="center">
       <Button color='green' size='large'><Link style={{color: 'white'}} to="/addcar">Add Car</Link></Button>
+      <Button color='orange' size='large'><Link style={{color: 'white'}} to="/trip">Trip</Link></Button>
       <Divider />
       {cars && cars.map((car) => (
         <Card key={car.id} centered style={{display: 'inline-block', marginLeft: '15px', marginRight: '15px'}}>

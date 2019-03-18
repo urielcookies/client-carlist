@@ -15,7 +15,8 @@ const AutoCompleteSearch = (props) => {
 
     placeholder,
     address,
-    setAddress
+    setAddress,
+    setLatLng,
   } = props;
 
     // const [address, setAddress] = useState('')
@@ -27,11 +28,11 @@ const AutoCompleteSearch = (props) => {
     const handleSelect = (addressz) => {
       if (address !== addressz) {
         setAddress(addressz)
+          geocodeByAddress(addressz)
+          .then(results => getLatLng(results[0]))
+          .then(latLng => setLatLng(latLng))
+          .catch(error => console.error('Error', error))
       }
-      // geocodeByAddress(addressz)
-      //   .then(results => getLatLng(results[0]))
-      //   .then(latLng => console.log('Success', latLng))
-      //   .catch(error => console.error('Error', error))
     }
 
     const handleCloseClick = () => {

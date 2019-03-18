@@ -6,7 +6,6 @@ import AddCarForm from '.././AddCarForm/AddCarForm';
 import CarImages from './CarImages/CarImages' ;
 import CarInvestment from './CarInvestment/CarInvestment' ;
 import CarEstimations from './CarEstimations/CarEstimations' ;
-import Trip from './Trip/Trip' ;
 
 import {fetchCarExpenses, fetchCarInfo, fetchCarImages} from '../../endpoints';
 
@@ -36,7 +35,7 @@ const DetailsForm = (props) => {
     { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} cardId={carId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.cost} expenses={expenses} /></Tab.Pane> },
     { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} /></Tab.Pane> },
-    { menuItem: 'Trip', render: () => <Tab.Pane><Trip {...carImages} /></Tab.Pane> },
+    { menuItem: 'Status', render: () => <Tab.Pane><div>Sold. Price. ROU Data</div></Tab.Pane> },
   ]
 
   return (
