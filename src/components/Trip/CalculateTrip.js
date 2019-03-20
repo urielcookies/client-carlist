@@ -25,9 +25,9 @@ const CalculateTrip = (props) => {
 
   useEffect(() => {
     if (mpg && gasPrice && directions) {
-      const result = ((Number(distance.replace('miles', '')) / mpg) * gasPrice).toFixed(2);
-      setTripCost(`$${result}`);
-      setRoundTripCost(`$${result * 2}`);
+      const staceys_formula = ((Number(distance.replace('miles', '')) / mpg) * gasPrice).toFixed(2);
+      setTripCost(`$${staceys_formula}`);
+      setRoundTripCost(`$${staceys_formula * 2}`);
     }
   });
 

@@ -66,7 +66,7 @@ const CarEstimations = (props) => {
 
       <Divider horizontal>
         <Header as='h4'>
-          <Icon name='money bill alternate' />
+          <Icon name='calculator' />
           Estimates
         </Header>
       </Divider>

@@ -187,9 +187,9 @@ const CarInvestment = (props) => {
           <Table unstackable basic='very'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Expense</Table.HeaderCell>
-                <Table.HeaderCell>Cost</Table.HeaderCell>
-                <Table.HeaderCell>Actions</Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">Expense</Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">Cost</Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -197,10 +197,10 @@ const CarInvestment = (props) => {
               expenses.map((expense) => {
                 return (
                   <Table.Row key={expense.expenseId}>
-                    <Table.Cell>{expense.expense}</Table.Cell>
-                    <Table.Cell>{expense.cost}</Table.Cell>
-                    <Table.Cell>
-                      <Button size='small' icon='edit outline' onClick={() => {
+                    <Table.Cell textAlign="center" width="4">{expense.expense}</Table.Cell>
+                    <Table.Cell textAlign="center" width="2">{expense.cost}</Table.Cell>
+                    <Table.Cell textAlign="center" width="6">
+                      <Button size='tiny' icon='edit outline' onClick={() => {
                         setUpdateMode(true);
                         setExpense(expense.expense);
                         setCost(expense.cost);
@@ -208,7 +208,7 @@ const CarInvestment = (props) => {
                       {/* <DeleteExpense {...modalProps} expenseId={expense.expenseId} /> */}
                       {/* <DeleteExpense expenseId={expense.expenseId} /> */}
                       
-                      <Button size='small' icon='trash alternate' onClick={() => handleOpen(expense.expenseId)} />
+                      <Button size='tiny' icon='trash alternate' onClick={() => handleOpen(expense.expenseId)} />
                     </Table.Cell>
                   </Table.Row>
                 );

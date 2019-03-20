@@ -1,18 +1,13 @@
-import React from 'react';
-import {Image, Divider} from 'semantic-ui-react'
+import React, {useState} from 'react';
+import {Image, Divider, Card} from 'semantic-ui-react'
 
 const CarImages = (props) => {
   return (
-    <div>{
-      props.images.map(image => (
-        <div key={image}>{
-          <div>
-            <Image src={image} size='medium' /> 
-            <Divider />
-          </div>
-        }</div>
+    <Card.Group stackable itemsPerRow={3}>{
+      props.images.map((image) => (
+        <Card color='teal' key={image} raised image={image} />
       ))
-    }</div>
+    }</Card.Group>
   );
 };
 

@@ -31,7 +31,7 @@ const DetailsForm = (props) => {
   }
 
   const panes = [
-    { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} /></Tab.Pane> },
+    { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} edit cardId={carId}/></Tab.Pane> },
     { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} cardId={carId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.cost} expenses={expenses} /></Tab.Pane> },
     { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} /></Tab.Pane> },

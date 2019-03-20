@@ -6,9 +6,11 @@ import { Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } f
 
 const AddCarForm = (props) => {
   const {
+    edit,
     initialValues,
     setFieldValue,
   } = props;
+  console.log('edit', edit)
 
   return (
     <Container>
@@ -83,7 +85,7 @@ const AddCarForm = (props) => {
             </Form.Group>
           }
           <Divider />
-          <Button color='teal'>Submit</Button>
+          <Button color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
         </FormikForm>
       </Form>
     </Container>
@@ -102,8 +104,9 @@ export default withFormik({
       images: ''
     }
   },
-  handleSubmit(values) {
+  handleSubmit(values, formikProps) {
     console.log('handleSubmit', values);
+    console.log('edit', formikProps.edit)
 
     const formData = new FormData();
     for (const key in values) {
@@ -117,18 +120,31 @@ export default withFormik({
       }
     }
     console.log([...formData])
-    axios.post('http://127.0.0.1:5000/upload', formData, {
+    axios.post(`http://127.0.0.1:5000/updatecarinfo/${formikProps.carId}`, formData, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",
       'Accept': '*',
       }
     })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    // axios.post('http://127.0.0.1:5000/upload', formData, {
+    //   headers: {
+    //   'Content-Type': 'application/json',
+    //   "Access-Control-Allow-Origin": "*",
+    //   'Accept': '*',
+    //   }
+    // })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   }
 })(AddCarForm);
