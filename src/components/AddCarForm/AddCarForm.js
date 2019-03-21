@@ -7,10 +7,10 @@ import { Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } f
 const AddCarForm = (props) => {
   const {
     edit,
-    initialValues,
+    values,
     setFieldValue,
   } = props;
-  console.log('edit', edit)
+  console.log('props', props)
 
   return (
     <Container>
@@ -43,7 +43,7 @@ const AddCarForm = (props) => {
             </Form.Field>
             <Form.Field>
               <label htmlFor="cleanTitle">Clean Title</label>
-              <Field id="cleanTitle" type="checkbox" name="cleanTitle" checked={initialValues.cleanTitle} />
+              <Field id="cleanTitle" type="checkbox" name="cleanTitle" checked={values.cleanTitle} />
             </Form.Field>
           </Form.Group>
 
@@ -99,14 +99,13 @@ export default withFormik({
       brand: formikProps.brand || '',
       model: formikProps.model || '',
       cost: formikProps.cost || '',
-      cleanTitle: formikProps.cleanTitle,
+      cleanTitle: formikProps.cleanTitle || false,
       notes: formikProps.notes || '',
       images: ''
     }
   },
   handleSubmit(values, formikProps) {
     console.log('handleSubmit', values);
-    console.log('edit', formikProps.edit)
 
     const formData = new FormData();
     for (const key in values) {
@@ -120,31 +119,37 @@ export default withFormik({
       }
     }
     console.log([...formData])
-    axios.post(`http://127.0.0.1:5000/updatecarinfo/${formikProps.carId}`, formData, {
-      headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin": "*",
-      'Accept': '*',
-      }
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    // axios.post('http://127.0.0.1:5000/upload', formData, {
-    //   headers: {
-    //   'Content-Type': 'application/json',
-    //   "Access-Control-Allow-Origin": "*",
-    //   'Accept': '*',
-    //   }
-    // })
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+
+    console.log(formikProps.props.carId);
+    if (formikProps.props.edit) {
+      axios.post(`http://127.0.0.1:5000/updatecarinfo/${formikProps.props.carId}`, formData, {
+        headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*',
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+        formikProps.props.setIsCarInfoLoaded(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    } else {
+        axios.post('http://127.0.0.1:5000/upload', formData, {
+          headers: {
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*",
+          'Accept': '*',
+          }
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
   }
 })(AddCarForm);
