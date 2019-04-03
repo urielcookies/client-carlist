@@ -60,8 +60,13 @@ import {deleteCarExpense} from '../../../endpoints/index';
 const CarInvestment = (props) => {
   const {
     expenses,
-    setFieldValue
+    setFieldValue,
+    values,
+    resetForm
   } = props;
+
+  // console.log('props', props);
+
 
   const [modalOpen, setModalOpen] = useState(false);
   const [updateMode, setUpdateMode] = useState(false)
@@ -70,6 +75,8 @@ const CarInvestment = (props) => {
 
   const [cost, setCost] = useState('');
   const [expense, setExpense] = useState('');
+
+  const [updateField, setUpdateField] = useState(false);
 
   const cancel = () => {
     setUpdateMode(false);
@@ -81,7 +88,6 @@ const CarInvestment = (props) => {
   }
 
   const removeExpense = () => {
-    console.log('REMOVED', expenseId);
     deleteCarExpense(expenseId, props.setIsExpensesLoaded)
     setModalOpen(false);
   }
@@ -92,20 +98,13 @@ const CarInvestment = (props) => {
 
   const addExpense = () => {
     // props.submitForm();
-    cancel();
+    // cancel();
   }
 
   const updateExpense = () => {
     setFieldValue('expense', expense);
     setFieldValue('cost', cost);
-    cancel();
-  }
-
-  const modalProps = {
-    handleOpen,
-    modalOpen,
-    handleClose,
-    removeExpense,
+    // cancel();
   }
 
   // const DeleteExpense = (props) => (
@@ -133,6 +132,78 @@ const CarInvestment = (props) => {
   //   </Modal>
   // )
 
+  const kiki = () => {
+    if (!values.cost) {
+      return
+    }
+    // if (typeof formValues.cost === 'string') {
+    //   return
+    // }
+    if (!values.expense.length) {
+      return
+    }
+
+    resetForm();
+
+    const formData = new FormData();
+  
+    for (const key in values) {
+      formData.append(key, values[key]);
+    }
+    console.log('formdata', [...formData])
+    if (updateMode) {
+      console.log('Update')
+      axios.post(`http://127.0.0.1:5000/updateexpense/${expenseId}`, formData, {
+        headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*',
+        }
+      })
+      .then(function (response) {
+        props.setIsExpensesLoaded(false)
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    } 
+    else {
+      console.log('Craete')
+      axios.post(`http://127.0.0.1:5000/createexpense/${props.carId}`, formData, {
+        headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        'Accept': '*',
+        }
+      })
+      .then(function (response) {
+        props.setIsExpensesLoaded(false)
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+    cancel();
+    
+    // axios.post(`http://127.0.0.1:5000/createexpense/${formikProps.props.carId}`, formData, {
+    //   headers: {
+    //   'Content-Type': 'application/json',
+    //   "Access-Control-Allow-Origin": "*",
+    //   'Accept': '*',
+    //   }
+    // })
+    // .then(function (response) {
+    //   formikProps.props.setIsExpensesLoaded(false)
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+  }
+
+  console.log('updateMode', updateMode);
   return (
     <div>
       <Divider horizontal>
@@ -143,7 +214,7 @@ const CarInvestment = (props) => {
       </Divider>
 
       <Form as="div">
-        <FormikForm>
+        <form onSubmit={kiki}>
           <Form.Group widths='equal'>
             <Form.Field>
               <label htmlFor="expense">Expense</label>
@@ -166,12 +237,12 @@ const CarInvestment = (props) => {
               {!updateMode && <Button type='reset'>Cancel</Button>}
               {updateMode && <Button onClick={cancel}>Cancel</Button>}
             </div>
-        </FormikForm>
+        </form>
       </Form>
 
       {
-        Boolean(expense.length)
-        ||
+        // Boolean(expense.length)
+        // ||
         <div>
           <Divider horizontal>
             <Header as='h4'>
@@ -204,6 +275,7 @@ const CarInvestment = (props) => {
                         setUpdateMode(true);
                         setExpense(expense.expense);
                         setCost(expense.cost);
+                        setExpenseId(expense.expenseId);
                         }} />
                       {/* <DeleteExpense {...modalProps} expenseId={expense.expenseId} /> */}
                       {/* <DeleteExpense expenseId={expense.expenseId} /> */}
@@ -260,40 +332,6 @@ export default withFormik({
     }
   },
   handleSubmit(formValues, formikProps) {
-    console.log('formValues', formValues);
-    if (!formValues.cost) {
-      return
-    }
-    if (typeof formValues.cost === 'string') {
-      return
-    }
-    if (!formValues.expense.length) {
-      return
-    }
-
-    formikProps.resetForm();
-
-    console.log('formikProps', formikProps);
-
-    const formData = new FormData();
-  
-    for (const key in formValues) {
-      formData.append(key, formValues[key]);
-    }
-    console.log('formdata', [...formData])
-    axios.post(`http://127.0.0.1:5000/createexpense/${formikProps.props.carId}`, formData, {
-      headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin": "*",
-      'Accept': '*',
-      }
-    })
-    .then(function (response) {
-      formikProps.props.setIsExpensesLoaded(false)
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    // to be removed
   }
 })(CarInvestment);
