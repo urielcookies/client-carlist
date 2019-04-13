@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Container} from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
 import { Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } from 'semantic-ui-react'
+import  { Redirect } from 'react-router-dom'
 
 const AddCarForm = (props) => {
   const {
@@ -10,7 +11,29 @@ const AddCarForm = (props) => {
     values,
     setFieldValue,
   } = props;
-  console.log('props', props)
+
+  const [remove, setRemove] = useState(false);
+
+  const deleteCarInfo = () => {
+    axios.post(`http://127.0.0.1:5000/deleteCar/${props.carId}`, {
+      headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      'Accept': '*',
+      }
+    })
+    .then(function (response) {
+      console.log(props);
+      setRemove(true);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  };
+
+  if (remove) {
+    return <Redirect to='/cars' />
+  }
 
   return (
     <Container>
@@ -87,6 +110,9 @@ const AddCarForm = (props) => {
           <Divider />
           <Button color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
         </FormikForm>
+        {
+          edit && <Button onClick={deleteCarInfo}>Delete Car Information</Button>
+        }
       </Form>
     </Container>
   );

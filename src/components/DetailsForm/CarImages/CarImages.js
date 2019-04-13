@@ -22,7 +22,6 @@ const CarImages = (props) => {
     close();
     const index = selectedImage.indexOf('images')
     const path = selectedImage.substring(index);
-    console.log('path', path);
 
     const formData = new FormData();
     formData.append('path', path);
@@ -35,6 +34,7 @@ const CarImages = (props) => {
       }
     })
     .then(function (response) {
+      props.setIsImagesLoaded(false);
       console.log(response);
     })
     .catch(function (error) {

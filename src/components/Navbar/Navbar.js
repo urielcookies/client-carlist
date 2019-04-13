@@ -14,7 +14,7 @@ const Navbar = () => (
                 size='mini' 
                 src='http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png' 
                 style={{ marginRight: '1.5em' }} />
-              <Link to="/">Selling Crap</Link>
+              <Link to="/cars">Selling Crap</Link>
             </Menu.Item>
         </Container>
     </Menu>

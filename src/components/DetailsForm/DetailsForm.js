@@ -34,7 +34,7 @@ const DetailsForm = (props) => {
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoaded={setIsCarInfoLoaded} edit carId={carId}/></Tab.Pane> },
     { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} carId={carId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.cost} expenses={expenses} /></Tab.Pane> },
-    { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} /></Tab.Pane> },
+    { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
     { menuItem: 'Status', render: () => <Tab.Pane><div>Sold. Price. ROU Data</div></Tab.Pane> },
   ]
 
