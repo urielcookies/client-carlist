@@ -61,7 +61,7 @@ export default withFormik({
     // console.log(values)
     // console.log(JSON.stringify(values))
     // axios.get('http://127.0.0.1:5000/upload')
-    axios.post('http://127.0.0.1:5000/upload', formData, {
+    axios.post('http://uriel.sellingcrap.com/upload', formData, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",

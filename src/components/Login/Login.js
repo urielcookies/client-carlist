@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const Login = (props) => {
   setTimeout(() => {
-    document.querySelector('#root > div > div.ui.inverted.top.fixed.menu > div > span > a').remove()
+    document.querySelector('#root > div > div.ui.inverted.top.fixed.menu > div > span > a').style.display = 'none';
   }, 500);
 
   const handleSubmit = (e) => {

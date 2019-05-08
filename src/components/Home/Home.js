@@ -9,6 +9,7 @@ const Home = () => {
   const [cars, setCarList] = useState([]);
 
   useEffect(() => {
+    document.querySelector('#root > div > div.ui.inverted.top.fixed.menu > div > span > a').style.display = 'inline';
     fetchCars({isLoaded, setLoaded, setCarList});
   }, [cars]);
 

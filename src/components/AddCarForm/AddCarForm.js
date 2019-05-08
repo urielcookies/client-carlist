@@ -15,7 +15,7 @@ const AddCarForm = (props) => {
   const [remove, setRemove] = useState(false);
 
   const deleteCarInfo = () => {
-    axios.post(`http://127.0.0.1:5000/deleteCar/${props.carId}`, {
+    axios.post(`http://uriel.sellingcrap.com/deleteCar/${props.carId}`, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",
@@ -32,7 +32,8 @@ const AddCarForm = (props) => {
   };
 
   if (remove) {
-    return <Redirect to='/cars' />
+    window.location.href = "http://sellingcrap.com/#/cars"
+    // return <Redirect to='/cars' />
   }
 
   return (
@@ -148,7 +149,7 @@ export default withFormik({
 
     console.log(formikProps.props.carId);
     if (formikProps.props.edit) {
-      axios.post(`http://127.0.0.1:5000/updatecarinfo/${formikProps.props.carId}`, formData, {
+      axios.post(`http://uriel.sellingcrap.com/updatecarinfo/${formikProps.props.carId}`, formData, {
         headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
@@ -163,7 +164,7 @@ export default withFormik({
         console.log(error);
       });
     } else {
-        axios.post('http://127.0.0.1:5000/upload', formData, {
+        axios.post('http://uriel.sellingcrap.com/upload', formData, {
           headers: {
           'Content-Type': 'application/json',
           "Access-Control-Allow-Origin": "*",
@@ -171,6 +172,7 @@ export default withFormik({
           }
         })
           .then(function (response) {
+            window.location.href = "http://sellingcrap.com/#/cars"
             console.log(response);
           })
           .catch(function (error) {

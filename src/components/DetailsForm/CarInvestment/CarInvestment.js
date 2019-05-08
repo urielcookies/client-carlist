@@ -153,7 +153,7 @@ const CarInvestment = (props) => {
     console.log('formdata', [...formData])
     if (updateMode) {
       console.log('Update')
-      axios.post(`http://127.0.0.1:5000/updateexpense/${expenseId}`, formData, {
+      axios.post(`http://uriel.sellingcrap.com/updateexpense/${expenseId}`, formData, {
         headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
@@ -170,7 +170,7 @@ const CarInvestment = (props) => {
     } 
     else {
       console.log('Craete')
-      axios.post(`http://127.0.0.1:5000/createexpense/${props.carId}`, formData, {
+      axios.post(`http://uriel.sellingcrap.com/createexpense/${props.carId}`, formData, {
         headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",

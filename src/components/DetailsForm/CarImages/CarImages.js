@@ -26,7 +26,7 @@ const CarImages = (props) => {
     const formData = new FormData();
     formData.append('path', path);
   
-    axios.post(`http://127.0.0.1:5000/deleteimage`, formData, {
+    axios.post(`http://uriel.sellingcrap.com/deleteimage`, formData, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",
