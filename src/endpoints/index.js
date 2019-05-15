@@ -1,8 +1,11 @@
 import {get, post} from "axios";
 
+// export const url = 'http://uriel.sellingcrap.com';
+export const url = 'http://localhost:5000';
+
 export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
   if (!isLoaded) {
-    get('http://uriel.sellingcrap.com/upload')
+    get(`${url}/upload`)
     .then((response) => {
       setLoaded(true);
       setCarList(response.data.reverse());
@@ -15,7 +18,7 @@ export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
 
 export const fetchCarInfo = ({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCarInfo}) => {
   if (!isCarInfoLoaded) {
-    get(`http://uriel.sellingcrap.com/carinfo/${carId}`)
+    get(`${url}/carinfo/${carId}`)
     .then((response) => {
       setIsCarInfoLoaded(true);
       setCarInfo(response.data);
@@ -28,7 +31,7 @@ export const fetchCarInfo = ({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCar
 
 export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCarImages}) => {
   if (!isImagesLoaded) {
-    get(`http://uriel.sellingcrap.com/carimages/${carId}`)
+    get(`${url}/carimages/${carId}`)
     .then((response) => {
       setIsImagesLoaded(true);
       setCarImages(response.data);
@@ -41,7 +44,7 @@ export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCar
 
 export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses}) => {
   if (!isExpensesLoaded) {
-    get(`http://uriel.sellingcrap.com/loadexpenses/${carId}`)
+    get(`${url}/loadexpenses/${carId}`)
     .then((response) => {
       setIsExpensesLoaded(true);
       console.log(response.data);
@@ -57,7 +60,7 @@ export const deleteCarExpense = (expenseId, state) => {
   const formData = new FormData();
   formData.append('expenseId', expenseId);
 
-  post(`http://uriel.sellingcrap.com/deleteexpense/${expenseId}`, formData, {
+  post(`${url}/deleteexpense/${expenseId}`, formData, {
     headers: {
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*",

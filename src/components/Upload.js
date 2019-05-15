@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import {withFormik, Form, Field} from 'formik';
 
+const url = 'http://uriel.sellingcrap.com';
+// const url = 'localhost:3000';
+
 const UploadForm = (props) => {
   const {
       setFieldValue,
@@ -61,7 +64,7 @@ export default withFormik({
     // console.log(values)
     // console.log(JSON.stringify(values))
     // axios.get('http://127.0.0.1:5000/upload')
-    axios.post('http://uriel.sellingcrap.com/upload', formData, {
+    axios.post(`${url}/upload`, formData, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",

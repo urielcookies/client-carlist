@@ -5,6 +5,8 @@ import {withFormik, Form as FormikForm, Field} from 'formik';
 import { Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 
+import {url} from '../../endpoints';
+
 const AddCarForm = (props) => {
   const {
     edit,
@@ -15,7 +17,7 @@ const AddCarForm = (props) => {
   const [remove, setRemove] = useState(false);
 
   const deleteCarInfo = () => {
-    axios.post(`http://uriel.sellingcrap.com/deleteCar/${props.carId}`, {
+    axios.post(`${url}/deleteCar/${props.carId}`, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",
@@ -149,7 +151,7 @@ export default withFormik({
 
     console.log(formikProps.props.carId);
     if (formikProps.props.edit) {
-      axios.post(`http://uriel.sellingcrap.com/updatecarinfo/${formikProps.props.carId}`, formData, {
+      axios.post(`${url}/updatecarinfo/${formikProps.props.carId}`, formData, {
         headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
@@ -164,7 +166,7 @@ export default withFormik({
         console.log(error);
       });
     } else {
-        axios.post('http://uriel.sellingcrap.com/upload', formData, {
+        axios.post(`${url}/upload`, formData, {
           headers: {
           'Content-Type': 'application/json',
           "Access-Control-Allow-Origin": "*",

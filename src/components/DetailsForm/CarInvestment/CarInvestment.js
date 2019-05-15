@@ -5,7 +5,8 @@ import { Step, Input } from 'semantic-ui-react'
 import { Form } from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
 
-import {deleteCarExpense} from '../../../endpoints/index';
+import {deleteCarExpense, url} from '../../../endpoints/index';
+
 // const DeleteExpense = (props) => (
 //   <Modal
 //     name={props.expenseId}
@@ -153,7 +154,7 @@ const CarInvestment = (props) => {
     console.log('formdata', [...formData])
     if (updateMode) {
       console.log('Update')
-      axios.post(`http://uriel.sellingcrap.com/updateexpense/${expenseId}`, formData, {
+      axios.post(`${url}/updateexpense/${expenseId}`, formData, {
         headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
@@ -170,7 +171,7 @@ const CarInvestment = (props) => {
     } 
     else {
       console.log('Craete')
-      axios.post(`http://uriel.sellingcrap.com/createexpense/${props.carId}`, formData, {
+      axios.post(`${url}/createexpense/${props.carId}`, formData, {
         headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
