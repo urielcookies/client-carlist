@@ -34,7 +34,12 @@ const AddCarForm = (props) => {
   };
 
   if (remove) {
-    window.location.href = "http://sellingcrap.com/#/cars"
+    if (url === 'http://localhost:5000') {
+      window.location.href = "http://localhost:3000/#/cars"
+    } else {
+      window.location.href = "http://sellingcrap.com/#/cars"
+    }
+    // window.location.href = "http://sellingcrap.com/#/cars"
     // return <Redirect to='/cars' />
   }
 
@@ -174,8 +179,11 @@ export default withFormik({
           }
         })
           .then(function (response) {
-            window.location.href = "http://sellingcrap.com/#/cars"
-            console.log(response);
+            if (url === 'http://localhost:5000') {
+              window.location.href = "http://localhost:3000/#/cars"
+            } else {
+              window.location.href = "http://sellingcrap.com/#/cars"
+            }
           })
           .catch(function (error) {
             console.log(error);

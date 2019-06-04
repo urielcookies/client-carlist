@@ -1,7 +1,7 @@
 import {get, post} from "axios";
 
-// export const url = 'http://uriel.sellingcrap.com';
-export const url = 'http://localhost:5000';
+export const url = 'http://uriel.sellingcrap.com';
+// export const url = 'http://localhost:5000';
 
 export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
   if (!isLoaded) {
@@ -76,3 +76,15 @@ export const deleteCarExpense = (expenseId, state) => {
   });
 };
 
+export const fetchCarStatus = ({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus}) => {
+  if (!isCarStatusLoaded) {
+    get(`${url}/carstatus/${carId}`)
+    .then((response) => {
+      setIsCarStatusLoaded(true);
+      setCarStatus(response.data);
+    })           
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+};
