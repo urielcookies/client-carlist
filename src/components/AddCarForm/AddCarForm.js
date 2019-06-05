@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container} from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
-import { Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } from 'semantic-ui-react'
+import { Card, Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 
 import {url} from '../../endpoints';
@@ -15,6 +15,7 @@ const AddCarForm = (props) => {
   } = props;
 
   const [remove, setRemove] = useState(false);
+  const [images, setImages] = useState([]);
 
   const deleteCarInfo = () => {
     axios.post(`${url}/deleteCar/${props.carId}`, {
@@ -43,6 +44,7 @@ const AddCarForm = (props) => {
     // return <Redirect to='/cars' />
   }
 
+  console.log('images-->>', images);
   return (
     <Container>
       <Header as='h2'>
@@ -109,11 +111,33 @@ const AddCarForm = (props) => {
                         Add Images
                       <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {
                           setFieldValue("images", event.currentTarget.files);
+                          const imagez = [];
+                          for (const file in event.currentTarget.files) {
+                            if (typeof event.currentTarget.files[file] === "object") {
+                              const reader = new FileReader();
+                              reader.onload = function(){
+                                imagez.push(String(reader.result));
+                                setImages(imagez);
+
+                              };
+                              reader.readAsDataURL(event.currentTarget.files[file]);
+                            }
+                          }
                       }} />
                     </span>
                   </label>
                 </Form.Field>
             </Form.Group>
+          }
+          {Boolean(images.length) &&
+            <div>
+              <Divider />
+              <Card.Group itemsPerRow={4}>
+                {images.map((image, index) => {
+                  return <Card key={index} color='red' image={image} />;
+                })}
+              </Card.Group>  
+            </div>
           }
           <Divider />
           <Button color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
