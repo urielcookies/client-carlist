@@ -15,6 +15,7 @@ const AddCarForm = (props) => {
   } = props;
 
   const [remove, setRemove] = useState(false);
+  const [ret, setRet] = useState(false);
   const [images, setImages] = useState([]);
 
   const deleteCarInfo = () => {
@@ -44,7 +45,26 @@ const AddCarForm = (props) => {
     // return <Redirect to='/cars' />
   }
 
-  console.log('images-->>', images);
+
+  const oneLastTime = (imgs) => {
+    if(ret){
+      setRet(false);
+      const kiki = [];
+      for (const element in imgs) {
+        if (typeof imgs[element] === "object") {
+          const reader = new FileReader();
+          reader.onload = function(){
+            kiki.push(reader.result)
+            if (kiki.length === values.images.length) {
+              setImages(kiki)
+            }  
+          };
+          reader.readAsDataURL(imgs[element]);
+        }
+      }
+    }
+  };
+
   return (
     <Container>
       <Header as='h2'>
@@ -109,26 +129,17 @@ const AddCarForm = (props) => {
                       }}>
                         <i className="upload icon"></i>
                         Add Images
-                      <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {
-                          setFieldValue("images", event.currentTarget.files);
-                          const imagez = [];
-                          for (const file in event.currentTarget.files) {
-                            if (typeof event.currentTarget.files[file] === "object") {
-                              const reader = new FileReader();
-                              reader.onload = function(){
-                                imagez.push(String(reader.result));
-                                setImages(imagez);
-
-                              };
-                              reader.readAsDataURL(event.currentTarget.files[file]);
-                            }
-                          }
+                      <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {   
+                        setRet(true);             
+                        setImages([])
+                        setFieldValue("images", event.currentTarget.files);
                       }} />
                     </span>
                   </label>
                 </Form.Field>
             </Form.Group>
           }
+          {oneLastTime(values.images)}
           {Boolean(images.length) &&
             <div>
               <Divider />
