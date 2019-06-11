@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container} from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
-import { Card, Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio } from 'semantic-ui-react'
+import { Card, Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio, Loader } from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 
 import {url} from '../../endpoints';
@@ -17,6 +17,7 @@ const AddCarForm = (props) => {
   const [remove, setRemove] = useState(false);
   const [ret, setRet] = useState(false);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const deleteCarInfo = () => {
     axios.post(`${url}/deleteCar/${props.carId}`, {
@@ -50,20 +51,118 @@ const AddCarForm = (props) => {
     if(ret){
       setRet(false);
       const kiki = [];
+      setLoading(true);
       for (const element in imgs) {
         if (typeof imgs[element] === "object") {
           const reader = new FileReader();
           reader.onload = function(){
-            kiki.push(reader.result)
-            if (kiki.length === values.images.length) {
-              setImages(kiki)
-            }  
+            const oth = (ok) => {
+              kiki.push(ok)
+              if (kiki.length === values.images.length) {
+                setImages(kiki)
+                setLoading(false);
+              } 
+            }
+            const log = (o) => {
+              resetOrientation(reader.result, o, oth)
+            }
+            // const logz = (o) => {
+            //   kiki.push(o)
+            // };
+            getOrientation(imgs[element], log)
+            
+
+            // kiki.push(resetOrientation(reader.result, getOrientation(imgs[element], log), logz))
+            // kiki.push(reader.result)
+            // if (kiki.length === values.images.length) {
+            //   setImages(kiki)
+            // } 
+            console.log(kiki);
           };
           reader.readAsDataURL(imgs[element]);
         }
       }
     }
   };
+
+
+  // from http://stackoverflow.com/a/32490603
+function getOrientation(file, callback) {
+  var reader = new FileReader();
+
+  reader.onload = function(event) {
+    var view = new DataView(event.target.result);
+
+    if (view.getUint16(0, false) != 0xFFD8) return callback(-2);
+
+    var length = view.byteLength,
+        offset = 2;
+
+    while (offset < length) {
+      var marker = view.getUint16(offset, false);
+      offset += 2;
+
+      if (marker == 0xFFE1) {
+        if (view.getUint32(offset += 2, false) != 0x45786966) {
+          return callback(-1);
+        }
+        var little = view.getUint16(offset += 6, false) == 0x4949;
+        offset += view.getUint32(offset + 4, little);
+        var tags = view.getUint16(offset, little);
+        offset += 2;
+
+        for (var i = 0; i < tags; i++)
+          if (view.getUint16(offset + (i * 12), little) == 0x0112)
+            return callback(view.getUint16(offset + (i * 12) + 8, little));
+      }
+      else if ((marker & 0xFF00) != 0xFF00) break;
+      else offset += view.getUint16(offset, false);
+    }
+    return callback(-1);
+  };
+
+  reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
+};
+
+function resetOrientation(srcBase64, srcOrientation, callback) {
+	var img = new Image();	
+
+	img.onload = function() {
+  	var width = img.width,
+    		height = img.height,
+        canvas = document.createElement('canvas'),
+	  		ctx = canvas.getContext("2d");
+		
+    // set proper canvas dimensions before transform & export
+		if (4 < srcOrientation && srcOrientation < 9) {
+    	canvas.width = height;
+      canvas.height = width;
+    } else {
+    	canvas.width = width;
+      canvas.height = height;
+    }
+	
+  	// transform context before drawing image
+		switch (srcOrientation) {
+      case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+      case 3: ctx.transform(-1, 0, 0, -1, width, height ); break;
+      case 4: ctx.transform(1, 0, 0, -1, 0, height ); break;
+      case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+      case 6: ctx.transform(0, 1, -1, 0, height , 0); break;
+      case 7: ctx.transform(0, -1, -1, 0, height , width); break;
+      case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+      default: break;
+    }
+
+		// draw image
+    ctx.drawImage(img, 0, 0);
+
+		// export base64
+		callback(canvas.toDataURL());
+  };
+
+	img.src = srcBase64;
+}
 
   return (
     <Container>
@@ -122,18 +221,22 @@ const AddCarForm = (props) => {
                     <span style={{
                         width: '50%',
                         height: '50%',
-                        overflow: 'auto',
                         margin: 'auto',
                         position: 'absolute',
                         top: '0', left: '0', bottom: '0', right: '0',
                       }}>
-                        <i className="upload icon"></i>
-                        Add Images
-                      <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {   
-                        setRet(true);             
-                        setImages([])
-                        setFieldValue("images", event.currentTarget.files);
-                      }} />
+                        {(loading
+                          ? <Loader size='small' active inline='centered' />
+                          : <div>
+                              <i className="upload icon"></i>
+                                Add Images
+                              <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {   
+                                setRet(true);             
+                                setImages([])
+                                setFieldValue("images", event.currentTarget.files);
+                              }} />
+                          </div>
+                        )}  
                     </span>
                   </label>
                 </Form.Field>
@@ -151,7 +254,7 @@ const AddCarForm = (props) => {
             </div>
           }
           <Divider />
-          <Button color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
+          <Button disabled={loading} color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
         </FormikForm>
         {
           edit && <Button onClick={deleteCarInfo}>Delete Car Information</Button>
