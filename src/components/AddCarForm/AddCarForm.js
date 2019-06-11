@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container} from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
-import { Card, Form, Icon, Divider, Input, Header, TextArea, Button, Select, Radio, Loader } from 'semantic-ui-react'
+import { Card, Form, Icon, Divider, Input, Header, TextArea, Button, Modal, Image as SematicImage, Loader } from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 
 import {url} from '../../endpoints';
@@ -18,6 +18,32 @@ const AddCarForm = (props) => {
   const [ret, setRet] = useState(false);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(null);
+
+  const show = () => setOpen(true)
+  const close = () => setOpen(false)
+
+  const handleImage = (image, index) => {
+    show();
+    setSelectedImage(image);
+    setIndex(index);
+  };
+
+  const setMain = () => {
+    close();
+    const first = images[index];
+    images.splice(index, 1);
+    images.unshift(first);
+    setImages(images)
+  }
+
+  const removeImage = () => {
+    close()
+    images.splice(index, 1);
+    setImages(images)
+  }
 
   const deleteCarInfo = () => {
     axios.post(`${url}/deleteCar/${props.carId}`, {
@@ -246,9 +272,11 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
           {Boolean(images.length) &&
             <div>
               <Divider />
+              <SematicImage src={images[0]} size='medium' />
+              <Divider hidden />
               <Card.Group itemsPerRow={4}>
                 {images.map((image, index) => {
-                  return <Card key={index} color='red' image={image} />;
+                  return <Card onClick={() => handleImage(image, index)} key={index} color='red' image={image} />;
                 })}
               </Card.Group>  
             </div>
@@ -259,6 +287,25 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
         {
           edit && <Button onClick={deleteCarInfo}>Delete Car Information</Button>
         }
+              <Modal dimmer="blurring" open={open} onClose={close}>
+        <Modal.Header>Image</Modal.Header>
+        <Modal.Content image>
+          <SematicImage wrapped size='massive' src={selectedImage} />
+        </Modal.Content>
+        <Modal.Actions style={{width: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+          <Button onClick={close}>
+            Cancel
+          </Button>
+          <Button
+            content="Remove"
+            onClick={removeImage}
+          />
+          <Button
+            content="Set Main"
+            onClick={setMain}
+          />
+        </Modal.Actions>
+      </Modal>
       </Form>
     </Container>
   );
