@@ -77,7 +77,7 @@ const AddCarForm = (props) => {
             // if (kiki.length === values.images.length) {
             //   setImages(kiki)
             // } 
-            console.log(kiki);
+            // console.log(kiki);
           };
           reader.readAsDataURL(imgs[element]);
         }
