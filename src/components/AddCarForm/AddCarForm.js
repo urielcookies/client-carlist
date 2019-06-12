@@ -54,7 +54,7 @@ const AddCarForm = (props) => {
       }
     })
     .then(function (response) {
-      console.log(props);
+      console.log('delete response', response);
       setRemove(true);
     })
     .catch(function (error) {
@@ -245,7 +245,8 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
                     borderRadius: '15px'
                   }}>
                     <span style={{
-                        width: '50%',
+                        textAlign: "center",
+                        width: '100%',
                         height: '50%',
                         margin: 'auto',
                         position: 'absolute',
@@ -324,8 +325,6 @@ export default withFormik({
     }
   },
   handleSubmit(values, formikProps) {
-    console.log('handleSubmit', values);
-
     const formData = new FormData();
     for (const key in values) {
       if (key === 'images') {
@@ -337,9 +336,7 @@ export default withFormik({
         formData.append(key, values[key]);
       }
     }
-    console.log([...formData])
 
-    console.log(formikProps.props.carId);
     if (formikProps.props.edit) {
       axios.post(`${url}/updatecarinfo/${formikProps.props.carId}`, formData, {
         headers: {
@@ -364,6 +361,7 @@ export default withFormik({
           }
         })
           .then(function (response) {
+            console.log('create response', response);
             if (url === 'http://localhost:5000') {
               window.location.href = "http://localhost:3000/#/cars"
             } else {
