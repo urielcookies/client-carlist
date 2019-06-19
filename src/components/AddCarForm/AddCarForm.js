@@ -234,7 +234,7 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
           {
             !Boolean(props.location)
             ||
-            <Form.Group style={{width: '50%', margin: '0 auto'}}>
+            <Form.Group style={{display: 'flex', justifyContent: 'center'}}>
               <Form.Field>
                   <label htmlFor="images" style={{
                     fontSize: '13px',
@@ -273,7 +273,7 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
           {Boolean(images.length) &&
             <div>
               <Divider />
-              <SematicImage src={images[0]} size='medium' />
+              <SematicImage style={{width: 'auto'}} src={images[0]} size='medium' />
               <Divider hidden />
               <Card.Group itemsPerRow={4}>
                 {images.map((image, index) => {
