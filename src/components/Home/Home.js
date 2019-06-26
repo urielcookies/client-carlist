@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import { Button, Card, Container, Divider, Image } from 'semantic-ui-react'
+import {Redirect} from 'react-router-dom';
 
 import {fetchCars} from '../../endpoints';
 
@@ -14,6 +15,11 @@ const Home = () => {
   }, [cars]);
 
   console.log('cars', cars);
+
+  if (!JSON.parse(localStorage.getItem('authenticated'))) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <Container textAlign="center">
       <Button color='green' size='large'><Link style={{color: 'white'}} to="/addcar">Add Car</Link></Button>

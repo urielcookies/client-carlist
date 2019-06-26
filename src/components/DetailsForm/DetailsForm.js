@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Tab, Header, Container, Divider } from 'semantic-ui-react'
-
+import {Redirect} from 'react-router-dom';
 // import CarInfo from './CarInfo/CarInfo' ;
 import AddCarForm from '.././AddCarForm/AddCarForm';
 import CarImages from './CarImages/CarImages' ;
@@ -32,6 +32,10 @@ const DetailsForm = (props) => {
 
   if (!Object.values(carInfo).length) {
     return <div>... Loading</div>
+  }
+
+  if (!JSON.parse(localStorage.getItem('authenticated'))) {
+    return <Redirect to="/" />;
   }
 
   const panes = [

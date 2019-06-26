@@ -72,6 +72,9 @@ const AddCarForm = (props) => {
     // return <Redirect to='/cars' />
   }
 
+  if (!JSON.parse(localStorage.getItem('authenticated'))) {
+    return <Redirect to="/" />;
+  }
 
   const oneLastTime = (imgs) => {
     if(ret){
