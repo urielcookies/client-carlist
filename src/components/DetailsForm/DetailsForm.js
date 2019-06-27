@@ -22,6 +22,7 @@ const DetailsForm = (props) => {
   const [expenses, setExpenses] = useState([]);
   const [carImages, setCarImages] = useState([]);
   const [carStatus, setCarStatus] = useState(null);
+  const [up, goUp] = useState(false);
 
   useEffect(() => {
     fetchCarInfo({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCarInfo});
@@ -29,6 +30,11 @@ const DetailsForm = (props) => {
     fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     fetchCarStatus({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
   });
+
+  if (!up) {
+    goUp(true);
+    window.scrollTo(0, 0);
+  }
 
   if (!Object.values(carInfo).length) {
     return <div>... Loading</div>
@@ -40,9 +46,9 @@ const DetailsForm = (props) => {
 
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoaded={setIsCarInfoLoaded} edit carId={carId}/></Tab.Pane> },
-    { menuItem: 'R.O.I', render: () => <Tab.Pane><CarInvestment expenses={expenses} carId={carId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
+    { menuItem: 'Costs', render: () => <Tab.Pane><CarInvestment expenses={expenses} carId={carId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.cost} expenses={expenses} /></Tab.Pane> },
-    { menuItem: 'Images', render: () => <Tab.Pane><CarImages {...carImages} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
+    { menuItem: 'Pics', render: () => <Tab.Pane><CarImages {...carImages} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
     { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carId={carId} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
   ]
 

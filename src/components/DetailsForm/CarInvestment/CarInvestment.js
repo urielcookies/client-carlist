@@ -255,7 +255,7 @@ const CarInvestment = (props) => {
               } in Total
             </Header>
           </Divider>
-
+          <div style={{maxHeight: '50vh', overflowX: 'auto'}}>
           <Table unstackable basic='very'>
             <Table.Header>
               <Table.Row>
@@ -288,7 +288,7 @@ const CarInvestment = (props) => {
               })
             }</Table.Body>
           </Table>
-
+          </div>
           <Divider horizontal>
           <Header as='h4'>
               <Icon name='check' />

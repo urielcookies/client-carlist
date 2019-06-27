@@ -20,6 +20,8 @@ const Home = () => {
     return <Redirect to="/" />;
   }
 
+  window.scrollTo(0, 0);
+
   return (
     <Container textAlign="center">
       <Button color='green' size='large'><Link style={{color: 'white'}} to="/addcar">Add Car</Link></Button>
