@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Image, Divider, Card, Button, Modal, Header} from 'semantic-ui-react'
+import {Image, Divider, Card, Button, Modal, Header, Form, Loader} from 'semantic-ui-react'
 
 const CarImages = (props) => {
   const [selectedImage, setSelectedImage] = useState('');
@@ -9,9 +9,14 @@ const CarImages = (props) => {
   console.log('selectedImage', selectedImage.substring(index));
 
   const [open, setOpen] = useState(false);
+  const [upLoadOpen, setUpLoadOpen] = useState(false);
+  const [imagestoBeAdded, setImagestoBeAdded] = useState([]);
 
   const show = () => setOpen(true)
   const close = () => setOpen(false)
+
+  const uploadedOpen = () => setUpLoadOpen(true);
+  const uploadedClose = () => setUpLoadOpen(false); 
 
   const handleImage = (image) => {
     show();
@@ -44,7 +49,15 @@ const CarImages = (props) => {
 
   return (
     <div>
-      <Button onClick={() => console.log('Add Image Modal')} fluid>Add More Images</Button>
+      {/* <Button onClick={() => console.log('Add Image Modal')} fluid>Add More Images</Button> */}
+      <input multiple id="images" name="images" type="file" onChange={(event) => {
+        console.log('upload', Object.values(event.currentTarget.files));
+        uploadedOpen();
+        setImagestoBeAdded(Object.values(event.currentTarget.files))
+        // setRet(true);             
+        // setImages([])
+        // setFieldValue("images", event.currentTarget.files);
+      }} />
       <Divider />
       <Card.Group stackable itemsPerRow={3}>{
         props.images.map((image) => (
@@ -52,6 +65,32 @@ const CarImages = (props) => {
         ))
       }</Card.Group>
 
+      <Modal dimmer="blurring" open={upLoadOpen} onClose={uploadedClose}>
+        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Content image>
+          <Image wrapped size='massive' src={selectedImage} />
+          <Modal.Description>
+            <Header>Upload images</Header>
+            {imagestoBeAdded.map((file, index) => {
+              return (
+                <div key={index}>HI</div>
+              );
+            })}
+          </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color='black' onClick={uploadedClose}>
+            Nope
+          </Button>
+          <Button
+            positive
+            icon='trash'
+            content="Submit"
+            onClick={() => console.log('trash')}
+          />
+        </Modal.Actions>
+      </Modal>
+    
       <Modal dimmer="blurring" open={open} onClose={close}>
         <Modal.Header>Select a Photo</Modal.Header>
         <Modal.Content image>
