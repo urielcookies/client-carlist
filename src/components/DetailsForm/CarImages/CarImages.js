@@ -50,14 +50,14 @@ const CarImages = (props) => {
   return (
     <div>
       {/* <Button onClick={() => console.log('Add Image Modal')} fluid>Add More Images</Button> */}
-      <input multiple id="images" name="images" type="file" onChange={(event) => {
+      {/* <input multiple id="images" name="images" type="file" onChange={(event) => {
         console.log('upload', Object.values(event.currentTarget.files));
         uploadedOpen();
         setImagestoBeAdded(Object.values(event.currentTarget.files))
         // setRet(true);             
         // setImages([])
         // setFieldValue("images", event.currentTarget.files);
-      }} />
+      }} /> */}
       <Divider />
       <Card.Group stackable itemsPerRow={3}>{
         props.images.map((image) => (
@@ -65,7 +65,7 @@ const CarImages = (props) => {
         ))
       }</Card.Group>
 
-      <Modal dimmer="blurring" open={upLoadOpen} onClose={uploadedClose}>
+      {/* <Modal dimmer="blurring" open={upLoadOpen} onClose={uploadedClose}>
         <Modal.Header>Select a Photo</Modal.Header>
         <Modal.Content image>
           <Image wrapped size='massive' src={selectedImage} />
@@ -89,21 +89,19 @@ const CarImages = (props) => {
             onClick={() => console.log('trash')}
           />
         </Modal.Actions>
-      </Modal>
+      </Modal> */}
     
       <Modal dimmer="blurring" open={open} onClose={close}>
-        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Header>Delete Image</Modal.Header>
         <Modal.Content image>
           <Image wrapped size='massive' src={selectedImage} />
-          <Modal.Description>
-            <Header>Delete Image</Header>
-          </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
           <Button color='black' onClick={close}>
             Nope
           </Button>
           <Button
+            disabled
             positive
             icon='trash'
             labelPosition='right'

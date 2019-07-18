@@ -34,7 +34,7 @@ const Home = () => {
             <Card.Header>{car.year} {car.brand} {car.model}</Card.Header>
           </Card.Content>
           <Card.Content extra>
-          <Button color='teal' size='large' floated='left'>Images</Button>
+          <Button disabled color='teal' size='large' floated='left'>Images</Button>
           <Button color='blue' size='large' floated='right'><Link style={{color: 'white'}} to={`/details/${car.id}`}>Details</Link></Button>
           </Card.Content>
         </Card>

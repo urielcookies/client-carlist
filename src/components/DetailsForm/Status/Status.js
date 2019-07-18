@@ -19,7 +19,6 @@ const Status = ({handleSubmit, setFieldValue, values}) => {
   ];
 
   const kiki = ({field}) => {
-    console.log(621);
     return (
       <Dropdown
         defaultValue={values.soldStatus}
