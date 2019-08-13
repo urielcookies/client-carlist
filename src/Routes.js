@@ -19,7 +19,7 @@ const Routes = () =>
         <Route exact path='/cars' component={Home}/>
         <Route exact path='/addcar' component={AddCarForm}/>
         <Route exact path='/trip' component={Trip}/>
-        <Route exact path='/details/:id' component={DetailsForm}/>
+        <Route exact path='/details/:id/:tab' component={DetailsForm}/>
       </Switch>
     </Container>
     <Footer />

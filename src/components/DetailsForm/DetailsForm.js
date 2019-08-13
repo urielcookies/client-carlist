@@ -52,6 +52,13 @@ const DetailsForm = (props) => {
     { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carId={carId} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
   ]
 
+  const tabs = ['info', 'costs', 'data', 'pics', 'status'];
+  let indexTab = tabs.indexOf(props.match.params.tab);
+  indexTab = props.match.params.tab ? indexTab : 0;
+  const tabOnChange = (e, d) => {
+    props.history.push(tabs[d.activeIndex]);
+  };
+
   return (
     <div>
       <Container textAlign="center">
@@ -60,7 +67,7 @@ const DetailsForm = (props) => {
         </Header>
       </Container>
       <Divider />
-      <Tab menu={{ fluid: true, vertical: true, tabular: true }} panes={panes} />
+      <Tab menu={{ fluid: true, vertical: true, tabular: true }} onTabChange={tabOnChange} activeIndex={indexTab} panes={panes} />
     </div>
   );
 };
