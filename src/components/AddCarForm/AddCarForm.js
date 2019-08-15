@@ -22,6 +22,8 @@ const AddCarForm = (props) => {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(null);
 
+  const [deleteModalOpen, setDeleteModal] = useState(false);
+
   const show = () => setOpen(true)
   const close = () => setOpen(false)
 
@@ -286,11 +288,14 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
             </div>
           }
           <Divider />
-          <Button disabled={loading} color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
+          <span style={{display: 'flex', justifyContent: 'center'}}>
+            <Button type="submit" compact disabled={loading} color='teal'>{(edit ? 'Update' : 'Submit')}</Button>
+            {
+              edit && <Button type="button" compact onClick={() => setDeleteModal(true)}>Delete Car Info</Button>
+            }
+          </span>
         </FormikForm>
-        {
-          edit && <Button onClick={deleteCarInfo}>Delete Car Information</Button>
-        }
+
               <Modal dimmer="blurring" open={open} onClose={close}>
         <Modal.Header>Image</Modal.Header>
         <Modal.Content image>
@@ -311,6 +316,26 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
         </Modal.Actions>
       </Modal>
       </Form>
+
+      <Modal
+            open={deleteModalOpen}
+            onClose={() => setDeleteModal(false)}
+            basic
+            size='small'
+          >
+            <Header icon='browser' content={`Delete ${values.year} ${values.brand} ${values.model}`} />
+            <Modal.Content>
+              <h3>Are you sure you want to delete <span style={{color: 'teal'}}>{values.year} {values.brand} {values.model}</span> and all its records?</h3>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button basic color='blue' onClick={() => setDeleteModal(false)} inverted>
+                <Icon name='cancel' /> No
+              </Button>
+              <Button color='red' onClick={deleteCarInfo} inverted>
+                <Icon name='remove' /> Yes
+              </Button>
+            </Modal.Actions>
+          </Modal>
     </Container>
   );
 };

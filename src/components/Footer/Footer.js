@@ -33,7 +33,7 @@ const Footer = () => (
             </Grid>
 
             <Divider inverted section />
-            <Image centered size='mini' src='http://tintex.co.uk/wp-content/uploads/2014/11/car-icon-white.png' />
+            {/* <Image centered size='mini' src='http://tintex.co.uk/wp-content/uploads/2014/11/car-icon-white.png' /> */}
             <List horizontal inverted divided link>
                 <List.Item as='a' href='#'>
                     Site Map
