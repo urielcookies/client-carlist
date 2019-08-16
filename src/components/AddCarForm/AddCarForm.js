@@ -364,6 +364,7 @@ export default withFormik({
         formData.append(key, values[key]);
       }
     }
+    formData.append('partner', JSON.parse(localStorage.getItem('authenticated')));
 
     if (formikProps.props.edit) {
       axios.post(`${url}/updatecarinfo/${formikProps.props.carId}`, formData, {

@@ -83,7 +83,7 @@ const Login = (props) => {
           height: '100%',
           alignItems: 'center',
           justifyContent: 'center'
-        }} onClick={() => hi(1)}>4</span>
+        }} onClick={() => hi(4)}>4</span>
       <span style={{
           fontSize: '3em',
           flex: '3 0 auto',

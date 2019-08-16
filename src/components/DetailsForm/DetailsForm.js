@@ -40,6 +40,10 @@ const DetailsForm = (props) => {
     return <div>... Loading</div>
   }
 
+  if (!carStatus) {
+    return <div>... Loading</div>
+  }
+
   if (!JSON.parse(localStorage.getItem('authenticated'))) {
     return <Redirect to="/" />;
   }

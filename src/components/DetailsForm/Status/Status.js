@@ -1,10 +1,11 @@
 import React from 'react';
 import {Field, withFormik} from 'formik';
-import {Button, Input, Dropdown, Form} from 'semantic-ui-react'
+import {Button, Input, Dropdown, Divider, Form} from 'semantic-ui-react'
 import axios from 'axios';
 import {url} from '../../../endpoints/index';
 
-const Status = ({handleSubmit, setFieldValue, values}) => {
+const Status = (props) => {
+  const {handleSubmit, partner, setFieldValue, values} = props;
   const options = [
     {
       key: 0,
@@ -29,22 +30,15 @@ const Status = ({handleSubmit, setFieldValue, values}) => {
     );
   }
 
-  const kiki_2 = (props) => {
-    console.log(values);
-    const {field} = props;
-    return (
-      <Input
-        defaultValue={values.priceSold}
-        onChange={(e, data) => setFieldValue('priceSold', data.value)}
-        placeholder="price sold"
-        type="number"
-        fluid/>
-    );
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <Form as="div">
+      <Input
+        fluid
+        action={{ color: 'teal', labelPosition: 'left', icon: 'user', content: 'Partner' }}
+        actionPosition='left'
+        value={partner}/>
+        <Divider />
         <Form.Group widths='equal'>
           <Form.Field>
             <label htmlFor="year">Status</label>
@@ -54,8 +48,13 @@ const Status = ({handleSubmit, setFieldValue, values}) => {
           </Form.Field>
 
           <Form.Field>
-            <label htmlFor="year">Price Sold</label>
-            <Field id="year" type="number" name="priceSold" />
+            <label htmlFor="priceSold">Price Sold</label>
+            <Field id="priceSold" type="number" name="priceSold" />
+          </Form.Field>
+
+          <Form.Field>
+            <label htmlFor="yearSold">Year Sold</label>
+            <Field id="yearSold" type="text" name="yearSold" />
           </Form.Field>
         </Form.Group>
 
@@ -67,16 +66,15 @@ const Status = ({handleSubmit, setFieldValue, values}) => {
 
 export default withFormik({
   mapPropsToValues(props) {
+    console.log('mapPropsToValues', props)
+    console.log('mapPropsToValues', (!props.yearSold ? '' : props.yearSold))
     return {
       soldStatus: (props.sold || false),
-      priceSold: (props.priceSold || ""),
+      priceSold: (props.priceSold === '0' ? '' : props.priceSold),
+      yearSold: (!props.yearSold ? '' : props.yearSold),
     }
   },
-  handleSubmit(formValues, formikProps) {
-    if (formValues.sold === "" || formValues.priceSold === "") {
-      return;
-    }
-
+  handleSubmit(formValues, formikProps) {  
     axios.post(`${url}/updatecarstatus/${formikProps.props.carId}`, formValues, {
       headers: {
       'Content-Type': 'application/json',
