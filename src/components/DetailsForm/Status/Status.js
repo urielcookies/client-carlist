@@ -66,15 +66,17 @@ const Status = (props) => {
 
 export default withFormik({
   mapPropsToValues(props) {
-    console.log('mapPropsToValues', props)
-    console.log('mapPropsToValues', (!props.yearSold ? '' : props.yearSold))
     return {
       soldStatus: (props.sold || false),
       priceSold: (props.priceSold === '0' ? '' : props.priceSold),
       yearSold: (!props.yearSold ? '' : props.yearSold),
     }
   },
-  handleSubmit(formValues, formikProps) {  
+  handleSubmit(formValues, formikProps) {
+    if(!formValues.soldStatus) {
+      formikProps.setFieldValue('priceSold', '');
+      formikProps.setFieldValue('yearSold', '');
+    }
     axios.post(`${url}/updatecarstatus/${formikProps.props.carId}`, formValues, {
       headers: {
       'Content-Type': 'application/json',
