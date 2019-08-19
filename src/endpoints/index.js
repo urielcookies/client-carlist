@@ -88,3 +88,15 @@ export const fetchCarStatus = ({carId, isCarStatusLoaded, setIsCarStatusLoaded, 
     })
   }
 };
+
+export const fetchPartners = (partner, setPartners) => {
+  if (!partner.length) {
+    get(`${url}/fetchpartners`)
+    .then((response) => {
+      setPartners(response.data)
+    })           
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+};

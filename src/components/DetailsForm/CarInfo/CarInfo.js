@@ -5,7 +5,7 @@ import AddCarForm from '../../AddCarForm/AddCarForm';
 const carInfo = (props) => {
   return (
     <div>
-      <AddCarForm {...props} />
+      {/* <AddCarForm {...props} /> */}
     </div>
   );
 };

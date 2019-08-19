@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container} from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
-import { Card, Form, Icon, Divider, Input, Header, TextArea, Button, Modal, Image as SematicImage, Loader } from 'semantic-ui-react'
+import { Card, Form, Icon, Divider, Dropdown, Input, Header, TextArea, Button, Modal, Image as SematicImage, Loader } from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 
-import {url} from '../../endpoints';
+import {url, fetchPartners} from '../../endpoints';
 
 const AddCarForm = (props) => {
   const {
@@ -23,6 +23,7 @@ const AddCarForm = (props) => {
   const [index, setIndex] = useState(null);
 
   const [deleteModalOpen, setDeleteModal] = useState(false);
+  const [partners, setPartners] = useState([]);
 
   const show = () => setOpen(true)
   const close = () => setOpen(false)
@@ -195,6 +196,27 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
 	img.src = srcBase64;
 }
 
+if (JSON.parse(localStorage.getItem('authenticated')) === 'admin') {
+  fetchPartners(partners, setPartners)
+}
+
+const options = partners.map((partner, index) => ({
+  key: index,
+  text: partner,
+  value: partner
+}));
+
+const kikilol = ({field}) => {
+  return (
+    <Dropdown
+      defaultValue={values.partner}
+      selection
+      onChange={(e, data) => setFieldValue('partner', data.value)}
+      options={options}
+      fluid/>
+  );
+}
+  
   return (
     <Container>
       <Header as='h2'>
@@ -205,6 +227,20 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
         <FormikForm>
 
           <Form.Group widths='equal'>
+            {JSON.parse(localStorage.getItem('authenticated')) === 'admin' &&
+              <Form.Field>
+                <label htmlFor="partner">Partner</label>
+                <Field
+                  name="partner"
+                  component={kikilol} />
+              </Form.Field>
+            }
+            {JSON.parse(localStorage.getItem('authenticated')) !== 'admin' &&
+              <Form.Field disabled>
+              <label htmlFor="partner">Partner</label>
+              <Field id="partner" type="text" name="partner" />
+            </Form.Field>
+            }
             <Form.Field>
               <label htmlFor="year">Year</label>
               <Field id="year" type="text" name="year" />
@@ -343,6 +379,7 @@ function resetOrientation(srcBase64, srcOrientation, callback) {
 export default withFormik({
   mapPropsToValues(formikProps) {
     return {
+      partner: (formikProps.partner || JSON.parse(localStorage.getItem('authenticated'))),
       year: formikProps.year || '',
       brand: formikProps.brand || '',
       model: formikProps.model || '',
@@ -364,7 +401,6 @@ export default withFormik({
         formData.append(key, values[key]);
       }
     }
-    formData.append('partner', JSON.parse(localStorage.getItem('authenticated')));
 
     if (formikProps.props.edit) {
       axios.post(`${url}/updatecarinfo/${formikProps.props.carId}`, formData, {
@@ -375,7 +411,6 @@ export default withFormik({
         }
       })
       .then(function (response) {
-        console.log(response);
         formikProps.props.setIsCarInfoLoaded(false);
       })
       .catch(function (error) {
