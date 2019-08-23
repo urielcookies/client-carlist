@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import { Button, Card, Container, Divider, Image } from 'semantic-ui-react'
+import { Button, Card, Container, Divider, Image, Menu } from 'semantic-ui-react'
 import {Redirect} from 'react-router-dom';
 
 import {fetchCars} from '../../endpoints';
 
-const Home = () => {
+const Home = (props) => {
   const [isLoaded, setLoaded] = useState(false);
   const [cars, setCarList] = useState([]);
 
   useEffect(() => {
-    document.querySelector('#root > div > div.ui.inverted.top.fixed.menu > div > span > a').style.display = 'inline';
     fetchCars({isLoaded, setLoaded, setCarList});
   }, [cars]);
 
@@ -24,8 +23,29 @@ const Home = () => {
 
   return (
     <Container textAlign="center">
-      <Button color='green' size='large'><Link style={{color: 'white'}} to="/addcar">Add Car</Link></Button>
-      <Button color='orange' size='large'><Link style={{color: 'white'}} to="/trip">Trip</Link></Button>
+      {/* <Button color='green' size='large'><Link style={{color: 'white'}} to="/addcar">Add Car</Link></Button> */}
+      {/* <Button color='orange' size='large'><Link style={{color: 'white'}} to="/trip">Trip</Link></Button> */}
+      <Menu widths={2}>
+        <Menu.Item
+          style={{color: '#00b5ad'}}
+          name='Add Car'
+          onClick={() => props.history.push('addcar')}
+        />
+        <Menu.Item
+          style={{color: '#00b5ad'}}
+          name='Trip'
+          onClick={() => props.history.push('trip')}
+        />
+        {/* <Menu.Menu position='right'>
+          <Menu.Item>
+            <Input icon='search' placeholder='Search...' />
+          </Menu.Item>
+          <Menu.Item
+            name='logout'
+            onClick={this.handleItemClick}
+          />
+        </Menu.Menu> */}
+      </Menu>
       <Divider />
       {cars && cars.map((car) => (
         <Card key={car.id} centered style={{display: 'inline-block', marginLeft: '15px', marginRight: '15px'}}>

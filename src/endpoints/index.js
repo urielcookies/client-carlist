@@ -1,7 +1,13 @@
 import {get, post} from "axios";
 
-// export const url = 'http://uriel.sellingcrap.com';
-export const url = 'http://localhost:5000';
+let host = null;
+if (window.location.hostname === 'localhost') {
+  host = 'http://localhost:5000';
+} else {
+  host = 'http://uriel.sellingcrap.com';
+}
+
+export const url = host;
 
 export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
   if (!isLoaded) {
