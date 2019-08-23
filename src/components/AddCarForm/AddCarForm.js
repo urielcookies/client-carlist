@@ -39,13 +39,44 @@ const AddCarForm = (props) => {
     const first = images[index];
     images.splice(index, 1);
     images.unshift(first);
-    setImages(images)
+    setImages(images);
+
+    let clone = {};
+    let counter = 0;
+    for (const huh in values.images) {
+      if (huh !== 'length') {
+        clone[counter] = values.images[huh];
+        counter++;
+      }
+    }
+  
+
+    const toArr = Object.values(clone);
+    const _first = toArr[index];
+    toArr.splice(index, 1);
+    toArr.unshift(_first);
+    clone = Object.assign({}, toArr)
+    clone.length = values.images.length;
+
+    setFieldValue('images', clone);
   }
 
   const removeImage = () => {
     close()
     images.splice(index, 1);
     setImages(images)
+
+    let clone = {};
+    let counter = 0;
+    for (const huh in values.images) {
+      if (huh !== 'length' &&  Number(huh) !== index) {
+        clone[counter] = values.images[huh];
+        counter++;
+      }
+    }
+  
+    clone.length = values.images.length - 1
+    setFieldValue('images', clone);
   }
 
   const deleteCarInfo = () => {
@@ -301,7 +332,18 @@ const kikilol = ({field}) => {
                               <input multiple id="images" name="images" type="file" style={{display: 'none'}} onChange={(event) => {   
                                 setRet(true);             
                                 setImages([])
-                                setFieldValue("images", event.currentTarget.files);
+
+                                const fakeObj = {}
+                                let counter = 0
+                                for (const img in event.currentTarget.files) {
+                                  if (img !== 'length' && img !== 'item') {
+                                    fakeObj[counter] = event.currentTarget.files[img];
+                                    counter++;
+                                  }
+                                }
+
+                                fakeObj.length = event.currentTarget.files.length;
+                                setFieldValue("images", fakeObj);
                               }} />
                           </div>
                         )}  
@@ -394,7 +436,9 @@ export default withFormik({
     for (const key in values) {
       if (key === 'images') {
         Object.keys(values[key]).forEach((number) => {
-          formData.append(`image-${Number(number)}`, values[key][Number(number)]);
+          if (number !== 'length') {
+            formData.append(`image-${Number(number)}`, values[key][Number(number)]);
+          }
         })
       }
       else {
