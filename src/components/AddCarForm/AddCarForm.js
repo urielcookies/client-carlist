@@ -437,7 +437,7 @@ export default withFormik({
       if (key === 'images') {
         Object.keys(values[key]).forEach((number) => {
           if (number !== 'length') {
-            formData.append(`image-${Number(number)}`, values[key][Number(number)]);
+            formData.append(number, values[key][Number(number)]);
           }
         })
       }
