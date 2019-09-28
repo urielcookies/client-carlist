@@ -26,7 +26,7 @@ const CarImages = (props) => {
     const formData = new FormData();
     formData.append('path', path);
   
-    axios.post(`http://uriel.sellingcrap.com/deleteimage`, formData, {
+    axios.post(`${url}/deleteimage`, formData, {
       headers: {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Origin": "*",
@@ -76,6 +76,32 @@ const CarImages = (props) => {
         console.log(error);
       });
   } 
+
+  const makeMain = () => {
+    const index = selectedImage.indexOf('images')
+    const path = selectedImage.substring(index);
+
+    const data = {
+      currentMain: images[0].substring(index),
+      newMain: path
+    }
+  
+    close();
+    axios.post(`${url}/makemainimage`, data, {
+      headers: {
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      'Accept': '*',
+      }
+    })
+      .then(function (response) {
+        setLoading(false);
+        setIsImagesLoaded(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   return (
     <div>
@@ -135,13 +161,19 @@ const CarImages = (props) => {
         <Modal.Content image>
           <Image wrapped size='massive' src={selectedImage} />
         </Modal.Content>
-        <Modal.Actions>
-          <Button color='black' onClick={close}>
+        <Modal.Actions style={{justifyContent: 'space-around', display: 'flex'}}>
+          <Button onClick={close}>
             Nope
           </Button>
+
           <Button
-            disabled
-            positive
+            color="black"
+            content="Make main"
+            onClick={makeMain}
+          />
+          
+          <Button
+            negative
             icon='trash'
             labelPosition='right'
             content="Yes, Delete"
