@@ -97,6 +97,7 @@ const CarImages = (props) => {
       .then(function (response) {
         setLoading(false);
         setIsImagesLoaded(false);
+        console.log('res', response);
       })
       .catch(function (error) {
         console.log(error);
