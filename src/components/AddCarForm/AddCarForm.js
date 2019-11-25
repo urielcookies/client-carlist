@@ -129,18 +129,7 @@ const AddCarForm = (props) => {
             const log = (o) => {
               resetOrientation(reader.result, o, oth)
             }
-            // const logz = (o) => {
-            //   kiki.push(o)
-            // };
-            getOrientation(imgs[element], log)
-            
-
-            // kiki.push(resetOrientation(reader.result, getOrientation(imgs[element], log), logz))
-            // kiki.push(reader.result)
-            // if (kiki.length === values.images.length) {
-            //   setImages(kiki)
-            // } 
-            // console.log(kiki);
+            getOrientation(imgs[element], log);
           };
           reader.readAsDataURL(imgs[element]);
         }
