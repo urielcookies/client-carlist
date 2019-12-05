@@ -60,6 +60,7 @@ const CarImages = (props) => {
       }
     }
 
+    console.log('Post', `${url}/uploadimages/${carId}`);
     axios.post(`${url}/uploadimages/${carId}`, formData, {
       headers: {
       'Content-Type': 'application/json',
