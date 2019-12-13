@@ -11,7 +11,7 @@ export const url = host;
 
 export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
   if (!isLoaded) {
-    get(`${url}/upload`)
+    get(`${url}/fetchcars`)
     .then((response) => {
       setLoaded(true);
       setCarList(response.data.reverse());

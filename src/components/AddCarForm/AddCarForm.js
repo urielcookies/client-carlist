@@ -450,7 +450,7 @@ export default withFormik({
         console.log(error);
       });
     } else {
-        axios.post(`${url}/upload`, formData, {
+        axios.post(`${url}/uploadcar`, formData, {
           headers: {
           'Content-Type': 'application/json',
           "Access-Control-Allow-Origin": "*",
