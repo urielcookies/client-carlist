@@ -4,7 +4,8 @@ let host = null;
 if (window.location.hostname === 'localhost') {
   host = 'http://localhost:5000';
 } else {
-  host = 'http://uriel.sellingcrap.com';
+  // host = 'http://uriel.sellingcrap.com';
+  host = 'https://be-carlist.herokuapp.com';
 }
 
 export const url = host;
