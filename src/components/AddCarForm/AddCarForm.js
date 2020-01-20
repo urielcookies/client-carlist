@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {Container} from 'semantic-ui-react'
 import {withFormik, Form as FormikForm, Field} from 'formik';
-import { Card, Form, Icon, Divider, Dropdown, Input, Header, TextArea, Button, Modal, Image as SematicImage, Loader } from 'semantic-ui-react'
+import { Card, Form, Icon, Divider, Dropdown, Header, Button, Modal, Image as SematicImage, Loader } from 'semantic-ui-react'
 import  { Redirect } from 'react-router-dom'
 
 import {url, fetchPartners} from '../../endpoints';
@@ -145,7 +145,7 @@ function getOrientation(file, callback) {
   reader.onload = function(event) {
     var view = new DataView(event.target.result);
 
-    if (view.getUint16(0, false) != 0xFFD8) return callback(-2);
+    if (view.getUint16(0, false) !== 0xFFD8) return callback(-2);
 
     var length = view.byteLength,
         offset = 2;
@@ -154,20 +154,20 @@ function getOrientation(file, callback) {
       var marker = view.getUint16(offset, false);
       offset += 2;
 
-      if (marker == 0xFFE1) {
-        if (view.getUint32(offset += 2, false) != 0x45786966) {
+      if (marker === 0xFFE1) {
+        if (view.getUint32(offset += 2, false) !== 0x45786966) {
           return callback(-1);
         }
-        var little = view.getUint16(offset += 6, false) == 0x4949;
+        var little = view.getUint16(offset += 6, false) === 0x4949;
         offset += view.getUint32(offset + 4, little);
         var tags = view.getUint16(offset, little);
         offset += 2;
 
         for (var i = 0; i < tags; i++)
-          if (view.getUint16(offset + (i * 12), little) == 0x0112)
+          if (view.getUint16(offset + (i * 12), little) === 0x0112)
             return callback(view.getUint16(offset + (i * 12) + 8, little));
       }
-      else if ((marker & 0xFF00) != 0xFF00) break;
+      else if ((marker & 0xFF00) !== 0xFF00) break;
       else offset += view.getUint16(offset, false);
     }
     return callback(-1);
@@ -459,11 +459,11 @@ export default withFormik({
         })
           .then(function (response) {
             console.log('create response', response);
-            if (url === 'http://localhost:5000') {
-              window.location.href = "http://localhost:3000/#/cars"
-            } else {
-              window.location.href = "http://sellingcrap.com/#/cars"
-            }
+            // if (url === 'http://localhost:5000') {
+            //   window.location.href = "http://localhost:3000/#/cars"
+            // } else {
+            //   window.location.href = "http://sellingcrap.com/#/cars"
+            // }
           })
           .catch(function (error) {
             console.log(error);

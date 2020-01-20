@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Image, Dimmer, Divider, Card, Button, Modal, Header, Form, Loader} from 'semantic-ui-react'
+import {Image, Dimmer, Divider, Card, Button, Modal, Form, Loader} from 'semantic-ui-react'
 
 import {url} from '../../../endpoints';
 

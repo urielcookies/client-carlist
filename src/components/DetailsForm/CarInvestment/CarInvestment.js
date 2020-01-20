@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import { Container, Table, Button, Divider, Icon, Header, Modal } from 'semantic-ui-react'
-import { Step, Input } from 'semantic-ui-react'
+import {Table, Button, Divider, Icon, Header, Modal } from 'semantic-ui-react'
 import { Form } from 'semantic-ui-react'
-import {withFormik, Form as FormikForm, Field} from 'formik';
+import {withFormik, Field} from 'formik';
 
 import {deleteCarExpense, url} from '../../../endpoints/index';
 
@@ -77,7 +76,7 @@ const CarInvestment = (props) => {
   const [cost, setCost] = useState('');
   const [expense, setExpense] = useState('');
 
-  const [updateField, setUpdateField] = useState(false);
+  // const [updateField, setUpdateField] = useState(false);
 
   const cancel = () => {
     setUpdateMode(false);

@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react'
-import { Table, Input, Divider, Icon, Header, Button, Container} from 'semantic-ui-react'
+import React from 'react';
+// import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react'
+import {Input} from 'semantic-ui-react'
 
-import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 
 const AutoCompleteSearch = (props) => {
@@ -34,9 +34,6 @@ const AutoCompleteSearch = (props) => {
     }
   }
 
-  const handleCloseClick = () => {
-    setAddress('');
-  }
   return (
     <div>
       <PlacesAutocomplete
