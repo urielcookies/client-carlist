@@ -7,7 +7,6 @@ import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 // import {Redirect} from 'react-router-dom';
 
 const Login = () => {
-
   return (
     <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
