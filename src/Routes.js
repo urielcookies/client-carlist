@@ -40,13 +40,13 @@ const Routes = (props) => {
       {getCookie('token') && <Breadcrumb {...props}/>}
       <Container>
         <Switch>
-          <Route exact path='/' component={Home}/>
+          <Route exact path='/home' component={Home}/>
           <Route exact path='/login' component={Login}/>
           <Route exact path='/addcar' component={AddCarForm}/>
           <Route exact path='/trip' component={Trip}/>
           <Route exact path='/details/:id/:tab' component={DetailsForm}/>
-          <Route exact path='/carlist' component={Carlist}/>
-          <Route exact path='/carlist/:id/:tab' component={Exp}/>
+          <Route exact path='/home/carlist/:userId' component={Carlist}/>
+          <Route exact path='/home/carlist/:userId/:carInfoId/:tab' component={Exp}/>
           {/* <Route exact path='/exp/:id' component={exp}/> */}
           <Route path='/404' component={My404Component} />
           <Redirect from='*' to='/404' />

@@ -7,7 +7,7 @@ const Navbar = () => (
     <Container>
       <Menu.Item as='span' header>
         <Icon size='large' name='car' />
-        <Link to="/">Selling Crap</Link>
+        <Link to="/home">Selling Crap</Link>
       </Menu.Item>
     </Container>
   </Menu>

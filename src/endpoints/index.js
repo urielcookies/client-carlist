@@ -1,5 +1,27 @@
 import {get, post} from "axios";
+const URL = 'http://api.sellingcrap.com';
 
+const getCookie = (name) => {
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+//Sample usage
+const headers = {token: getCookie('token')};
+
+export const fetchUsers = ({isLoading, setIsLoading, setUsers}) => {
+  if (isLoading) {
+    get(`${URL}/api/caraccess/getusernames`, {headers})
+    .then(({data}) => {
+      setIsLoading(false);
+      setUsers(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+};
+
+// -------------------------------------------------------------
 let host = null;
 if (window.location.hostname === 'localhost') {
   host = 'http://localhost:5000';

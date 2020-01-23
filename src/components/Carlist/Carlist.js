@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import {Link} from 'react-router-dom';
-import {Table, Image} from 'semantic-ui-react'
+import {Image, Menu, Table} from 'semantic-ui-react'
 // import {Redirect} from 'react-router-dom';
 
 // import {fetchCars} from '../../endpoints';
@@ -17,8 +17,31 @@ const Home = (props) => {
 
   // window.scrollTo(0, 0);
   // console.log(props);
+
+  const {userId} = props.match.params;
+  const [activeTable, setActiveTable] = useState('Active Cars');
+  const handleItemClick = (e,{name}) => setActiveTable(name);
+
   return (
     <div style={{height: '80vh'}}>
+      <Menu color='teal' widths={3}>
+        <Menu.Item
+          name='Active Cars'
+          active={activeTable === 'Active Cars'}
+          onClick={handleItemClick}
+        />
+        <Menu.Item
+          name='Sold Cars'
+          active={activeTable === 'Sold Cars'}
+          onClick={handleItemClick}
+        />
+        <Menu.Item
+          name='All Cars'
+          active={activeTable === 'All Cars'}
+          onClick={handleItemClick}
+        />
+      </Menu>
+
       <Table unstackable basic selectable sortable>
         <Table.Header>
           <Table.Row>
@@ -26,7 +49,7 @@ const Home = (props) => {
             <Table.HeaderCell>Year</Table.HeaderCell>
             <Table.HeaderCell>Brand</Table.HeaderCell>
             <Table.HeaderCell>Model</Table.HeaderCell>
-            <Table.HeaderCell>Total Cost</Table.HeaderCell>
+            <Table.HeaderCell>All Cost</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -34,7 +57,7 @@ const Home = (props) => {
           <Table.Row>
             <Table.Cell>
               <Image
-              onClick={() => props.history.push('/carlist/1/info')}
+              onClick={() => props.history.push(`/home/carlist/${userId}/1/info`)}
               src='https://4ever.blob.core.windows.net/cars/1/athumbnail_IMG_4452.jpg' size='mini' />
             </Table.Cell>
             <Table.Cell>Cell</Table.Cell>

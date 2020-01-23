@@ -4,26 +4,25 @@ import {Breadcrumb, Container, Divider} from 'semantic-ui-react'
 
 const Breadcrumbs = (props) => {
   const paths = props.location.pathname.split('/');
-  if (paths[0] === '') paths[0] = '/';
-  if (paths[1] === '') paths.pop();
-  if (Number(paths[2])) paths.splice(2, 1);
+  const userId = paths[3];
+  const filtered = paths.filter(path => !Number(path)).slice(1);
 
   const routes = [];
 
-  paths.map((path, index) => {
-    const lastIndex = index === paths.length - 1;
+  filtered.map((path, index) => {
+    const lastIndex = index === filtered.length - 1;
 
-    if (path === '/') {
+    if (path === 'home') {
       return routes.push({
         active: lastIndex,
-        link: '/',
+        link: '/home',
         title: 'Home'
       });
     } else if (path === 'carlist') {
       return routes.push({
         active: lastIndex,
-        link: '/carlist',
-        title: "(users) Inventory"
+        link: `/home/carlist/${userId}`,
+        title: "Inventory"
       });
     }
     return routes.push({
@@ -41,7 +40,7 @@ const Breadcrumbs = (props) => {
             <Breadcrumb.Section>
               {
                 !route.active 
-                ? <Link to={route.link}>{route.title}</Link>
+                ? <Link style={{color: '#00b5ad'}} to={route.link}>{route.title}</Link>
                 : route.title
               }
             </Breadcrumb.Section>
