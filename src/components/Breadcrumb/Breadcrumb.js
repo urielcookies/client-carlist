@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Breadcrumb, Container, Divider} from 'semantic-ui-react'
+import {fetchActiveAccount} from '../../endpoints';
 
 const Breadcrumbs = (props) => {
   const paths = props.location.pathname.split('/');
@@ -8,6 +9,13 @@ const Breadcrumbs = (props) => {
   const filtered = paths.filter(path => !Number(path)).slice(1);
 
   const routes = [];
+
+  const [isActiveLoading, setIsActiveAccountLoading] = useState(true);
+  const [activeAccount, setActiveAccount] = useState({});
+
+  useEffect(() => {
+    fetchActiveAccount({isActiveLoading, setIsActiveAccountLoading, setActiveAccount})
+  }, []);
 
   filtered.map((path, index) => {
     const lastIndex = index === filtered.length - 1;
@@ -21,7 +29,7 @@ const Breadcrumbs = (props) => {
     } else if (path === 'carlist') {
       return routes.push({
         active: lastIndex,
-        link: `/home/carlist/${userId}`,
+        link: `${activeAccount.Id === Number(userId) ? '/home/carlist' : `/home/carlist/${userId}`}`,
         title: "Inventory"
       });
     }

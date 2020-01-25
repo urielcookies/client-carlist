@@ -45,6 +45,7 @@ const Routes = (props) => {
           <Route exact path='/addcar' component={AddCarForm}/>
           <Route exact path='/trip' component={Trip}/>
           <Route exact path='/details/:id/:tab' component={DetailsForm}/>
+          <Route exact path='/home/carlist' component={Carlist}/>
           <Route exact path='/home/carlist/:userId' component={Carlist}/>
           <Route exact path='/home/carlist/:userId/:carInfoId/:tab' component={Exp}/>
           {/* <Route exact path='/exp/:id' component={exp}/> */}

@@ -8,19 +8,52 @@ const getCookie = (name) => {
 }
 
 //Sample usage
-const headers = {token: getCookie('token')};
+const headers = {'Content-Type': 'application/json', token: getCookie('token')};
 
-export const fetchUsers = ({isLoading, setIsLoading, setUsers}) => {
-  if (isLoading) {
+export const fetchActiveAccount = ({isActiveLoading, setIsActiveAccountLoading, setActiveAccount}) => {
+  if (isActiveLoading) {
+    get(`${URL}/api/useraccounts/getuserinfo`, {headers})
+    .then(({data}) => {
+      setIsActiveAccountLoading(false);
+      setActiveAccount(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+};
+
+
+export const fetchUsers = ({isUsersLoading, setIsUsersLoading, setUsers}) => {
+  if (isUsersLoading) {
     get(`${URL}/api/caraccess/getusernames`, {headers})
     .then(({data}) => {
-      setIsLoading(false);
+      setIsUsersLoading(false);
       setUsers(data);
     })           
     .catch((error) => console.log(error))
   }
 };
 
+export const fetchCars = ({isLoading, setIsLoading, setCarList}) => {
+  if (isLoading) {
+    get(`${URL}/api/carinformation`, {headers})
+    .then(({data}) => {
+      setIsLoading(false);
+      setCarList(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+};
+
+export const fetchOtherUsersCars = ({isLoading, setIsLoading, setCarList, userId}) => {
+  if (isLoading) {
+    get(`${URL}/api/carinformation/get-users-cars/${userId}`, {headers})
+    .then(({data}) => {
+      setIsLoading(false);
+      setCarList(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+}
 // -------------------------------------------------------------
 let host = null;
 if (window.location.hostname === 'localhost') {
@@ -32,18 +65,18 @@ if (window.location.hostname === 'localhost') {
 
 export const url = host;
 
-export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
-  if (!isLoaded) {
-    get(`${url}/fetchcars`)
-    .then((response) => {
-      setLoaded(true);
-      setCarList(response.data.reverse());
-    })           
-    .catch((error) => {
-        console.log(error);
-    })
-  }
-};
+// export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
+//   if (!isLoaded) {
+//     get(`${url}/fetchcars`)
+//     .then((response) => {
+//       setLoaded(true);
+//       setCarList(response.data.reverse());
+//     })           
+//     .catch((error) => {
+//         console.log(error);
+//     })
+//   }
+// };
 
 export const fetchCarInfo = ({carId, isCarInfoLoaded, setIsCarInfoLoaded, setCarInfo}) => {
   if (!isCarInfoLoaded) {
