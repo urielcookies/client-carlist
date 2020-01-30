@@ -9,19 +9,19 @@ import CarExpenses from './CarExpenses/CarExpenses' ;
 // import CarEstimations from './CarEstimations/CarEstimations' ;
 // import Status from './Status/Status';
 
-import {/* fetchCarExpenses,  */fetchCarInfo, fetchOtherCarInfo/* , fetchCarImages, fetchCarStatus */} from '../../endpoints';
+import {fetchCarExpenses, fetchCarInfo, fetchOtherCarInfo/* , fetchCarImages, fetchCarStatus */} from '../../endpoints';
 
 const DetailsForm = (props) => {
   // console.log(props);
   const {carInfoId} = props.match.params;
 
   const [isCarInfoLoading, setIsCarInfoLoading] = useState(true);
-  const [isExpensesLoaded, setIsExpensesLoaded] = useState(false);
+  const [isCarExpensesLoading, setIsCarExpensesLoading] = useState(true);
   // const [isImagesLoaded, setIsImagesLoaded] = useState(false);
   // const [isCarStatusLoaded, setIsCarStatusLoaded] = useState(false);
 
   const [carInfo, setCarInfo] = useState({});
-  // const [expenses, setExpenses] = useState([]);
+  const [carExpenses, setCarExpenses] = useState([]);
   // const [carImages, setCarImages] = useState([]);
   // const [carStatus, setCarStatus] = useState(null);
   const [up, goUp] = useState(false);
@@ -32,11 +32,11 @@ const DetailsForm = (props) => {
     } else {
       fetchOtherCarInfo({carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo});
     }
-    // fetchCarExpenses({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses});
+    fetchCarExpenses({carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses});
     // fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     // fetchCarStatus({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
   }, []);
-
+  console.log('???', carExpenses)
   if (!up) {
     goUp(true);
     window.scrollTo(0, 0);
@@ -54,7 +54,7 @@ const DetailsForm = (props) => {
   //   return <Redirect to="/" />;
   // }
 
-  if (isEmpty(carInfo)) {
+  if (isCarInfoLoading || isCarExpensesLoading) {
     return (
       <Dimmer active inverted>
         <Loader inverted>Loading</Loader>
@@ -63,9 +63,9 @@ const DetailsForm = (props) => {
   }
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
-    { menuItem: 'Expenses', render: () => <Tab.Pane loading><CarExpenses /* expenses={expenses} */ carId={carInfoId} setIsExpensesLoaded={setIsExpensesLoaded} cost={carInfo.cost} /></Tab.Pane> },
+    { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setIsExpensesLoaded={setIsCarExpensesLoading} Cost={carInfo.Cost} /></Tab.Pane> },
     // { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.cost} expenses={expenses} /></Tab.Pane> },
-    // { menuItem: 'Pics', render: () => <Tab.Pane><CarImages {...carImages} carId={carId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
+    // { menuItem: 'Pics', render: () => <Tab.Pane loading><CarImages {...carImages} carId={carId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
     // { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carId={carId} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
   ];
 

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {upperFirst} from 'lodash';
 import {Link} from 'react-router-dom';
 import {Breadcrumb, Container, Divider} from 'semantic-ui-react'
 import {fetchActiveAccount} from '../../endpoints';
@@ -36,7 +37,7 @@ const Breadcrumbs = (props) => {
     return routes.push({
       active: lastIndex,
       link: path,
-      title: path
+      title: upperFirst(path)
     });
   });
 

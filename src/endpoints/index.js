@@ -1,4 +1,5 @@
 import {get, post} from "axios";
+import {reverse} from 'lodash';
 const URL = 'http://api.sellingcrap.com';
 
 const getCookie = (name) => {
@@ -32,6 +33,19 @@ export const fetchActiveAccount = ({isActiveLoading, setIsActiveAccountLoading, 
     .then(({data}) => {
       setIsActiveAccountLoading(false);
       setActiveAccount(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+};
+
+export const fetchCarExpenses = ({isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses, carInfoId}) => {
+  if (isCarExpensesLoading) {
+    console.log('In', carInfoId)
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+    get(`${URL}/api/carexpenses/${carInfoId}`, {headers})
+    .then(({data}) => {
+      setIsCarExpensesLoading(false);
+      setCarExpenses(reverse(data));
     })           
     .catch((error) => console.log(error))
   }
@@ -148,19 +162,19 @@ export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCar
   }
 };
 
-export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses}) => {
-  if (!isExpensesLoaded) {
-    get(`${url}/loadexpenses/${carId}`)
-    .then((response) => {
-      setIsExpensesLoaded(true);
-      console.log(response.data);
-      setExpenses(response.data);
-    })           
-    .catch((error) => {
-        console.log(error);
-    })
-  }
-};
+// export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses}) => {
+//   if (!isExpensesLoaded) {
+//     get(`${url}/loadexpenses/${carId}`)
+//     .then((response) => {
+//       setIsExpensesLoaded(true);
+//       console.log(response.data);
+//       setExpenses(response.data);
+//     })           
+//     .catch((error) => {
+//         console.log(error);
+//     })
+//   }
+// };
 
 export const deleteCarExpense = (expenseId, state) => {
   const formData = new FormData();
