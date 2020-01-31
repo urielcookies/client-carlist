@@ -20,17 +20,24 @@ const Breadcrumbs = (props) => {
 
   filtered.map((path, index) => {
     const lastIndex = index === filtered.length - 1;
-
     if (path === 'home') {
       return routes.push({
         active: lastIndex,
         link: '/home',
         title: 'Home'
       });
-    } else if (path.includes('carlist')) {
+    }
+    else if (path === 'carlist') {
       return routes.push({
         active: lastIndex,
-        link: `${activeAccount.Id === Number(userId) ? '/home/mycarlist' : `/home/carlist/${userId}`}`,
+        link: `/home/carlist/${userId}`,
+        title: "Inventory"
+      });
+    }
+    else if (path === 'mycarlist') {
+      return routes.push({
+        active: lastIndex,
+        link: '/home/mycarlist',
         title: "Inventory"
       });
     }

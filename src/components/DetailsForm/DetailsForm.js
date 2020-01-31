@@ -36,7 +36,7 @@ const DetailsForm = (props) => {
     // fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     // fetchCarStatus({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
   }, []);
-  console.log('???', carExpenses)
+
   if (!up) {
     goUp(true);
     window.scrollTo(0, 0);
@@ -61,6 +61,7 @@ const DetailsForm = (props) => {
       </Dimmer>
     );
   }
+  
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
     { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setIsExpensesLoaded={setIsCarExpensesLoading} Cost={carInfo.Cost} /></Tab.Pane> },
