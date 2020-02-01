@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {withRouter} from 'react-router-dom';
-import {Card, Dimmer, Icon, Grid, Loader, Container} from 'semantic-ui-react'
+import {Button, Card, Dimmer, Icon, Grid, Loader, Container} from 'semantic-ui-react'
 import {fetchActiveAccount, fetchUsers} from '../../endpoints';
 
 const Home = (props) => {
@@ -11,6 +11,14 @@ const Home = (props) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
+    if (window.deferredPrompt) {
+      window.deferredPrompt();
+      window.deferredPrompt.userChoice((choiceResult) => {
+        if (choiceResult === 'dismissed') console.log('User Rejected Home App Screen');
+        else console.log('User Accepted Home App Screen')
+      })
+      window.deferredPrompt = null;
+    }
     fetchActiveAccount({isActiveLoading, setIsActiveAccountLoading, setActiveAccount})
     fetchUsers({isUsersLoading, setIsUsersLoading, setUsers});
   }, []);
@@ -22,6 +30,7 @@ const Home = (props) => {
           <Loader inverted>Loading</Loader>
         </Dimmer>
       : <Container textAlign='center'>
+        <Button onClick={() => props.history.push('/home/settings')}>Settings</Button>
           <Grid>
             <Grid.Row columns={2}>
               <Grid.Column>

@@ -10,6 +10,7 @@ import DetailsForm from './components/DetailsForm/DetailsForm';
 import Login from './components/Login/Login';
 import Trip from './components/Trip/Trip';
 import Home from './components/Home/Home';
+import Settings from './components/Settings/Settings';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 
@@ -29,6 +30,7 @@ const Routes = (props) => {
     </div>
   );
   
+
   return (
     <div>
       {getCookie('token') && <Navbar />}
@@ -40,6 +42,7 @@ const Routes = (props) => {
           <Route exact path='/addcar' component={AddCarForm}/>
           <Route exact path='/trip' component={Trip}/>
           <Route exact path='/details/:id/:tab' component={DetailsForm}/>
+          <Route exact path='/home/settings' component={Settings}/>
           <Route exact path='/home/:carlist' component={Carlist}/>
           <Route exact path='/home/:carlist/:userId' component={Carlist}/>
           <Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={DetailsForm}/>

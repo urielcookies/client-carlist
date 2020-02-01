@@ -1,16 +1,17 @@
 {
-  "short_name": "Cars",
-  "name": "Ever's Cars",
+  "short_name": "Cookiez",
+  "name": "Cookiez Carz",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "sizes": "512x512 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/png"
     }
   ],
   "start_url": "/home",
   "scope": "/",
   "display": "standalone",
   "theme_color": "#00B5AD",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "description": "Cookiez make the world go round"
 }

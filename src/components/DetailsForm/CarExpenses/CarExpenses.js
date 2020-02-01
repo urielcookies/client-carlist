@@ -52,6 +52,7 @@ const CarInvestment = (props) => {
   };
   // MAKE DELETE SAME MODAL JUST CHANGE SAVE TO DLETE AND HAVE A DELETE STATE FOR HEADER
   // THINK OF ADDING A BOTTOM FOOTER WITH HOME, MY CARS, SETTINGS WHERE THE ROYERS SLIDE FROM LEFT TO RIGHT
+  // ASC DESC SELECT OPYION
   return (
     <div>
       <Button fluid content="Add Expense" color="teal" basic onClick={() => {setOpenAddExpenseModal(true); setUpdateMode(false)}} />
