@@ -68,8 +68,7 @@ const Settings = () => {
         console.log(newSub)
         console.log(JSON.stringify(newSub))
         const headers = {'Content-Type': 'application/json', token: getCookie('token')};
-        const data = JSON.stringify(newSub);
-        post('https://carlistapi.azurewebsites.net/api/useraccounts/test-push', data, headers)
+        post('https://carlistapi.azurewebsites.net/api/useraccounts/test-push', newSub, headers)
           .then(({data, status}) => {
             if (status === 200 && data) {
               console.log(data)
