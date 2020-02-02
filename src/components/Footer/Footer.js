@@ -14,18 +14,18 @@ const Footer = () => (
             <Grid divided inverted stackable>
                 <Grid.Row>
                     <Grid.Column width={3}>
-                    <Header inverted as='h4' content='Group 1' />
+                    {/* <Header inverted as='h4' content='Group 1' /> */}
                     <List link inverted>
-                        <List.Item as='a'>Link One</List.Item>
-                        <List.Item as='a'>Link Two</List.Item>
-                        <List.Item as='a'>Link Three</List.Item>
-                        <List.Item as='a'>Link Four</List.Item>
+                        {/* <List.Item as='a'>Link One</List.Item> */}
+                        {/* <List.Item as='a'>Link Two</List.Item> */}
+                        {/* <List.Item as='a'>Link Three</List.Item> */}
+                        {/* <List.Item as='a'>Link Four</List.Item> */}
                     </List>
                     </Grid.Column>
                     <Grid.Column width={3}>
                     <Header inverted as='h4' content='Uriel Cookies Incorporated 2020' />
                     <p>
-                        Extra space for a call to action inside the footer that could help re-engage users.
+                        {/* Extra space for a call to action inside the footer that could help re-engage users. */}
                     </p>
                     </Grid.Column>
                 </Grid.Row>

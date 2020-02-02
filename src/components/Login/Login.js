@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {isEmpty} from 'lodash';
 import {withRouter} from 'react-router-dom';
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 
@@ -12,7 +13,7 @@ import {loginUser} from '../../endpoints';
 const Login = ({history: {push}}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState('');
   return (
     <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -36,9 +37,12 @@ const Login = ({history: {push}}) => {
               type='password'
               onChange={(e, {value}) => setPassword(value)}/>
 
-            <Button color='teal' fluid size='large' onClick={() => loginUser({email, password}, push)}>
+            <Button color='teal' fluid size='large' onClick={() => loginUser({email, password}, push, setErrorMessage)}>
               Login
             </Button>
+            <div style={{color: "red", height: "20px"}}>
+              <small>{errorMessage}</small>
+            </div>
           </Segment>
         </Form>
         {/* <Message>

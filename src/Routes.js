@@ -21,8 +21,8 @@ const Routes = (props) => {
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
 
-  // if (!getCookie('token') && props.location.pathname !== '/login') 
-  //   return <Redirect to="/login" />;
+  const withLogin = (Component) => (ComponentProps) =>
+    !getCookie('token') ? <Redirect to="/login" /> : <Component {...ComponentProps}/>;
 
   const My404Component = () => (
     <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -33,21 +33,20 @@ const Routes = (props) => {
   const SUP = () => <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>SUP</div>
   return (
     <div>
-      {getCookie('token') && <Navbar />}
+      {<Navbar showLogin={getCookie('token')} />}
       {getCookie('token') && <Breadcrumb {...props}/>}
       <Container>
         <Switch>
           <Route exact path='/' component={SUP}/>
-          <Route exact path='/home' component={Home}/>
+          <Route exact path='/home' component={withLogin(Home)}/>
           <Route exact path='/login' component={Login}/>
           <Route exact path='/addcar' component={AddCarForm}/>
           <Route exact path='/trip' component={Trip}/>
-          <Route exact path='/details/:id/:tab' component={DetailsForm}/>
-          <Route exact path='/home/settings' component={Settings}/>
-          <Route exact path='/home/:carlist' component={Carlist}/>
-          <Route exact path='/home/:carlist/:userId' component={Carlist}/>
-          <Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={DetailsForm}/>
-          <Route exact path='/' component={Login}/>
+          <Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)}/>
+          <Route exact path='/home/settings' component={withLogin(Settings)}/>
+          <Route exact path='/home/:carlist' component={withLogin(Carlist)}/>
+          <Route exact path='/home/:carlist/:userId' component={withLogin(Carlist)}/>
+          <Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={withLogin(DetailsForm)}/>
           {/* <Route exact path='/exp/:id' component={exp}/> */}
           <Route path='/404' component={My404Component} />
           <Redirect from='*' to='/404' />

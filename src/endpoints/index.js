@@ -11,7 +11,7 @@ const getCookie = (name) => {
 //Sample usage
 const headers = {'Content-Type': 'application/json', token: getCookie('token')};
 
-export const loginUser = (userInfo, push) => {
+export const loginUser = (userInfo, push, setErrorMessage) => {
   const data = JSON.stringify(userInfo);
 
   post(`${URL}/api/useraccounts/login`, data, {headers:  {'Content-Type': 'application/json'}})
@@ -19,10 +19,11 @@ export const loginUser = (userInfo, push) => {
       if (status === 200 && data) {
         document.cookie = `token=${data}`;
         push('/home');
-      } else alert('Wrong email or password');
+      } else setErrorMessage('Wrong email or password');
     })
     .catch((error) => {
-      console.log(error);
+      console.log('error', error)
+      setErrorMessage('Wrong email or password')
     });
 };
 

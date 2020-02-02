@@ -1,22 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Table, Input, Divider, Icon, Header} from 'semantic-ui-react'
+import './style.css';
 
 const CarEstimations = (props) => {
   const {
     cost,
-    expenses
+    expenses,
   } = props;
 
   const [estimateProfit, setEstimateProfit] = useState(0);
   const [halfed, setHalfed] = useState(0);
   const [roi, setROI] = useState(0);
+  const [division, setDivision] = useState(2);
 
   const totalInvestment = expenses.reduce((result, record) => {
-    return result + Number(record.cost)
+    return result + Number(record.Cost)
   }, 0) + Number(cost);
 
   const expense = expenses.reduce((result, record) => {
-    return result + Number(record.cost)
+    return result + Number(record.Cost)
   }, 0)
 
   const changeHandler = (event) => {
@@ -31,12 +33,19 @@ const CarEstimations = (props) => {
       setROI(
         (((input - totalInvestment) / totalInvestment) * 100).toFixed(2)
       )
+      setDefaultEstimateSale(input)
     } else {
       setEstimateProfit(0)
       setHalfed(0)
       setROI(0)
+      setDefaultEstimateSale(0)
     }
   };
+
+  const [defaultEstimateSale, setDefaultEstimateSale] = useState(0);
+  useEffect(() => {
+    totalInvestment && setDefaultEstimateSale(((30 * totalInvestment) / 100) + totalInvestment)
+  }, [totalInvestment])
 
   return (
     <div>
@@ -47,23 +56,29 @@ const CarEstimations = (props) => {
         </Header>
       </Divider>
 
-      <Table definition>
+      <Table definition unstackable>
         <Table.Body>
           <Table.Row>
-            <Table.Cell>Vehicle Cost</Table.Cell>
-            <Table.Cell>{cost}</Table.Cell>
+            <Table.Cell textAlign="left" width={4}>Car</Table.Cell>
+            <Table.Cell textAlign="center">
+              {cost}
+            </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Expenses</Table.Cell>
-            <Table.Cell>{expense}</Table.Cell>
+            <Table.Cell textAlign="left">Expenses</Table.Cell>
+            <Table.Cell textAlign="center">
+              {expense}
+            </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Total Cost</Table.Cell>
-            <Table.Cell>{totalInvestment}</Table.Cell>
+            <Table.Cell textAlign="left">Total</Table.Cell>
+            <Table.Cell textAlign="center">
+              {totalInvestment}
+            </Table.Cell>
           </Table.Row>
         </Table.Body>
       </Table>
-
+          
       <Divider horizontal>
         <Header as='h4'>
           <Icon name='calculator' />
@@ -71,23 +86,37 @@ const CarEstimations = (props) => {
         </Header>
       </Divider>
 
-      <Table definition>
+      <Table definition unstackable>
         <Table.Body>
           <Table.Row>
-            <Table.Cell>Estimate Profit</Table.Cell>
-            <Table.Cell positive={(estimateProfit > 0)} negative={(estimateProfit < 0)}>{estimateProfit}</Table.Cell>
+            <Table.Cell textAlign="left" width={4}>Estimate Profit</Table.Cell>
+            <Table.Cell positive={(estimateProfit > 0)} negative={(estimateProfit < 0)} textAlign="center">
+              {estimateProfit}
+            </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Halfed</Table.Cell>
-            <Table.Cell positive={(halfed > 0)} negative={(halfed < 0)}>{halfed}</Table.Cell>
+            <Table.Cell textAlign="left">Divided by</Table.Cell>
+            <Table.Cell textAlign="center">
+              <Input type="number" defaultValue={division} onChange={(e, {value}) => setDivision(value)} />
+            </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Return of Investment</Table.Cell>
-            <Table.Cell positive={(roi > 0)} negative={(roi < 0)}>{roi}%</Table.Cell>
+            <Table.Cell textAlign="left">Return of {division}</Table.Cell>
+            <Table.Cell positive={(halfed > 0)} negative={(halfed < 0)} textAlign="center">
+              {halfed}
+            </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Estimate Sale</Table.Cell>
-            <Table.Cell><Input type="number" onChange={changeHandler} /></Table.Cell>
+            <Table.Cell textAlign="left">Return of Investment</Table.Cell>
+            <Table.Cell positive={(roi > 0)} negative={(roi < 0)} textAlign="center">
+              {roi}%
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell textAlign="left">Estimate Sale</Table.Cell>
+            <Table.Cell textAlign="center">
+              <Input type="number" value={defaultEstimateSale} onChange={changeHandler} />
+            </Table.Cell>
           </Table.Row>
         </Table.Body>
       </Table>

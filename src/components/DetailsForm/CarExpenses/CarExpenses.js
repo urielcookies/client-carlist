@@ -59,37 +59,12 @@ const CarInvestment = (props) => {
         <div>
           <Divider />          
 
-          <Table definition unstackable>
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell textAlign="left" width={4}>Car</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {Number(props.Cost)}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Expenses</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {
-                    expenses.reduce((result, record) => {
-                      return result + Number(record.Cost)
-                    }, 0)
-                  }
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Total</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {
-                    Number(expenses.reduce((result, record) => {
-                      return result + Number(record.Cost)
-                    }, 0)) + Number(props.Cost)
-                  }
-                </Table.Cell>
-              </Table.Row>
-
-            </Table.Body>
-          </Table>
+          <Divider horizontal>
+            <Header as='h4'>
+              <Icon name='wrench' />
+              Expenses
+            </Header>
+          </Divider>
           <Divider />
           
           {!isEmpty(expenses) && <div style={{maxHeight: '50vh', overflowX: 'auto'}}>
