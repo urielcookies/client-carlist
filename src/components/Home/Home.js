@@ -30,7 +30,6 @@ const Home = (props) => {
           <Loader inverted>Loading</Loader>
         </Dimmer>
       : <Container textAlign='center'>
-        <Button onClick={() => props.history.push('/home/settings')}>Settings</Button>
           <Grid>
             <Grid.Row columns={2}>
               <Grid.Column>

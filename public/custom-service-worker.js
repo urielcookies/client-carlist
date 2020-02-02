@@ -7,9 +7,10 @@
 //   return self.clients.claim();
 // })
 
-// self.addEventListener('fetch', (event) => {
-//   console.log('[service worker] fetch ws ...', event);
-// })
+self.addEventListener('fetch', (event) => {
+  console.log('[service worker] fetch ws ...', event);
+  // event.respondWith(caches.match(event.request));
+})
 
 self.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault();
@@ -25,4 +26,14 @@ self.addEventListener('notificationclick', (event) => {
 
 self.addEventListener('notificationclose', (event) => {
   console.log('notificationz', event)
+})
+
+
+self.addEventListener('push', (event) => {
+  let data = {title: 'test notification', content: 'test notification'};
+  console.log('push', event)
+  if (event.data) {
+
+    console.log(event.data.text())
+  }
 })

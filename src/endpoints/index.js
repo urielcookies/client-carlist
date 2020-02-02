@@ -1,6 +1,6 @@
 import {get, post} from "axios";
 import {reverse} from 'lodash';
-const URL = 'https://carlistapi.azurewebsites.net/';
+const URL = 'https://carlistapi.azurewebsites.net';
 
 const getCookie = (name) => {
   const value = "; " + document.cookie;
