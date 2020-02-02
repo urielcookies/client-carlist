@@ -65,10 +65,8 @@ const Settings = () => {
         // we have a subscription
       }
     }).then((newSub) => {
-        console.log(newSub)
-        console.log(JSON.stringify(newSub))
         const headers = {'Content-Type': 'application/json', token: getCookie('token')};
-        post('https://carlistapi.azurewebsites.net/api/useraccounts/test-push', newSub, {headers})
+        post('https://carlistapi.azurewebsites.net/api/websubscriptions/insert-subscription', newSub, {headers})
           .then(({data, status}) => {
             if (status === 200 && data) {
               console.log(data)
