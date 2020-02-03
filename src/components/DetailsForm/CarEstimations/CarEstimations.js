@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import numeral from 'numeral';
 import { Table, Input, Divider, Icon, Header} from 'semantic-ui-react'
 import './style.css';
 
@@ -9,7 +10,6 @@ const CarEstimations = (props) => {
   } = props;
 
   const [estimateProfit, setEstimateProfit] = useState(0);
-  const [halfed, setHalfed] = useState(0);
   const [roi, setROI] = useState(0);
   const [division, setDivision] = useState(2);
 
@@ -27,24 +27,46 @@ const CarEstimations = (props) => {
       setEstimateProfit(
         input - totalInvestment
       );
-      setHalfed(
-        (input - totalInvestment) / 2
+
+      setDividedCash(
+        (input - totalInvestment) / division
       );
+
       setROI(
         (((input - totalInvestment) / totalInvestment) * 100).toFixed(2)
       )
+
+      event.target.value = Number(event.target.value)
       setDefaultEstimateSale(input)
     } else {
       setEstimateProfit(0)
-      setHalfed(0)
       setROI(0)
+      setDividedCash(0);
       setDefaultEstimateSale(0)
     }
   };
 
   const [defaultEstimateSale, setDefaultEstimateSale] = useState(0);
+  const [dividedCash, setDividedCash] = useState(0);
   useEffect(() => {
-    totalInvestment && setDefaultEstimateSale(((30 * totalInvestment) / 100) + totalInvestment)
+    if (totalInvestment) {
+
+    setDefaultEstimateSale(
+      (((30 * totalInvestment) / 100) + totalInvestment).toFixed(2)
+    )
+    
+    setDividedCash(
+      (Number((((30 * totalInvestment) / 100) + totalInvestment)) - totalInvestment) / division
+    )
+
+    setEstimateProfit(
+      Number((((30 * totalInvestment) / 100) + totalInvestment)) - totalInvestment
+    );
+
+    setROI(
+      ((( Number((((30 * totalInvestment) / 100) + totalInvestment).toFixed(2)) - totalInvestment) / totalInvestment) * 100).toFixed(2)
+    )
+  }
   }, [totalInvestment])
 
   return (
@@ -61,19 +83,19 @@ const CarEstimations = (props) => {
           <Table.Row>
             <Table.Cell textAlign="left" width={4}>Car</Table.Cell>
             <Table.Cell textAlign="center">
-              {cost}
+              {numeral(cost).format('$0,0.00')}
             </Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell textAlign="left">Expenses</Table.Cell>
             <Table.Cell textAlign="center">
-              {expense}
+              {numeral(expense).format('$0,0.00')}
             </Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell textAlign="left">Total</Table.Cell>
             <Table.Cell textAlign="center">
-              {totalInvestment}
+              {numeral(totalInvestment).format('$0,0.00')}
             </Table.Cell>
           </Table.Row>
         </Table.Body>
@@ -91,19 +113,24 @@ const CarEstimations = (props) => {
           <Table.Row>
             <Table.Cell textAlign="left" width={4}>Estimate Profit</Table.Cell>
             <Table.Cell positive={(estimateProfit > 0)} negative={(estimateProfit < 0)} textAlign="center">
-              {estimateProfit}
+              {numeral(estimateProfit).format('$0,0.00')}
             </Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell textAlign="left">Divided by</Table.Cell>
             <Table.Cell textAlign="center">
-              <Input type="number" defaultValue={division} onChange={(e, {value}) => setDivision(value)} />
+              <Input type="number" defaultValue={division} onChange={(e, {value}) => {
+                setDivision(value)
+                setDividedCash(
+                  Number(value) ? estimateProfit / value : estimateProfit
+                );
+              }} />
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell textAlign="left">Return of {division}</Table.Cell>
-            <Table.Cell positive={(halfed > 0)} negative={(halfed < 0)} textAlign="center">
-              {halfed}
+            <Table.Cell textAlign="left">Split of {division}</Table.Cell>
+            <Table.Cell positive={(dividedCash > 0)} negative={(dividedCash < 0)} textAlign="center">
+              {numeral(dividedCash).format('$0,0.00')}
             </Table.Cell>
           </Table.Row>
           <Table.Row>
