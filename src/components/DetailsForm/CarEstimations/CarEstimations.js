@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import numeral from 'numeral';
 import { Table, Input, Divider, Icon, Header} from 'semantic-ui-react'
-import './style.css';
 
 const CarEstimations = (props) => {
   const {
@@ -69,6 +68,7 @@ const CarEstimations = (props) => {
   }
   }, [totalInvestment])
 
+  // require("./stylez.css");
   return (
     <div>
       <Divider horizontal>

@@ -1,5 +1,6 @@
-import {get, post} from "axios";
+import {get, post, put, delete as _delete} from "axios";
 import {reverse} from 'lodash';
+
 const URL = 'https://carlistapi.azurewebsites.net';
 
 const getCookie = (name) => {
@@ -41,7 +42,6 @@ export const fetchActiveAccount = ({isActiveLoading, setIsActiveAccountLoading, 
 
 export const fetchCarExpenses = ({isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses, carInfoId}) => {
   if (isCarExpensesLoading) {
-    console.log('In', carInfoId)
     const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/carexpenses/${carInfoId}`, {headers})
     .then(({data}) => {
@@ -111,6 +111,66 @@ export const fetchOtherCarInfo = ({carInfoId, isCarInfoLoading, setIsCarInfoLoad
         console.log(error);
     })
   }
+};
+
+export const createExpense = ({CarInformationId, Expense, Cost}, setIsCarExpensesLoading) => {
+  var data = JSON.stringify({
+    CarInformationId,
+    Expense,
+    Cost
+  });
+
+  var requestOptions = {
+      method: 'POST',
+      headers,
+  };
+
+  post(`${URL}/api/carexpenses`, data, requestOptions)
+    .then(({status}) => {
+      if (status === 201) setIsCarExpensesLoading(true);
+    })
+    .catch((error) => {
+      console.log('error', error)
+    });
+};
+
+export const updateExpense = ({Id, Expense, Cost}, setIsCarExpensesLoading) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  var data = JSON.stringify({
+    Id,
+    Expense,
+    Cost
+  });
+
+  put(`${URL}/api/carexpenses/${Id}`, data, {headers})
+    .then(({status}) => {
+      if (status === 204) setIsCarExpensesLoading(true)
+    })
+    .catch((error) => {
+      console.log('error', error)
+    });
+};
+
+export const deleteExpense = (Id, setIsCarExpensesLoading) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  const requestOptions = {
+    method: 'DELETE',
+    headers,
+    redirect: 'follow'
+  };
+
+  fetch(`${URL}/api/carexpenses/${Id}`, requestOptions)
+    .then(response => response.text())
+    .then(result => Number(result) === 200 && setIsCarExpensesLoading(true))
+    .catch(error => console.log('error', error));
+
+  // _delete(`${URL}/api/carexpenses/${Id}`,  {params: {Id}}, {headers})
+  //   .then(({status}) => {
+  //     if (status === 200) setIsCarExpensesLoading(true)
+  //   })
+  //   .catch((error) => {
+  //     console.log('error', error)
+  //   });
 };
 
 // -------------------------------------------------------------

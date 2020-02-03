@@ -47,7 +47,7 @@ const AddCarForm = () => {
           name="Notes"
           component={({field: {value}}) => <Form.TextArea label='Notes' defaultValue={value} placeholder='A short description on the car...' />} />
         
-        <Form.Button color="teal" type="submit">Update</Form.Button>
+        {/* <Form.Button color="teal" type="submit">Update</Form.Button> */}
       </FormikForm>
     </Form>
   );

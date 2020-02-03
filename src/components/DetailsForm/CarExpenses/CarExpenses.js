@@ -1,58 +1,61 @@
 import React, {useState} from 'react';
 import moment from 'moment';
-import axios from 'axios';
 import {isEmpty} from 'lodash';
 import {Table, Button, Divider, Icon, Header, Modal, Form } from 'semantic-ui-react';
-import {withFormik, Form as FormikForm, Field} from 'formik';
+import {useFormik, withFormik, Form as FormikForm, Field} from 'formik';
 
-import {deleteCarExpense, url} from '../../../endpoints/index';
-
-const Input = (inputProps) => {
-  const {label, placeholder, type, defaultValue} = inputProps;
-  return (
-    <Form.Input fluid {...{defaultValue, label, placeholder, type}} />
-  );
-};
+import {createExpense, updateExpense, deleteExpense} from '../../../endpoints/index';
 
 const CarInvestment = (props) => {
   const {
+    carId,
     expenses,
-    setFieldValue,
-    values,
-    resetForm
+    setIsCarExpensesLoading,
   } = props;
 
-  // console.log('props', props);
-
-  // const [modalOpen, setModalOpen] = useState(false);
   const [updateMode, setUpdateMode] = useState(false);
   const [updateExpenseInfo, setUpdateExpenseInfo] = useState(null)
-  // const [expenseId, setExpenseId] = useState(null);
-  
-  const [cost, setCost] = useState('');
-  const [expense, setExpense] = useState('');
-
-  // console.log('updateMode', updateMode);
-  // console.log('uexpenses', expenses);
 
   const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false)
+  const [deleteMode, setDeleteMode] = useState(false)
 
-  const updateExpenseHandler = (expense) => {
+  const updateExpenseHandler = (expense, mode) => {
+    if (mode === 'delete') {
+      setDeleteMode(true)
+    } else setDeleteMode(false);
     setOpenAddExpenseModal(true);
     setUpdateMode(true);
     setUpdateExpenseInfo(expense);
+
+    formik.setFieldValue('Id', expense.Id);
+    formik.setFieldValue('Expense', expense.Expense);
+    formik.setFieldValue('Cost', expense.Cost);
   };
 
-  const saveExpense = () => {
-    if (updateMode) {
-      console.log('UPDATE EXPENSE');
-    } else {
-      console.log('CREATE EXPENSE');
-    }
-  };
   // MAKE DELETE SAME MODAL JUST CHANGE SAVE TO DLETE AND HAVE A DELETE STATE FOR HEADER
   // THINK OF ADDING A BOTTOM FOOTER WITH HOME, MY CARS, SETTINGS WHERE THE ROYERS SLIDE FROM LEFT TO RIGHT
   // ASC DESC SELECT OPYION
+
+
+  const formik = useFormik({
+    initialValues: {
+      CarInformationId: carId,
+      Expense:  '',
+      Cost: '',
+    },
+    onSubmit: values => {
+      if (!deleteMode && updateMode) {
+        updateExpense(values, setIsCarExpensesLoading);
+      } else if (!deleteMode) {
+        createExpense(values, setIsCarExpensesLoading)
+      }
+      formik.resetForm();
+      setUpdateMode(false);
+      setUpdateExpenseInfo(null);
+      setOpenAddExpenseModal(false);
+    },
+  });
+
   return (
     <div>
       <Button fluid content="Add Expense" color="teal" basic onClick={() => {setOpenAddExpenseModal(true); setUpdateMode(false)}} />
@@ -85,7 +88,7 @@ const CarInvestment = (props) => {
                     <Table.Cell textAlign="center" width="2">{expense.Cost}</Table.Cell>
                     <Table.Cell textAlign="center" width="6">
                       <Button size='tiny' icon='edit outline' onClick={() => updateExpenseHandler(expense)} />
-                      <Button size='tiny' icon='trash alternate' onClick={console.log} />
+                      <Button size='tiny' icon='trash alternate' onClick={() => updateExpenseHandler(expense, 'delete')} />
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -93,7 +96,6 @@ const CarInvestment = (props) => {
             }</Table.Body>
           </Table>
           </div>}
-
 
           <Modal
             closeOnDimmerClick={false}
@@ -103,37 +105,38 @@ const CarInvestment = (props) => {
             size='small'
             style={{backgroundColor: 'white'}}>
               {console.log(updateExpenseInfo)}
-            <Modal.Header style={{color: 'black', textAlign: 'center'}}>{updateMode ? 'Update' : 'Add'} Car Expense</Modal.Header>
+            <Modal.Header style={{color: 'black', textAlign: 'center'}}>{deleteMode ? 'Delete' : updateMode ? 'Update' : 'Add'} Car Expense</Modal.Header>
             <Modal.Content>
               <Form as="div">
-                <FormikForm>
+                <form onSubmit={formik.handleSubmit}>
                   <Form.Group widths='equal'>
 
-                      <Field
+                      <Form.Input
                         name="Expense"
-                        component={(fieldProps) => 
-                          <Input
-                            label='Expense'
-                            placeholder='Engine Swap'
-                            type="text"
-                            {...{defaultValue: updateMode ? updateExpenseInfo.Expense : '', ...fieldProps}} />} />
+                        type="text"
+                        label='Expense'
+                        placeholder='Engine Swap'
+                        onChange={formik.handleChange}
+                        value={formik.values.Expense} />
 
-                      <Field
-                        name="Cost" 
-                        component={(fieldProps) => 
-                          <Input
-                          label='Cost'
-                          placeholder='3.14'
-                          type="number"
-                          {...{defaultValue: updateMode ? updateExpenseInfo.Cost : '', ...fieldProps}} />} />
-
+                      <Form.Input
+                        name="Cost"
+                        type="number"
+                        label='Cost'
+                        placeholder='3.14'
+                        onChange={formik.handleChange}
+                        value={formik.values.Cost} />
+                          
                     </Form.Group>
                     {updateMode && <div style={{color: 'gray', padding: '5px 0 10px 0', textAlign: 'center'}}>Created on {moment.utc(updateExpenseInfo.CreatedTime).local().format('LLL')}</div>}
                     <div style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center'}} >
-                      <Button basic color="teal" type="submit">Save</Button>
-                      <Button basic onClick={() => {setOpenAddExpenseModal(false); setUpdateExpenseInfo(false); setUpdateMode(false);}} >Cancel</Button>
+                      {!deleteMode
+                        ? <Button basic color="teal" type="submit" disabled={formik.values.Cost === "" || formik.values.Expense === ""}>Save</Button>
+                        : <Button basic color="red" onClick={() => deleteExpense(updateExpenseInfo.Id, setIsCarExpensesLoading)}>Delete</Button>
+                      }
+                      <Button basic onClick={() => {setOpenAddExpenseModal(false); setUpdateExpenseInfo(false); setUpdateMode(false); setDeleteMode(false); formik.resetForm()}} >Cancel</Button>
                     </div>
-                </FormikForm>
+                </form>
               </Form>
             </Modal.Content>
           </Modal>
@@ -162,15 +165,17 @@ const CarInvestment = (props) => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues() {
-    return {
-      Cost: '',
-      Expense: '',
-    }
-  },
-  handleSubmit(formValues, formikProps) {
-    // to be removed
-    console.log()
-  }
-})(CarInvestment);
+// export default withFormik({
+//   mapPropsToValues() {
+//     return {
+//       Cost: '',
+//       Expense: '',
+//     }
+//   },
+//   handleSubmit(formValues, formikProps) {
+//     // to be removed
+//     console.log('?', formValues)
+//   }
+// })(CarInvestment);
+
+export default CarInvestment;
