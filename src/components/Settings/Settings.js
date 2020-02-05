@@ -57,14 +57,16 @@ const Settings = () => {
   const configurePushSub = () =>
     navigator.serviceWorker.ready
     .then(swreg => (swreg.pushManager.getSubscription(), swreg))
-    .then(({pushManager}) => {
+    .then((subscription) => {
       // const sub = subscription ? 'CREATE SUBSCRIPTION' : 'UPDATE SUBSCRIPTION'
-      const vapidPublicKey = "BGtbGS02vyTs8DEeNMU-qkk06y8G_hftexcb9ckqBd8F4bolTd7E5FKhcM7JSOqL-TiVOP-lmxXLB5MjnQDEVeA";
-      const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
-      return pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: convertedVapidPublicKey,
-      });
+      if (subscription) {
+        const vapidPublicKey = "BGtbGS02vyTs8DEeNMU-qkk06y8G_hftexcb9ckqBd8F4bolTd7E5FKhcM7JSOqL-TiVOP-lmxXLB5MjnQDEVeA";
+        const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
+        return subscription.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidPublicKey,
+        });
+      }
     }).then((subscription) => {
       const headers = {'Content-Type': 'application/json', token: getCookie('token')};
       post('https://carlistapi.azurewebsites.net/api/websubscriptions/insert-subscription', subscription, {headers})
