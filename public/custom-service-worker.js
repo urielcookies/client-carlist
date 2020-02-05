@@ -8,7 +8,7 @@
 // })
 
 self.addEventListener('fetch', (event) => {
-  console.log('[service worker] fetch ws ...', event);
+  // console.log('[service worker] fetch ws ...', event);
   // event.respondWith(caches.match(event.request));
 })
 

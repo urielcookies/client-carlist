@@ -30,8 +30,9 @@ const Home = (props) => {
           <Loader inverted>Loading</Loader>
         </Dimmer>
       : <Container textAlign='center'>
-          <Grid>
+          <Grid> 
             <Grid.Row columns={2}>
+            {activeAccount.Id === 1 &&
               <Grid.Column>
                 <Card centered onClick={() => props.history.push(`/home/mycarlist`)}>
                   <Card.Content>
@@ -41,6 +42,7 @@ const Home = (props) => {
                   </Card.Content>
                 </Card>
               </Grid.Column>
+            }
 
               {users.map((user) => (
                 <Grid.Column textAlign='center' key={user.Id}>

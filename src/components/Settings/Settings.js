@@ -1,8 +1,17 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+
 import {post} from 'axios';
 import {Button} from 'semantic-ui-react';
 
 const Settings = () => {
+  const [notification, setNotifications] = useState(false);
+
+  useEffect(() => {
+    navigator.serviceWorker.ready
+    .then((swreg) => swreg.pushManager.getSubscription())
+    .then((sub) => setNotifications(sub))
+  }, []);
+  
   const displayConfirmNotification = () => {
     window.Notification.requestPermission((userChoice) => {
       if (userChoice !== 'granted') console.log('Notifications user declined');
@@ -45,43 +54,41 @@ const Settings = () => {
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
 
-  const configurePushSub = () => {
-    let reg;
-
+  const configurePushSub = () =>
     navigator.serviceWorker.ready
-    .then((swreg) => {
-      reg = swreg;
-      return swreg.pushManager.getSubscription()
-    }).then((sub) => {
-      if (sub === null) {
-        // Create Subscription
-        const vapidPublicKey = "BGtbGS02vyTs8DEeNMU-qkk06y8G_hftexcb9ckqBd8F4bolTd7E5FKhcM7JSOqL-TiVOP-lmxXLB5MjnQDEVeA";
-        const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
-        return reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: convertedVapidPublicKey
-        });
-      } else {
-        // we have a subscription
-      }
-    }).then((newSub) => {
-        const headers = {'Content-Type': 'application/json', token: getCookie('token')};
-        post('https://carlistapi.azurewebsites.net/api/websubscriptions/insert-subscription', newSub, {headers})
-          .then(({data, status}) => {
-            if (status === 200 && data) {
-              console.log(data)
-              displayConfirmNotification()
-            }
-          })
-        // POST request JSON newsub to save subscribtion
+    .then(swreg => (swreg.pushManager.getSubscription(), swreg))
+    .then(({pushManager}) => {
+      // const sub = subscription ? 'CREATE SUBSCRIPTION' : 'UPDATE SUBSCRIPTION'
+      const vapidPublicKey = "BGtbGS02vyTs8DEeNMU-qkk06y8G_hftexcb9ckqBd8F4bolTd7E5FKhcM7JSOqL-TiVOP-lmxXLB5MjnQDEVeA";
+      const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
+      return pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: convertedVapidPublicKey,
+      });
+    }).then((subscription) => {
+      const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+      post('https://carlistapi.azurewebsites.net/api/websubscriptions/insert-subscription', subscription, {headers})
+        .then(({data, status}) => {
+          if (status === 200 && data) {
+            console.log(data)
+            // displayConfirmNotification()
+            setNotifications(true);
+          }
+        })
         // in the succes of axios displayConfirmNotification()
-
-    })
-  };
+    });
 
   return (
     <div style={{height: '80vh'}}>
-      {window.Notification && <Button fluid content="Enable Notification" onClick={configurePushSub}/>}
+      {window.Notification && (
+        <Button
+          basic
+          fluid
+          color="teal"
+          disabled={Boolean(notification)}
+          content={notification ? "Notifications are Enabled" : "Enable Notification"}
+          onClick={configurePushSub}/>
+      )}
     </div>
   );
 }

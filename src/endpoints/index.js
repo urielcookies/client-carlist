@@ -67,10 +67,11 @@ export const fetchUsers = ({isUsersLoading, setIsUsersLoading, setUsers}) => {
 
 export const fetchCars = ({isLoading, setIsLoading, setCarList}) => {
   if (isLoading) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/carinformation`, {headers})
     .then(({data}) => {
       setIsLoading(false);
-      setCarList(data);
+      setCarList(reverse(data));
     })           
     .catch((error) => console.log(error))
   }
@@ -78,6 +79,7 @@ export const fetchCars = ({isLoading, setIsLoading, setCarList}) => {
 
 export const fetchOtherUsersCars = ({isLoading, setIsLoading, setCarList, userId}) => {
   if (isLoading) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/carinformation/get-users-cars/${userId}`, {headers})
     .then(({data}) => {
       setIsLoading(false);
