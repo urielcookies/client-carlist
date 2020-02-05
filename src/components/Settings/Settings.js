@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 
 import {post} from 'axios';
-import {Button} from 'semantic-ui-react';
+import {Button, Header, Icon, Modal} from 'semantic-ui-react';
 
 const Settings = () => {
+  const [openModal, setOpenModal] = useState(false);
   const [notification, setNotifications] = useState(false);
 
   useEffect(() => {
@@ -89,8 +90,25 @@ const Settings = () => {
           color="teal"
           disabled={Boolean(notification)}
           content={notification ? "Notifications are Enabled" : "Enable Notification"}
-          onClick={configurePushSub}/>
+          onClick={() => setOpenModal(true)}/>
       )}
+
+      <Modal open={openModal} basic size='small'>
+        <Header icon='alarm' content='Enable Notifications' />
+        <Modal.Content>
+          <p>
+            Enabling notifications for this app in this browser will disable notifications on your previous one. Continue?
+          </p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
+            <Icon name='remove' /> No
+          </Button>
+          <Button color='green' inverted onClick={() => {configurePushSub(); setOpenModal(false); setNotifications(true)}}>
+            <Icon name='checkmark' /> Yes
+          </Button>
+        </Modal.Actions>
+      </Modal>
     </div>
   );
 }

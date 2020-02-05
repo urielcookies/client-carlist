@@ -9,8 +9,9 @@ const getCookie = (name) => {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-//Sample usage
-const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+// Sample usage
+// This is not reliable
+// const headers = {'Content-Type': 'application/json', token: getCookie('token')};
 
 export const loginUser = (userInfo, push, setErrorMessage) => {
   const data = JSON.stringify(userInfo);
@@ -54,8 +55,8 @@ export const fetchCarExpenses = ({isCarExpensesLoading, setIsCarExpensesLoading,
 
 
 export const fetchUsers = ({isUsersLoading, setIsUsersLoading, setUsers}) => {
-  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
   if (isUsersLoading) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/caraccess/getusernames`, {headers})
     .then(({data}) => {
       setIsUsersLoading(false);
@@ -91,6 +92,7 @@ export const fetchOtherUsersCars = ({isLoading, setIsLoading, setCarList, userId
 
 export const fetchCarInfo = ({carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo}) => {
   if (isCarInfoLoading) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/carinformation/get-carinfo/${carInfoId}`, {headers})
     .then(({data}) => {
       setIsCarInfoLoading(false);
@@ -104,6 +106,7 @@ export const fetchCarInfo = ({carInfoId, isCarInfoLoading, setIsCarInfoLoading, 
 
 export const fetchOtherCarInfo = ({carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo}) => {
   if (isCarInfoLoading) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/carinformation/get-other-carinfo/${carInfoId}`, {headers})
     .then(({data}) => {
       setIsCarInfoLoading(false);
@@ -122,12 +125,8 @@ export const createExpense = ({CarInformationId, Expense, Cost}, setIsCarExpense
     Cost
   });
 
-  var requestOptions = {
-      method: 'POST',
-      headers,
-  };
-
-  post(`${URL}/api/carexpenses`, data, requestOptions)
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  post(`${URL}/api/carexpenses`, data, {headers})
     .then(({status}) => {
       if (status === 201) setIsCarExpensesLoading(true);
     })
@@ -137,13 +136,13 @@ export const createExpense = ({CarInformationId, Expense, Cost}, setIsCarExpense
 };
 
 export const updateExpense = ({Id, Expense, Cost}, setIsCarExpensesLoading) => {
-  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
   var data = JSON.stringify({
     Id,
     Expense,
     Cost
   });
 
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
   put(`${URL}/api/carexpenses/${Id}`, data, {headers})
     .then(({status}) => {
       if (status === 204) setIsCarExpensesLoading(true)
