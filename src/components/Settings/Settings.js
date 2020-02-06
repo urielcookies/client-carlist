@@ -70,7 +70,7 @@ const Settings = () => {
       }
     }).then((subscription) => {
       const headers = {'Content-Type': 'application/json', token: getCookie('token')};
-      post('http://localhost:50070/api/websubscriptions/insert-subscription', subscription, {headers})
+      post('https://carlistapi.azurewebsites.net/api/websubscriptions/insert-subscription', subscription, {headers})
         .then((data) => {
           if (data === 201) {
             displayConfirmNotification()
