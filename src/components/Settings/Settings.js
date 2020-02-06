@@ -15,16 +15,16 @@ const Settings = () => {
   
   const displayConfirmNotification = () => {
     window.Notification.requestPermission((userChoice) => {
-      if (userChoice !== 'granted') console.log('Notifications user declined');
+      if (userChoice !== 'granted') alert('Idiot');
       else {
         navigator.serviceWorker.ready.then((swreg) => {
           swreg.showNotification('Successfully Subscribed', {
             body: 'You will recieve notifications from CookiezCarz',
-            // icon: 'https://s4.aconvert.com/convert/p3r68-cdx67/aelkf-3kkhr-0.png',
+            icon: process.env.PUBLIC_URL + '/images/coco.png',
             dir: 'ltr',
             lang: 'en-US',
             vibrate: [100, 50, 200],
-            // badge: 'https://s4.aconvert.com/convert/p3r68-cdx67/aelkf-3kkhr-0.png',
+            badge: process.env.PUBLIC_URL + '/images/coco.png',
             // image:
             // tag:
             // renotify
@@ -70,11 +70,10 @@ const Settings = () => {
       }
     }).then((subscription) => {
       const headers = {'Content-Type': 'application/json', token: getCookie('token')};
-      post('https://carlistapi.azurewebsites.net/api/websubscriptions/insert-subscription', subscription, {headers})
-        .then(({data, status}) => {
-          if (status === 200 && data) {
-            console.log(data)
-            // displayConfirmNotification()
+      post('http://localhost:50070/api/websubscriptions/insert-subscription', subscription, {headers})
+        .then((data) => {
+          if (data === 201) {
+            displayConfirmNotification()
             setNotifications(true);
           }
         })

@@ -30,10 +30,22 @@ self.addEventListener('notificationclose', (event) => {
 
 
 self.addEventListener('push', (event) => {
-  let data = {title: 'test notification', content: 'test notification'};
-  console.log('push', event)
+  let data = {title: 'test notification', body: 'test notification', url: '/'};
   if (event.data) {
-
     console.log(event.data.text())
+    data = JSON.parse(event.data.text());
+    navigator.serviceWorker.ready.then((swreg) => {
+      swreg.showNotification('Successfully Subscribed', {
+        body: 'You will recieve notifications from CookiezCarz',
+        icon: process.env.PUBLIC_URL + '/images/coco.png',
+        dir: 'ltr',
+        lang: 'en-US',
+        vibrate: [100, 50, 200],
+        badge: process.env.PUBLIC_URL + '/images/coco.png',
+        data: {
+          url: data.url
+        }
+      });
+    })
   }
 })
