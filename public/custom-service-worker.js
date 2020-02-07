@@ -21,7 +21,25 @@ self.addEventListener('beforeinstallprompt', (event) => {
 self.addEventListener('notificationclick', (event) => {
   const {notification} = event
   console.log('notification', notification)
-  notification.close()
+  const action = event.action
+  console.log(action);
+  event.waitUntil(
+    clients.matchAll()
+      .then((clientsFound) => {
+        var client = clientsFound.find((c) => {
+          return c.visibilityState === 'visible';
+        })
+
+        if (client !== undefined) {
+          client.navigate(notification.data.url);
+          client.focus();
+        } else {
+          client.openWindow(notification.data.url);
+        }
+
+        notification.close();
+      })
+  )
 })
 
 self.addEventListener('notificationclose', (event) => {
@@ -34,18 +52,20 @@ self.addEventListener('push', (event) => {
   if (event.data) {
     console.log(event.data.text())
     data = JSON.parse(event.data.text());
-    navigator.serviceWorker.ready.then((swreg) => {
-      swreg.showNotification('Successfully Subscribed', {
-        body: 'You will recieve notifications from CookiezCarz',
-        icon: process.env.PUBLIC_URL + '/images/coco.png',
-        dir: 'ltr',
-        lang: 'en-US',
-        vibrate: [100, 50, 200],
-        badge: process.env.PUBLIC_URL + '/images/coco.png',
-        data: {
-          url: data.url
-        }
-      });
-    })
+    const options = {
+      body: data.body,
+      icon: event.currentTarget.location.origin + '/images/coco.png',
+      dir: 'ltr',
+      lang: 'en-US',
+      vibrate: [100, 50, 200],
+      badge: event.currentTarget.location.origin + '/images/coco.png',
+      data: {
+        url: data.url
+      }
+    };
+
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
   }
 })
