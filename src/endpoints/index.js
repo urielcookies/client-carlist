@@ -174,6 +174,41 @@ export const deleteExpense = (Id, setIsCarExpensesLoading) => {
   //   });
 };
 
+export const hasSubscription = (setNotifications) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  const urlBase64ToUint8Array = (base64String) => {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding)
+      .replace(/\-/g, '+')
+      .replace(/_/g, '/');
+  
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+  
+    for (var i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  };
+  
+  navigator.serviceWorker.ready
+    .then((swreg) => {
+      if (swreg) {
+        const vapidPublicKey = "BGtbGS02vyTs8DEeNMU-qkk06y8G_hftexcb9ckqBd8F4bolTd7E5FKhcM7JSOqL-TiVOP-lmxXLB5MjnQDEVeA";
+        const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
+        return swreg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidPublicKey,
+        });
+      }
+    })
+    .then((subscription) => {
+      post(`${URL}/api/websubscriptions/check-subscription`, subscription, {headers})
+        .then(({data}) => setNotifications(data))           
+        .catch((error) => console.log(error))
+    });
+};
+
 // -------------------------------------------------------------
 let host = null;
 if (window.location.hostname === 'localhost') {

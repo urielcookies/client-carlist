@@ -2,17 +2,13 @@ import React, {useState, useEffect} from 'react';
 
 import {post} from 'axios';
 import {Button, Header, Icon, Modal} from 'semantic-ui-react';
+import {hasSubscription} from '../../endpoints';
 
 const Settings = () => {
   const [openModal, setOpenModal] = useState(false);
   const [notification, setNotifications] = useState(false);
 
-  // send subscription to backend and compare withsaved to determin if enable or disable
-  useEffect(() => {
-    navigator.serviceWorker.ready
-    .then((swreg) => swreg.pushManager.getSubscription())
-    .then((sub) => setNotifications(sub))
-  }, []);
+  useEffect(() => hasSubscription(setNotifications), []);
   
   const displayConfirmNotification = () => {
     window.Notification.requestPermission((userChoice) => {
