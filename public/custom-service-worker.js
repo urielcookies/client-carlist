@@ -23,7 +23,7 @@ self.addEventListener('notificationclick', (event) => {
   console.log('notification', notification)
   const action = event.action
   console.log(action);
-  event.waitUntil(
+  return event.waitUntil(
     clients.matchAll()
       .then((clientsFound) => {
         var client = clientsFound.find((c) => {
@@ -34,7 +34,7 @@ self.addEventListener('notificationclick', (event) => {
           client.navigate(notification.data.url);
           client.focus();
         } else {
-          client.openWindow(notification.data.url);
+          clients.openWindow(notification.data.url);
         }
 
         notification.close();
@@ -64,7 +64,7 @@ self.addEventListener('push', (event) => {
       }
     };
 
-    event.waitUntil(
+    return event.waitUntil(
       self.registration.showNotification(data.title, options)
     );
   }

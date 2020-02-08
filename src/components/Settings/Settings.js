@@ -7,6 +7,7 @@ const Settings = () => {
   const [openModal, setOpenModal] = useState(false);
   const [notification, setNotifications] = useState(false);
 
+  // send subscription to backend and compare withsaved to determin if enable or disable
   useEffect(() => {
     navigator.serviceWorker.ready
     .then((swreg) => swreg.pushManager.getSubscription())
@@ -17,7 +18,7 @@ const Settings = () => {
     window.Notification.requestPermission((userChoice) => {
       if (userChoice !== 'granted') alert('Idiot');
       else {
-        navigator.serviceWorker.ready.then((swreg) => {
+        return navigator.serviceWorker.ready.then((swreg) => {
           swreg.showNotification('Successfully Subscribed', {
             body: 'You will recieve notifications from CookiezCarz',
             icon: process.env.PUBLIC_URL + '/images/coco.png',
