@@ -54,6 +54,7 @@ const CarInvestment = (props) => {
       setUpdateMode(false);
       setUpdateExpenseInfo(null);
       setOpenAddExpenseModal(false);
+      // setIsCarExpensesLoading(true);
     },
   });
 
@@ -71,36 +72,34 @@ const CarInvestment = (props) => {
           </Divider>
           <Divider />
           
-          {!isEmpty(expenses) && <div style={{maxHeight: '50vh', overflowX: 'auto'}}>
-          <Table unstackable basic='very'>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell textAlign="center">Expense</Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">Cost</Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-
-            <Table.Body>{
-              isCarExpensesLoading
-              ? <Dimmer active>
-                  <Loader />
-                </Dimmer>
-              : expenses.map((expense) => {
-                return (
-                  <Table.Row key={expense.Id}>
-                    <Table.Cell textAlign="center" width="4">{expense.Expense}</Table.Cell>
-                    <Table.Cell textAlign="center" width="2">{expense.Cost}</Table.Cell>
-                    <Table.Cell textAlign="center" width="6">
-                      <Button size='tiny' icon='edit outline' onClick={() => updateExpenseHandler(expense)} />
-                      <Button size='tiny' icon='trash alternate' onClick={() => updateExpenseHandler(expense, 'delete')} />
-                    </Table.Cell>
+          {isCarExpensesLoading
+          ? <div style={{height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Loader active inline='centered' /></div>
+          : <div style={{maxHeight: '50vh', overflowX: 'auto'}}>
+              <Table unstackable basic='very'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell textAlign="center">Expense</Table.HeaderCell>
+                    <Table.HeaderCell textAlign="center">Cost</Table.HeaderCell>
+                    <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
                   </Table.Row>
-                );
-              })
-            }</Table.Body>
-          </Table>
-          </div>}
+                </Table.Header>
+
+                <Table.Body>{
+                  expenses.map((expense) => {
+                    return (
+                      <Table.Row key={expense.Id}>
+                        <Table.Cell textAlign="center" width="4">{expense.Expense}</Table.Cell>
+                        <Table.Cell textAlign="center" width="2">{expense.Cost}</Table.Cell>
+                        <Table.Cell textAlign="center" width="6">
+                          <Button size='tiny' icon='edit outline' onClick={() => updateExpenseHandler(expense)} />
+                          <Button size='tiny' icon='trash alternate' onClick={() => updateExpenseHandler(expense, 'delete')} />
+                        </Table.Cell>
+                      </Table.Row>
+                    );
+                  })
+                }</Table.Body>
+              </Table>
+            </div>}
 
           <Modal
             closeOnDimmerClick={false}

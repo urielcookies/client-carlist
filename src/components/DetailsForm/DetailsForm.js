@@ -38,7 +38,7 @@ const DetailsForm = (props) => {
     fetchCarExpenses({carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses});
     // fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     // fetchCarStatus({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
-  }, []);
+  }, [isCarInfoLoading, isCarExpensesLoading]);
 
   if (!up) {
     goUp(true);
@@ -57,7 +57,7 @@ const DetailsForm = (props) => {
 
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
-    { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
+    { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setCarExpenses={setCarExpenses} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.Cost} expenses={carExpenses} /></Tab.Pane> },
     // { menuItem: 'Pics', render: () => <Tab.Pane loading><CarImages {...carImages} carId={carId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
     // { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carId={carId} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
