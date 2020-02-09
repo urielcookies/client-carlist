@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {isEmpty} from 'lodash';
 import { Dimmer, Loader, Tab, Header, Container, Divider } from 'semantic-ui-react';
 import {/* Redirect,  */withRouter} from 'react-router-dom';
 // import CarInfo from './CarInfo/CarInfo';
@@ -16,6 +17,9 @@ const DetailsForm = (props) => {
 
   const [isCarInfoLoading, setIsCarInfoLoading] = useState(true);
   const [isCarExpensesLoading, setIsCarExpensesLoading] = useState(true);
+  const [activeIndexTab, setActiveIndexTab] = useState(() => 
+    ['info', 'expenses', 'data', 'pics', 'status'].indexOf(props.match.params.tab)
+  );
   // const [isImagesLoaded, setIsImagesLoaded] = useState(false);
   // const [isCarStatusLoaded, setIsCarStatusLoaded] = useState(false);
 
@@ -34,14 +38,14 @@ const DetailsForm = (props) => {
     fetchCarExpenses({carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses});
     // fetchCarImages({carId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     // fetchCarStatus({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
-  }, [isCarExpensesLoading]);
+  }, []);
 
   if (!up) {
     goUp(true);
     window.scrollTo(0, 0);
   }
 
-  if (isCarInfoLoading || isCarExpensesLoading) {
+  if (isEmpty(carInfo)) {
     return (
       <div style={{height: '80vh'}}>
         <Dimmer active inverted>
@@ -50,14 +54,10 @@ const DetailsForm = (props) => {
       </div>
     );
   }
-  
-  const totalInvestment = carExpenses.reduce((result, record) => {
-    return result + Number(record.Cost)
-  }, 0) + Number(carInfo.Cost);
 
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
-    { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} /></Tab.Pane> },
+    { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.Cost} expenses={carExpenses} /></Tab.Pane> },
     // { menuItem: 'Pics', render: () => <Tab.Pane loading><CarImages {...carImages} carId={carId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
     // { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carId={carId} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
@@ -67,7 +67,13 @@ const DetailsForm = (props) => {
   let indexTab = tabs.indexOf(props.match.params.tab);
   indexTab = props.match.params.tab ? indexTab : 0;
   const tabOnChange = (e, d) => {
-    props.history.push(tabs[d.activeIndex]);
+    if (activeIndexTab !== d.activeIndex) {
+      // props.history.push(tabs[d.activeIndex]);
+      const path = props.history.location.pathname
+        .substring(0, props.history.location.pathname.lastIndexOf('/'));
+      setActiveIndexTab(d.activeIndex);
+      window.history.pushState({}, null, `${path}/${tabs[d.activeIndex]}`);
+    }
   };
 
   return (
@@ -78,7 +84,7 @@ const DetailsForm = (props) => {
         </Header>
       </Container>
       <Divider />
-      <Tab onTabChange={tabOnChange} activeIndex={indexTab} panes={panes} />
+      <Tab onTabChange={tabOnChange} activeIndex={activeIndexTab} panes={panes} />
     </div>
   );
 };

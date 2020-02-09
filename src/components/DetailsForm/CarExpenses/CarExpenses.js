@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import moment from 'moment';
 import {isEmpty} from 'lodash';
-import {Table, Button, Divider, Icon, Header, Modal, Form } from 'semantic-ui-react';
+import {Table, Button, Divider, Icon, Header, Modal, Form, Dimmer, Loader } from 'semantic-ui-react';
 import {useFormik, withFormik, Form as FormikForm, Field} from 'formik';
 
 import {createExpense, updateExpense, deleteExpense} from '../../../endpoints/index';
@@ -10,6 +10,7 @@ const CarInvestment = (props) => {
   const {
     carId,
     expenses,
+    isCarExpensesLoading,
     setIsCarExpensesLoading,
   } = props;
 
@@ -81,7 +82,11 @@ const CarInvestment = (props) => {
             </Table.Header>
 
             <Table.Body>{
-              expenses.map((expense) => {
+              isCarExpensesLoading
+              ? <Dimmer active>
+                  <Loader />
+                </Dimmer>
+              : expenses.map((expense) => {
                 return (
                   <Table.Row key={expense.Id}>
                     <Table.Cell textAlign="center" width="4">{expense.Expense}</Table.Cell>
@@ -104,7 +109,6 @@ const CarInvestment = (props) => {
             basic
             size='small'
             style={{backgroundColor: 'white'}}>
-              {console.log(updateExpenseInfo)}
             <Modal.Header style={{color: 'black', textAlign: 'center'}}>{deleteMode ? 'Delete' : updateMode ? 'Update' : 'Add'} Car Expense</Modal.Header>
             <Modal.Content>
               <Form as="div">

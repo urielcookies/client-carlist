@@ -14,10 +14,6 @@ const Breadcrumbs = (props) => {
   const [isActiveLoading, setIsActiveAccountLoading] = useState(true);
   const [activeAccount, setActiveAccount] = useState({});
 
-  useEffect(() => {
-    fetchActiveAccount({isActiveLoading, setIsActiveAccountLoading, setActiveAccount})
-  }, []);
-
   filtered.map((path, index) => {
     const lastIndex = index === filtered.length - 1;
     if (path === 'home') {
@@ -41,10 +37,17 @@ const Breadcrumbs = (props) => {
         title: "Inventory"
       });
     }
+
+    const route = props.history.location.pathname
+        .substring(props.history.location.pathname.lastIndexOf('/') + 1);
+  
     return routes.push({
       active: lastIndex,
       link: path,
-      title: upperFirst(path)
+      // title: upperFirst(path)
+      title: ['info', 'expenses', 'data', 'pics', 'status'].includes(route)
+                ? 'Details'
+                : upperFirst(path)
     });
   });
 
