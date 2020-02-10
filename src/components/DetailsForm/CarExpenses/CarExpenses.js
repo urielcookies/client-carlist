@@ -54,6 +54,7 @@ const CarInvestment = (props) => {
       setUpdateMode(false);
       setUpdateExpenseInfo(null);
       setOpenAddExpenseModal(false);
+      setDeleteMode(false);
       // setIsCarExpensesLoading(true);
     },
   });
