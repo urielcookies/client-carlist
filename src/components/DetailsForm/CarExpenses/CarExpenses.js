@@ -136,7 +136,7 @@ const CarInvestment = (props) => {
                     <div style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center'}} >
                       {!deleteMode
                         ? <Button basic color="teal" type="submit" disabled={formik.values.Cost === "" || formik.values.Expense === ""}>Save</Button>
-                        : <Button basic color="red" onClick={() => deleteExpense(updateExpenseInfo.Id, setIsCarExpensesLoading)}>Delete</Button>
+                        : <Button basic color="red" onClick={() => {deleteExpense(updateExpenseInfo.Id, setIsCarExpensesLoading); setDeleteMode(false)}}>Delete</Button>
                       }
                       <Button basic onClick={() => {setOpenAddExpenseModal(false); setUpdateExpenseInfo(false); setUpdateMode(false); setDeleteMode(false); formik.resetForm()}} >Cancel</Button>
                     </div>
