@@ -117,9 +117,15 @@ const CarEstimations = (props) => {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell textAlign="left">Divided by</Table.Cell>
+            <Table.Cell textAlign="left">Divide by {division}</Table.Cell>
             <Table.Cell textAlign="center">
-              <Input type="number" defaultValue={division} onChange={(e, {value}) => {
+              {/* <Input type="number" defaultValue={division} onChange={(e, {value}) => {
+                setDivision(value)
+                setDividedCash(
+                  Number(value) ? estimateProfit / value : estimateProfit
+                );
+              }} /> */}
+              <Input type="range" min="2" max="9" defaultValue={division} onChange={(e, {value}) => {
                 setDivision(value)
                 setDividedCash(
                   Number(value) ? estimateProfit / value : estimateProfit
@@ -128,7 +134,7 @@ const CarEstimations = (props) => {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell textAlign="left">Split of {division}</Table.Cell>
+            <Table.Cell textAlign="left">Profit by {division}</Table.Cell>
             <Table.Cell positive={(dividedCash > 0)} negative={(dividedCash < 0)} textAlign="center">
               {numeral(dividedCash).format('$0,0.00')}
             </Table.Cell>

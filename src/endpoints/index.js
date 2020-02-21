@@ -34,12 +34,13 @@ export const loginUser = (userInfo, push, setErrorMessage, setSubmitLoading) => 
     .then(({data, status}) => {
       setSubmitLoading(false);
       if (status === 200 && data) {
-        writeCookie('token', data)
+        writeCookie('token', data);
         push('/home');
       } else setErrorMessage('Wrong email or password');
     })
     .catch((error) => {
       console.log('error', error)
+      setSubmitLoading(false);
       setErrorMessage('Wrong email or password')
     });
 };

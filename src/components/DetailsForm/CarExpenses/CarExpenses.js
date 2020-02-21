@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import moment from 'moment';
+import numeral from 'numeral';
 import {isEmpty} from 'lodash';
 import {Table, Button, Divider, Icon, Header, Modal, Form, Dimmer, Loader } from 'semantic-ui-react';
 import {useFormik, withFormik, Form as FormikForm, Field} from 'formik';
@@ -90,7 +91,7 @@ const CarInvestment = (props) => {
                     return (
                       <Table.Row key={expense.Id}>
                         <Table.Cell textAlign="center" width="4">{expense.Expense}</Table.Cell>
-                        <Table.Cell textAlign="center" width="2">{expense.Cost}</Table.Cell>
+                        <Table.Cell textAlign="center" width="2">{numeral(expense.Cost).format('$0,0.00')}</Table.Cell>
                         <Table.Cell textAlign="center" width="6">
                           <Button size='tiny' icon='edit outline' onClick={() => updateExpenseHandler(expense)} />
                           <Button size='tiny' icon='trash alternate' onClick={() => updateExpenseHandler(expense, 'delete')} />
