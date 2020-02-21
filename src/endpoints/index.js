@@ -13,13 +13,28 @@ const getCookie = (name) => {
 // This is not reliable
 // const headers = {'Content-Type': 'application/json', token: getCookie('token')};
 
-export const loginUser = (userInfo, push, setErrorMessage) => {
-  const data = JSON.stringify(userInfo);
+const writeCookie = (key, value, days) => {
+  let date = new Date();
 
+  // Default at 365 days.
+  days = days || 365;
+
+  // Get unix milliseconds at current time plus number of days
+  date.setTime(+ date + (days * 86400000)); //24 * 60 * 60 * 1000
+
+  window.document.cookie = key + "=" + value + "; expires=" + date.toGMTString() + "; path=/";
+
+  return value;
+};
+
+export const loginUser = (userInfo, push, setErrorMessage, setSubmitLoading) => {
+  const data = JSON.stringify(userInfo);
+  setSubmitLoading(true);
   post(`${URL}/api/useraccounts/login`, data, {headers:  {'Content-Type': 'application/json'}})
     .then(({data, status}) => {
+      setSubmitLoading(false);
       if (status === 200 && data) {
-        document.cookie = `token=${data}`;
+        writeCookie('token', data)
         push('/home');
       } else setErrorMessage('Wrong email or password');
     })

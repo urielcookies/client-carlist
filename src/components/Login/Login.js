@@ -14,6 +14,7 @@ const Login = ({history: {push}}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [submitLoading, setSubmitLoading] = useState(false);
   return (
     <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -37,7 +38,7 @@ const Login = ({history: {push}}) => {
               type='password'
               onChange={(e, {value}) => setPassword(value)}/>
 
-            <Button color='teal' fluid size='large' onClick={() => loginUser({email, password}, push, setErrorMessage)}>
+            <Button loading={submitLoading} color='teal' fluid size='large' onClick={() => loginUser({email, password}, push, setErrorMessage, setSubmitLoading)}>
               Login
             </Button>
             <div style={{color: "red", height: "20px"}}>
