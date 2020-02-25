@@ -93,7 +93,7 @@ const Settings = () => {
         <Header icon='alarm' content='Enable Notifications' />
         <Modal.Content>
           <p>
-            Enabling notifications for this app in this browser will disable notifications on your previous one. Continue?
+            Are you sure you want to enable notifications for Cookiez Carz
           </p>
         </Modal.Content>
         <Modal.Actions>
