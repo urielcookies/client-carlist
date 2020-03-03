@@ -227,6 +227,17 @@ export const hasSubscription = (setNotifications) => {
   }
 };
 
+export const fetchCarImages = ({isImagesLoaded, setIsImagesLoaded, setCarImages, carInfoId}) => {
+  if (isImagesLoaded) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+    get(`${URL}/api/carimages/getcars/${carInfoId}`, {headers})
+    .then(({data}) => {
+      setIsImagesLoaded(false);
+      setCarImages(reverse(data));
+    })           
+    .catch((error) => console.log(error))
+  }
+}
 // -------------------------------------------------------------
 let host = null;
 if (window.location.hostname === 'localhost') {
@@ -264,18 +275,18 @@ export const url = host;
 //   }
 // };
 
-export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCarImages}) => {
-  if (!isImagesLoaded) {
-    get(`${url}/carimages/${carId}`)
-    .then((response) => {
-      setIsImagesLoaded(true);
-      setCarImages(response.data);
-    })           
-    .catch((error) => {
-        console.log(error);
-    })
-  }
-};
+// export const fetchCarImages = ({carId, isImagesLoaded, setIsImagesLoaded, setCarImages}) => {
+//   if (!isImagesLoaded) {
+//     get(`${url}/carimages/${carId}`)
+//     .then((response) => {
+//       setIsImagesLoaded(true);
+//       setCarImages(response.data);
+//     })           
+//     .catch((error) => {
+//         console.log(error);
+//     })
+//   }
+// };
 
 // export const fetchCarExpenses = ({carId, isExpensesLoaded, setIsExpensesLoaded, setExpenses}) => {
 //   if (!isExpensesLoaded) {

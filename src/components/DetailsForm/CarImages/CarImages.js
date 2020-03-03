@@ -5,11 +5,12 @@ import {Image, Dimmer, Divider, Card, Button, Modal, Form, Loader} from 'semanti
 import {url} from '../../../endpoints';
 
 const CarImages = (props) => {
-  const {carId, images, setIsImagesLoaded} = props;
+  console.log('???');
+  const {carId, carImages: images, setIsImagesLoaded} = props;
   const [selectedImage, setSelectedImage] = useState('');
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  console.log('imagespropsxxx', props);
   const show = () => setOpen(true)
   const close = () => setOpen(false) 
 
