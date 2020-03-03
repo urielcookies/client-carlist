@@ -233,9 +233,9 @@ export const fetchCarImages = ({isImagesLoaded, setIsImagesLoaded, setCarImages,
     get(`${URL}/api/carimages/getcars/${carInfoId}`, {headers})
     .then(({data}) => {
       setIsImagesLoaded(false);
-      setCarImages(reverse(data));
+      setCarImages(data);
     })           
-    .catch((error) => console.log(error))
+    .catch((error) => console.log(error));
   }
 }
 // -------------------------------------------------------------
