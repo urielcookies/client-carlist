@@ -66,7 +66,7 @@ const DetailsForm = (props) => {
   if (!isEmpty(carImages)) {
     panes.push({
       menuItem: 'Pics', render: () => <Tab.Pane><CarImages carImages={carImages} carId={carInfoId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane>
-    })
+    });
   }
 
   const tabs = ['info', 'expenses', 'data', 'pics', 'status'];
