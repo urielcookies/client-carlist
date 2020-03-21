@@ -238,6 +238,18 @@ export const fetchCarImages = ({isImagesLoaded, setIsImagesLoaded, setCarImages,
     .catch((error) => console.log(error));
   }
 }
+
+export const fetchCarStatus = ({isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus, carInfoId}) => {
+  if (isCarStatusLoaded) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+    get(`${URL}/api/carstatus/${carInfoId}`, {headers})
+    .then(({data}) => {
+      setIsCarStatusLoaded(false);
+      setCarStatus(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+};
 // -------------------------------------------------------------
 let host = null;
 if (window.location.hostname === 'localhost') {
@@ -322,18 +334,18 @@ export const deleteCarExpense = (expenseId, state) => {
   });
 };
 
-export const fetchCarStatus = ({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus}) => {
-  if (!isCarStatusLoaded) {
-    get(`${url}/carstatus/${carId}`)
-    .then((response) => {
-      setIsCarStatusLoaded(true);
-      setCarStatus(response.data);
-    })           
-    .catch((error) => {
-        console.log(error);
-    })
-  }
-};
+// export const fetchCarStatus = ({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus}) => {
+//   if (!isCarStatusLoaded) {
+//     get(`${url}/carstatus/${carId}`)
+//     .then((response) => {
+//       setIsCarStatusLoaded(true);
+//       setCarStatus(response.data);
+//     })           
+//     .catch((error) => {
+//         console.log(error);
+//     })
+//   }
+// };
 
 export const fetchPartners = (partner, setPartners) => {
   if (!partner.length) {
