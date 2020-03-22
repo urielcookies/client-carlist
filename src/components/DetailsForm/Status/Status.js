@@ -1,10 +1,7 @@
 import React from 'react';
-import {Field, withFormik} from 'formik';
-import {Header, Icon, Table, Divider, Form} from 'semantic-ui-react'
+import {Header, Icon, Table, Divider} from 'semantic-ui-react'
 import {reduce} from 'lodash';
 import numeral from 'numeral';
-import axios from 'axios';
-import {url} from '../../../endpoints/index';
 
 const Status = (props) => {
   const {carExpenses, carCost, PriceSold, Sold, YearSold} = props;
