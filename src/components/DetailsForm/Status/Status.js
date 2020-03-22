@@ -1,95 +1,58 @@
 import React from 'react';
 import {Field, withFormik} from 'formik';
-import {Button, Input, Dropdown, Divider, Form} from 'semantic-ui-react'
+import {Header, Icon, Table, Divider, Form} from 'semantic-ui-react'
+import {reduce} from 'lodash';
+import numeral from 'numeral';
 import axios from 'axios';
 import {url} from '../../../endpoints/index';
 
 const Status = (props) => {
-  const {handleSubmit, partner, setFieldValue, values} = props;
-  const options = [
-    {
-      key: 0,
-      text: 'Sold',
-      value: true,
-    },
-    {
-      key: 1,
-      text: 'Unsold',
-      value: false,
-    }
-  ];
-
-  const kiki = ({field}) => {
-    return (
-      <Dropdown
-        defaultValue={values.soldStatus}
-        selection
-        onChange={(e, data) => setFieldValue('soldStatus', data.value)}
-        options={options}
-        fluid/>
-    );
-  }
+  const {carExpenses, carCost, PriceSold, Sold, YearSold} = props;
+  const profit = reduce(carExpenses, (result, {Cost}) => result - Cost, PriceSold - carCost);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Form as="div">
-      <Input
-        fluid
-        action={{ color: 'teal', labelPosition: 'left', icon: 'user', content: 'Partner' }}
-        actionPosition='left'
-        value={partner}/>
-        <Divider />
-        <Form.Group widths='equal'>
-          <Form.Field>
-            <label htmlFor="year">Status</label>
-            <Field
-              name="soldStatus"
-              component={kiki} />
-          </Form.Field>
+    <div>   
+      <Divider horizontal>
+        <Header as='h4'>
+          <Icon name='bar chart' />
+          Car Status
+        </Header>
+      </Divider>
 
-          <Form.Field>
-            <label htmlFor="priceSold">Price Sold</label>
-            <Field id="priceSold" type="number" name="priceSold" />
-          </Form.Field>
-
-          <Form.Field>
-            <label htmlFor="yearSold">Year Sold</label>
-            <Field id="yearSold" type="text" name="yearSold" />
-          </Form.Field>
-        </Form.Group>
-
-        <Button type="submit" content="Save" />
-      </Form>
-    </form>
+      <Table definition unstackable>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell textAlign="left" width={5}>Status</Table.Cell>
+            <Table.Cell textAlign="center">
+              {Sold ? 'Sold' : 'Not Sold'}
+            </Table.Cell>
+          </Table.Row>
+          {Sold &&
+            <React.Fragment>
+              <Table.Row>
+                <Table.Cell textAlign="left">Price Sold</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {numeral(PriceSold).format('$0,0.00')}
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell textAlign="left">Year Sold</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {YearSold}
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell textAlign="left">Profit</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {profit}
+                </Table.Cell>
+              </Table.Row>
+            </React.Fragment>
+          }
+        </Table.Body>
+      </Table>
+    </div>
   );
 }
 
-export default withFormik({
-  mapPropsToValues(props) {
-    return {
-      soldStatus: (props.sold || false),
-      priceSold: (props.priceSold === '0' ? '' : props.priceSold),
-      yearSold: (!props.yearSold ? '' : props.yearSold),
-    }
-  },
-  handleSubmit(formValues, formikProps) {
-    if(!formValues.soldStatus) {
-      formikProps.setFieldValue('priceSold', '');
-      formikProps.setFieldValue('yearSold', '');
-    }
-    axios.post(`${url}/updatecarstatus/${formikProps.props.carId}`, formValues, {
-      headers: {
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin": "*",
-      'Accept': '*',
-      }
-    })
-    .then(function (response) {
-      formikProps.props.setIsCarStatusLoaded(false);
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-})(Status);
+export default Status;

@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* 621 */
+#tabs > .ui.attached.tabular.menu {
+  display: flex !important;
+  justify-content: center !important;
+}

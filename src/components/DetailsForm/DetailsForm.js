@@ -7,9 +7,9 @@ import AddCarForm from '.././AddCarForm/AddCarForm';
 import CarImages from './CarImages/CarImages';
 import CarExpenses from './CarExpenses/CarExpenses' ;
 import CarEstimations from './CarEstimations/CarEstimations' ;
-// import Status from './Status/Status';
+import Status from './Status/Status';
 
-import {fetchCarExpenses, fetchCarInfo, fetchOtherCarInfo, fetchCarImages/*, fetchCarStatus */} from '../../endpoints';
+import {fetchCarExpenses, fetchCarInfo, fetchOtherCarInfo, fetchCarImages, fetchCarStatus} from '../../endpoints';
 
 const DetailsForm = (props) => {
   // console.log(props);
@@ -21,12 +21,12 @@ const DetailsForm = (props) => {
     ['info', 'expenses', 'data', 'pics', 'status'].indexOf(props.match.params.tab)
   );
   const [isImagesLoaded, setIsImagesLoaded] = useState(true);
-  // const [isCarStatusLoaded, setIsCarStatusLoaded] = useState(false);
+  const [isCarStatusLoaded, setIsCarStatusLoaded] = useState(true);
 
   const [carInfo, setCarInfo] = useState({});
   const [carExpenses, setCarExpenses] = useState([]);
   const [carImages, setCarImages] = useState([]);
-  // const [carStatus, setCarStatus] = useState(null);
+  const [carStatus, setCarStatus] = useState({});
   const [up, goUp] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const DetailsForm = (props) => {
     }
     fetchCarExpenses({carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses});
     fetchCarImages({carInfoId, isImagesLoaded, setIsImagesLoaded, setCarImages});
-    // fetchCarStatus({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
+    fetchCarStatus({carInfoId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
   }, [isCarInfoLoading, isCarExpensesLoading]);
 
   if (!up) {
@@ -54,13 +54,13 @@ const DetailsForm = (props) => {
       </div>
     );
   }
-
+ 
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
     { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setCarExpenses={setCarExpenses} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.Cost} expenses={carExpenses} /></Tab.Pane> },
     // { menuItem: 'Pics', render: () => <Tab.Pane><CarImages carImages={carImages} carId={carInfoId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },
-    // { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carId={carId} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
+    { menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} carExpenses={carExpenses} carCost={carInfo.Cost} setIsCarStatusLoaded={setIsCarStatusLoaded} /></Tab.Pane> },
   ];
 
   if (!isEmpty(carImages)) {
@@ -90,7 +90,7 @@ const DetailsForm = (props) => {
         </Header>
       </Container>
       <Divider />
-      <Tab onTabChange={tabOnChange} activeIndex={activeIndexTab} panes={panes} />
+      <Tab id="tabs" onTabChange={tabOnChange} activeIndex={activeIndexTab} panes={panes} />
     </div>
   );
 };
