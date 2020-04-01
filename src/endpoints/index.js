@@ -250,6 +250,18 @@ export const fetchCarStatus = ({isCarStatusLoaded, setIsCarStatusLoaded, setCarS
     .catch((error) => console.log(error))
   }
 };
+
+export const fetchUserPermission = ({isUserPermissionsLoaded, setIsUserPermissionsLoaded, setUserHasWritePermissions, carInfoId}) => {
+  if (isUserPermissionsLoaded) {
+    const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+    get(`${URL}/api/caraccess/get-permissions/${carInfoId}`, {headers})
+    .then(({data}) => {
+      setIsUserPermissionsLoaded(false);
+      setUserHasWritePermissions(data);
+    })           
+    .catch((error) => console.log(error))
+  }
+};
 // -------------------------------------------------------------
 let host = null;
 if (window.location.hostname === 'localhost') {

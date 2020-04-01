@@ -9,10 +9,9 @@ import CarExpenses from './CarExpenses/CarExpenses' ;
 import CarEstimations from './CarEstimations/CarEstimations' ;
 import Status from './Status/Status';
 
-import {fetchCarExpenses, fetchCarInfo, fetchOtherCarInfo, fetchCarImages, fetchCarStatus} from '../../endpoints';
+import {fetchCarExpenses, fetchCarInfo, fetchOtherCarInfo, fetchCarImages, fetchCarStatus, fetchUserPermission} from '../../endpoints';
 
 const DetailsForm = (props) => {
-  // console.log(props);
   const {carInfoId} = props.match.params;
 
   const [isCarInfoLoading, setIsCarInfoLoading] = useState(true);
@@ -22,11 +21,13 @@ const DetailsForm = (props) => {
   );
   const [isImagesLoaded, setIsImagesLoaded] = useState(true);
   const [isCarStatusLoaded, setIsCarStatusLoaded] = useState(true);
+  const [isUserPermissionsLoaded, setIsUserPermissionsLoaded] = useState(true);
 
   const [carInfo, setCarInfo] = useState({});
   const [carExpenses, setCarExpenses] = useState([]);
   const [carImages, setCarImages] = useState([]);
   const [carStatus, setCarStatus] = useState({});
+  const [userHasWritePermissions, setUserHasWritePermissions] = useState(false);
   const [up, goUp] = useState(false);
 
   useEffect(() => {
@@ -38,7 +39,8 @@ const DetailsForm = (props) => {
     fetchCarExpenses({carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses});
     fetchCarImages({carInfoId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     fetchCarStatus({carInfoId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus});
-  }, [isCarInfoLoading, isCarExpensesLoading]);
+    fetchUserPermission({carInfoId, isUserPermissionsLoaded, setIsUserPermissionsLoaded, setUserHasWritePermissions})
+  }, []);
 
   if (!up) {
     goUp(true);
@@ -55,6 +57,7 @@ const DetailsForm = (props) => {
     );
   }
  
+  console.log('userHasWritePermissions', userHasWritePermissions);
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
     { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses expenses={carExpenses} carId={carInfoId} setCarExpenses={setCarExpenses} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },

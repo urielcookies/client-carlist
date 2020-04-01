@@ -41,7 +41,7 @@ const Status = (props) => {
               <Table.Row>
                 <Table.Cell textAlign="left">Profit</Table.Cell>
                 <Table.Cell textAlign="center">
-                  {profit}
+                  {numeral(profit).format('$0,0.00')}
                 </Table.Cell>
               </Table.Row>
             </React.Fragment>
