@@ -12,6 +12,7 @@ const CarInvestment = (props) => {
     carId,
     expenses,
     isCarExpensesLoading,
+    userHasWritePermissions,
     setIsCarExpensesLoading,
   } = props;
 
@@ -62,7 +63,7 @@ const CarInvestment = (props) => {
 
   return (
     <div>
-      <Button fluid content="Add Expense" color="teal" basic onClick={() => {setOpenAddExpenseModal(true); setUpdateMode(false)}} />
+      {userHasWritePermissions && <Button fluid content="Add Expense" color="teal" basic onClick={() => {setOpenAddExpenseModal(true); setUpdateMode(false)}} />}
         <div>
           <Divider />          
 
@@ -82,7 +83,7 @@ const CarInvestment = (props) => {
                   <Table.Row>
                     <Table.HeaderCell textAlign="center">Expense</Table.HeaderCell>
                     <Table.HeaderCell textAlign="center">Cost</Table.HeaderCell>
-                    <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>
+                    {userHasWritePermissions && <Table.HeaderCell textAlign="center">Actions</Table.HeaderCell>}
                   </Table.Row>
                 </Table.Header>
 
@@ -92,10 +93,12 @@ const CarInvestment = (props) => {
                       <Table.Row key={expense.Id}>
                         <Table.Cell textAlign="center" width="4">{expense.Expense}</Table.Cell>
                         <Table.Cell textAlign="center" width="2">{numeral(expense.Cost).format('$0,0.00')}</Table.Cell>
-                        <Table.Cell textAlign="center" width="6">
-                          <Button size='tiny' icon='edit outline' onClick={() => updateExpenseHandler(expense)} />
-                          <Button size='tiny' icon='trash alternate' onClick={() => updateExpenseHandler(expense, 'delete')} />
-                        </Table.Cell>
+                        {userHasWritePermissions && 
+                          <Table.Cell textAlign="center" width="6">
+                            <Button size='tiny' icon='edit outline' onClick={() => updateExpenseHandler(expense)} />
+                            <Button size='tiny' icon='trash alternate' onClick={() => updateExpenseHandler(expense, 'delete')} />
+                          </Table.Cell>
+                        }
                       </Table.Row>
                     );
                   })
