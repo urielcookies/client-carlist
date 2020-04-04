@@ -9,7 +9,7 @@ const AddCarForm = () => {
       <Form.Input fluid {...{label, placeholder, type}} defaultValue={value} />
     );
   }
-  console.log(621.5)
+
   return (
     <Form as="div">
       <FormikForm>

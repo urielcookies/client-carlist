@@ -65,7 +65,6 @@ const CarInvestment = (props) => {
     <div>
       {userHasWritePermissions && <Button fluid content="Add Expense" color="teal" basic onClick={() => {setOpenAddExpenseModal(true); setUpdateMode(false)}} />}
         <div>
-          <Divider />          
 
           <Divider horizontal>
             <Header as='h4'>
@@ -73,7 +72,6 @@ const CarInvestment = (props) => {
               Expenses
             </Header>
           </Divider>
-          <Divider />
           
           {isCarExpensesLoading
           ? <div style={{height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Loader active inline='centered' /></div>
