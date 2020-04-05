@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import numeral from 'numeral';
-import {Button,Divider, Header, Icon, Table} from 'semantic-ui-react'
+import {Button, Divider, Form, Header, Icon, Table} from 'semantic-ui-react'
+import {useFormik} from 'formik';
+
+import {updateCarInfo} from '../../endpoints';
 
 import AddCarFormStyle from './AddCarFormStyle';
 
@@ -9,14 +12,37 @@ const AddCarForm = (props) => {
     Brand,
     CleanTitle,
     Cost,
+    Id,
     Model,
     Notes,
+    setIsCarInfoLoading,
     userHasWritePermissions,
     Year
   } = props;
 
   const [editMode, setEditMode] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+
   const editModeHandler = () => setEditMode(!editMode);
+
+  const formik = useFormik({
+    initialValues: {
+      Year: Year || '',
+      Brand: Brand || '',
+      Model: Model || '',
+      Cost: Cost || '',
+      CleanTitle: Boolean(CleanTitle),
+      Notes: Notes || ''
+
+    },
+    onSubmit: values => {
+      setSubmitLoading(true);
+      updateCarInfo({...values, Id}, setIsCarInfoLoading).then(() => {
+        editModeHandler();
+        setSubmitLoading(false);
+      });
+    },
+  });
 
   return (
     <AddCarFormStyle>
@@ -33,19 +59,71 @@ const AddCarForm = (props) => {
         content='Edit Car Information'
         color="teal"
         basic
+        type="button"
+        loading={submitLoading}
         onClick={editModeHandler} />
       )}
         
       {editMode && (
         <div className="actionButtons">
-          <Button fluid basic color="teal" content="Save" />
+          <Button fluid basic color="teal" content="Save" onClick={formik.handleSubmit} />
           <Button fluid basic content="Cancel" onClick={editModeHandler} />
         </div>
       )}
       
+      <Divider hidden />
+
       {editMode 
       ? (
-        <div>EDIT MODE</div>
+        <div>
+           <Form>
+              <Form.Group widths='equal'>
+
+                <Form.Input
+                  name="Year"
+                  type="text"
+                  label='Year'
+                  onChange={formik.handleChange}
+                  value={formik.values.Year} />
+
+                <Form.Input
+                  name="Brand"
+                  type="text"
+                  label='Brand'
+                  onChange={formik.handleChange}
+                  value={formik.values.Brand} />
+
+                <Form.Input
+                  name="Model"
+                  type="text"
+                  label='Brand'
+                  onChange={formik.handleChange}
+                  value={formik.values.Model} />
+
+                <Form.Input
+                  name="Cost"
+                  type="number"
+                  label='Cost'
+                  onChange={formik.handleChange}
+                  value={formik.values.Cost} />
+
+                <Form.Checkbox
+                  toggle
+                  label='Clean Title'
+                  id="CleanTitle"
+                  name="CleanTitle"
+                  checked={formik.values.CleanTitle}
+                  onChange={formik.handleChange} />
+
+                <Form.TextArea
+                  name="Notes"
+                  label='Notes'
+                  onChange={formik.handleChange}
+                  value={formik.values.Notes} />
+
+              </Form.Group>
+          </Form>
+        </div>
         )
       : (
           <Table definition unstackable>
