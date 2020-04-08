@@ -127,7 +127,7 @@ const Status = (props) => {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell textAlign="left">Profit</Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell positive={(profit > 0)} negative={(profit < 0)}  textAlign="center">
                       {numeral(profit).format('$0,0.00')}
                     </Table.Cell>
                   </Table.Row>

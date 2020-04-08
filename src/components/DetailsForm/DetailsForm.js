@@ -72,7 +72,7 @@ const DetailsForm = (props) => {
   }
 
   panes.push({
-     menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} userHasWritePermissions={userHasWritePermissions} carExpenses={carExpenses} carCost={carInfo.Cost} setIsCarStatusLoading={setIsCarStatusLoading} /></Tab.Pane>
+     menuItem: 'Status', render: () => <Tab.Pane><Status {...carStatus} userHasWritePermissions={userHasWritePermissions} carExpenses={carExpenses} carCost={carInfo.Cost} CarInformationId={carInfoId} setIsCarStatusLoading={setIsCarStatusLoading} /></Tab.Pane>
   })
 
   const tabs = ['info', 'expenses', 'data', 'pics', 'status'];
