@@ -33,7 +33,6 @@ const AddCarForm = (props) => {
       Cost: Cost || '',
       CleanTitle: Boolean(CleanTitle),
       Notes: Notes || ''
-
     },
     onSubmit: values => {
       setSubmitLoading(true);
@@ -56,17 +55,16 @@ const AddCarForm = (props) => {
       {userHasWritePermissions && !editMode && (
       <Button
         fluid
-        content='Edit Car Information'
+        content='Edit Information'
         color="teal"
         basic
-        type="button"
         loading={submitLoading}
         onClick={editModeHandler} />
       )}
         
       {editMode && (
         <div className="actionButtons">
-          <Button fluid basic color="teal" content="Save" onClick={formik.handleSubmit} />
+          <Button fluid basic color="teal" content="Save" type="button" onClick={formik.handleSubmit} />
           <Button fluid basic content="Cancel" onClick={editModeHandler} />
         </div>
       )}
@@ -75,55 +73,53 @@ const AddCarForm = (props) => {
 
       {editMode 
       ? (
-        <div>
-           <Form>
-              <Form.Group widths='equal'>
+          <Form>
+            <Form.Group widths='equal'>
 
-                <Form.Input
-                  name="Year"
-                  type="text"
-                  label='Year'
-                  onChange={formik.handleChange}
-                  value={formik.values.Year} />
+              <Form.Input
+                name="Year"
+                type="text"
+                label='Year'
+                onChange={formik.handleChange}
+                value={formik.values.Year} />
 
-                <Form.Input
-                  name="Brand"
-                  type="text"
-                  label='Brand'
-                  onChange={formik.handleChange}
-                  value={formik.values.Brand} />
+              <Form.Input
+                name="Brand"
+                type="text"
+                label='Brand'
+                onChange={formik.handleChange}
+                value={formik.values.Brand} />
 
-                <Form.Input
-                  name="Model"
-                  type="text"
-                  label='Brand'
-                  onChange={formik.handleChange}
-                  value={formik.values.Model} />
+              <Form.Input
+                name="Model"
+                type="text"
+                label='Brand'
+                onChange={formik.handleChange}
+                value={formik.values.Model} />
 
-                <Form.Input
-                  name="Cost"
-                  type="number"
-                  label='Cost'
-                  onChange={formik.handleChange}
-                  value={formik.values.Cost} />
+              <Form.Input
+                name="Cost"
+                type="number"
+                label='Cost'
+                onChange={formik.handleChange}
+                value={formik.values.Cost} />
 
-                <Form.Checkbox
-                  toggle
-                  label='Clean Title'
-                  id="CleanTitle"
-                  name="CleanTitle"
-                  checked={formik.values.CleanTitle}
-                  onChange={formik.handleChange} />
+              <Form.Checkbox
+                toggle
+                label='Clean Title'
+                id="CleanTitle"
+                name="CleanTitle"
+                checked={formik.values.CleanTitle}
+                onChange={formik.handleChange} />
 
-                <Form.TextArea
-                  name="Notes"
-                  label='Notes'
-                  onChange={formik.handleChange}
-                  value={formik.values.Notes} />
+              <Form.TextArea
+                name="Notes"
+                label='Notes'
+                onChange={formik.handleChange}
+                value={formik.values.Notes} />
 
-              </Form.Group>
-          </Form>
-        </div>
+            </Form.Group>
+        </Form>
         )
       : (
           <Table definition unstackable>
@@ -160,7 +156,7 @@ const AddCarForm = (props) => {
               </Table.Row>
               <Table.Row>
                 <Table.Cell textAlign="left">Notes</Table.Cell>
-                <Table.Cell textAlign="center">
+                <Table.Cell textAlign="center" style={{whiteSpace: 'pre'}}>
                   {Notes}
                 </Table.Cell>
               </Table.Row>

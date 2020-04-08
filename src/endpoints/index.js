@@ -252,16 +252,29 @@ export const fetchCarImages = ({isImagesLoaded, setIsImagesLoaded, setCarImages,
   }
 }
 
-export const fetchCarStatus = ({isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus, carInfoId}) => {
-  if (isCarStatusLoaded) {
+export const fetchCarStatus = ({isCarStatusLoading, setIsCarStatusLoading, setCarStatus, carInfoId}) => {
+  if (isCarStatusLoading) {
     const headers = {'Content-Type': 'application/json', token: getCookie('token')};
     get(`${URL}/api/carstatus/${carInfoId}`, {headers})
     .then(({data}) => {
-      setIsCarStatusLoaded(false);
+      setIsCarStatusLoading(false);
       setCarStatus(data);
     })           
     .catch((error) => console.log(error))
   }
+};
+
+export const createUpdateCarStatus = (carStatus, setIsCarStatusLoading) => {
+  var data = JSON.stringify(carStatus);
+
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  return post(`${URL}/api/carstatus`, data, {headers})
+    .then(({status}) => {
+      if (status === 201) setIsCarStatusLoading(true)
+    })
+    .catch((error) => {
+      console.log('error', error)
+    });
 };
 
 export const fetchUserPermission = ({isUserPermissionsLoaded, setIsUserPermissionsLoaded, setUserHasWritePermissions, carInfoId}) => {
