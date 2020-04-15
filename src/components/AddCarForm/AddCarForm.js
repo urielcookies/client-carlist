@@ -96,14 +96,16 @@ const AddCarForm = (props) => {
                 label='Brand'
                 onChange={formik.handleChange}
                 value={formik.values.Model} />
+            </Form.Group>
 
+            <Form.Group inline style={{lineHeight: '45px'}}>
               <Form.Input
                 name="Cost"
                 type="number"
                 label='Cost'
                 onChange={formik.handleChange}
                 value={formik.values.Cost} />
-
+              
               <Form.Checkbox
                 toggle
                 label='Clean Title'
@@ -111,14 +113,16 @@ const AddCarForm = (props) => {
                 name="CleanTitle"
                 checked={formik.values.CleanTitle}
                 onChange={formik.handleChange} />
+            </Form.Group> 
 
+            <Form.Group widths="equal">
               <Form.TextArea
-                name="Notes"
-                label='Notes'
-                onChange={formik.handleChange}
-                value={formik.values.Notes} />
-
+                  name="Notes"
+                  label='Notes'
+                  onChange={formik.handleChange}
+                  value={formik.values.Notes} />
             </Form.Group>
+
         </Form>
         )
       : (

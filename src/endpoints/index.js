@@ -100,7 +100,7 @@ export const fetchOtherUsersCars = ({isLoading, setIsLoading, setCarList, userId
     get(`${URL}/api/carinformation/get-users-cars/${userId}`, {headers})
     .then(({data}) => {
       setIsLoading(false);
-      setCarList(data);
+      setCarList(reverse(data));
     })           
     .catch((error) => console.log(error))
   }
