@@ -5,11 +5,11 @@ import {Button, Dimmer, Loader, Table} from 'semantic-ui-react'
 import {fetchCars, fetchOtherUsersCars} from '../../endpoints';
 
 const CarList = (props) => {
-  // const [activeTable, setActiveTable] = useState('Active Cars');
+  const {history, match} = props;
   const [carsList, setCarList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const {userId} = props.match.params;
+  const {userId} = match.params;
 
   useEffect(() => {
     if (userId)
@@ -18,8 +18,20 @@ const CarList = (props) => {
       fetchCars({isLoading, setIsLoading, setCarList})
   }, [isLoading]);
 
+
+  const carListOwner = !userId;
+
   return (
     <div style={{minHeight: '80vh'}}>
+
+      {carListOwner && (
+        <Button
+          fluid
+          content='Add New Car'
+          color="teal"
+          basic
+          onClick={() => history.push('/home/mycarlist/addcar')} />
+      )}
 
       {/* <Dropdown
         fluid
@@ -34,7 +46,8 @@ const CarList = (props) => {
         ? <Dimmer active inverted page>
             <Loader inverted>Loading</Loader>
           </Dimmer>
-        : <Table unstackable basic striped compact="very" columns="5">
+        : (carsList.length ? 
+          <Table unstackable basic striped compact="very" columns="5">
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Year</Table.HeaderCell>
@@ -59,6 +72,7 @@ const CarList = (props) => {
               ))}
             </Table.Body>
           </Table>
+          : null)
       }
     </div>
   );

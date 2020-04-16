@@ -3,7 +3,7 @@ import {isEmpty} from 'lodash';
 import { Dimmer, Loader, Tab, Header, Container, Divider } from 'semantic-ui-react';
 import {/* Redirect,  */withRouter} from 'react-router-dom';
 // import CarInfo from './CarInfo/CarInfo';
-import AddCarForm from '.././AddCarForm/AddCarForm';
+import Information from './Information/Information';
 import CarImages from './CarImages/CarImages';
 import CarExpenses from './CarExpenses/CarExpenses' ;
 import CarEstimations from './CarEstimations/CarEstimations' ;
@@ -59,7 +59,7 @@ const DetailsForm = (props) => {
   }
  
   const panes = [
-    { menuItem: 'Info', render: () => <Tab.Pane><AddCarForm {...carInfo} isCarInfoLoading={isCarInfoLoading} userHasWritePermissions={userHasWritePermissions} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
+    { menuItem: 'Info', render: () => <Tab.Pane><Information {...carInfo} isCarInfoLoading={isCarInfoLoading} userHasWritePermissions={userHasWritePermissions} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
     { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses userHasWritePermissions={userHasWritePermissions} expenses={carExpenses} carId={carInfoId} setCarExpenses={setCarExpenses} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.Cost} expenses={carExpenses} /></Tab.Pane> },
     // { menuItem: 'Pics', render: () => <Tab.Pane><CarImages carImages={carImages} carId={carInfoId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },

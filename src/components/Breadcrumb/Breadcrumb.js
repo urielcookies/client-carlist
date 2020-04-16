@@ -37,6 +37,13 @@ const Breadcrumbs = (props) => {
         title: "Inventory"
       });
     }
+    else if (path === 'addcar') {
+      return routes.push({
+        active: lastIndex,
+        link: '/home/mycarlist/addcar',
+        title: "Add New Car"
+      });
+    }
 
     const route = props.history.location.pathname
         .substring(props.history.location.pathname.lastIndexOf('/') + 1);

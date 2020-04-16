@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
-import numeral from 'numeral';
-import {Button, Divider, Form, Header, Icon, Table} from 'semantic-ui-react'
+import {Button, Divider, Header, Form, Icon} from 'semantic-ui-react'
 import {useFormik} from 'formik';
+import {every} from 'lodash';
 
-import {updateCarInfo} from '../../endpoints';
-
-import AddCarFormStyle from './AddCarFormStyle';
+import {createCar} from '../../endpoints/index';
 
 const AddCarForm = (props) => {
   const {
     Brand,
     CleanTitle,
     Cost,
+    history,
     Id,
     Model,
     Notes,
@@ -20,10 +19,7 @@ const AddCarForm = (props) => {
     Year
   } = props;
 
-  const [editMode, setEditMode] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-
-  const editModeHandler = () => setEditMode(!editMode);
 
   const formik = useFormik({
     initialValues: {
@@ -35,141 +31,89 @@ const AddCarForm = (props) => {
       Notes: Notes || ''
     },
     onSubmit: values => {
-      setSubmitLoading(true);
-      updateCarInfo({...values, Id}, setIsCarInfoLoading).then(() => {
-        editModeHandler();
-        setSubmitLoading(false);
-      });
+      console.log(props)
+      // setSubmitLoading(true);
+      // createCar(values).then((carId) => {
+      //   history.push(`/home/mycarlist/1003/${carId}/info`)
+      // });;
     },
   });
 
+  const pass = every(formik.values, (value, key) => 
+    value !== '' || key === 'Notes'
+  );
+
   return (
-    <AddCarFormStyle>
+    <div>
       <Divider horizontal>
         <Header as='h4'>
           <Icon name='file alternate outline' />
           Car Information
         </Header>
       </Divider>
-
-      {userHasWritePermissions && !editMode && (
-      <Button
-        fluid
-        content='Edit Information'
-        color="teal"
-        basic
-        loading={submitLoading}
-        onClick={editModeHandler} />
-      )}
-        
-      {editMode && (
-        <div className="actionButtons">
-          <Button fluid basic color="teal" content="Save" type="button" onClick={formik.handleSubmit} />
-          <Button fluid basic content="Cancel" onClick={editModeHandler} />
-        </div>
-      )}
       
-      <Divider hidden />
+      <Form>
+        <Form.Group widths='equal'>
 
-      {editMode 
-      ? (
-          <Form>
-            <Form.Group widths='equal'>
+          <Form.Input
+            name="Year"
+            type="text"
+            label='Year'
+            onChange={formik.handleChange}
+            value={formik.values.Year} />
 
-              <Form.Input
-                name="Year"
-                type="text"
-                label='Year'
-                onChange={formik.handleChange}
-                value={formik.values.Year} />
+          <Form.Input
+            name="Brand"
+            type="text"
+            label='Brand'
+            onChange={formik.handleChange}
+            value={formik.values.Brand} />
 
-              <Form.Input
-                name="Brand"
-                type="text"
-                label='Brand'
-                onChange={formik.handleChange}
-                value={formik.values.Brand} />
+          <Form.Input
+            name="Model"
+            type="text"
+            label='Model'
+            onChange={formik.handleChange}
+            value={formik.values.Model} />
+        </Form.Group>
 
-              <Form.Input
-                name="Model"
-                type="text"
-                label='Brand'
-                onChange={formik.handleChange}
-                value={formik.values.Model} />
-            </Form.Group>
+        <Form.Group inline style={{lineHeight: '45px'}}>
+          <Form.Input
+            name="Cost"
+            type="number"
+            label='Cost'
+            onChange={formik.handleChange}
+            value={formik.values.Cost} />
+          
+          <Form.Checkbox
+            toggle
+            label='Clean Title'
+            id="CleanTitle"
+            name="CleanTitle"
+            checked={formik.values.CleanTitle}
+            onChange={formik.handleChange} />
+        </Form.Group> 
 
-            <Form.Group inline style={{lineHeight: '45px'}}>
-              <Form.Input
-                name="Cost"
-                type="number"
-                label='Cost'
-                onChange={formik.handleChange}
-                value={formik.values.Cost} />
-              
-              <Form.Checkbox
-                toggle
-                label='Clean Title'
-                id="CleanTitle"
-                name="CleanTitle"
-                checked={formik.values.CleanTitle}
-                onChange={formik.handleChange} />
-            </Form.Group> 
+        <Form.Group widths="equal">
+          <Form.TextArea
+            name="Notes"
+            label='Notes'
+            onChange={formik.handleChange}
+            value={formik.values.Notes} />
+        </Form.Group>
 
-            <Form.Group widths="equal">
-              <Form.TextArea
-                  name="Notes"
-                  label='Notes'
-                  onChange={formik.handleChange}
-                  value={formik.values.Notes} />
-            </Form.Group>
+        <Button
+          basic
+          fluid
+          disabled={!pass}
+          color="teal"
+          content="Save"
+          type="button"
+          onClick={formik.handleSubmit} />
 
-        </Form>
-        )
-      : (
-          <Table definition unstackable>
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell textAlign="left" width={5}>Year</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {Year}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Brand</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {Brand}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Model</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {Model}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Cost</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {numeral(Cost).format('$0,0.00')}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Clean Title</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {CleanTitle ? 'Yes' : 'No'}
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell textAlign="left">Notes</Table.Cell>
-                <Table.Cell textAlign="center" style={{whiteSpace: 'pre'}}>
-                  {Notes}
-                </Table.Cell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
-        )
-      }
-    </AddCarFormStyle>
-  );
+      </Form>
+    </div>
+  )
 }
 
 export default AddCarForm;

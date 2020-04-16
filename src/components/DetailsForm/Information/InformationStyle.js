@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const AddCarFormStyle = styled.div`
+const InformationStyle = styled.div`
   .actionButtons {
     display: flex;
     justify-content: space-evenly;
   }
 `
-export default AddCarFormStyle;
+export default InformationStyle;

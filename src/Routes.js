@@ -40,7 +40,7 @@ const Routes = (props) => {
           <Route exact path='/' component={SUP}/>
           <Route exact path='/home' component={withLogin(Home)}/>
           <Route exact path='/login' component={Login}/>
-          <Route exact path='/addcar' component={AddCarForm}/>
+          <Route exact path='/home/mycarlist/addcar' component={AddCarForm}/>
           <Route exact path='/trip' component={Trip}/>
           <Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)}/>
           <Route exact path='/home/settings' component={withLogin(Settings)}/>

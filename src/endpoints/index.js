@@ -94,6 +94,15 @@ export const fetchCars = ({isLoading, setIsLoading, setCarList}) => {
   }
 };
 
+export const createCar = (values) => {
+  const data = JSON.stringify(values);
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  return post(`${URL}/api/carinformation`, data, {headers})
+    .catch((error) => {
+      console.log('error', error)
+    });
+};
+
 export const fetchOtherUsersCars = ({isLoading, setIsLoading, setCarList, userId}) => {
   if (isLoading) {
     const headers = {'Content-Type': 'application/json', token: getCookie('token')};
