@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Divider, Header, Form, Icon} from 'semantic-ui-react'
+import {Button, Dimmer, Divider, Header, Form, Icon, Loader} from 'semantic-ui-react'
 import {useFormik} from 'formik';
 import {every} from 'lodash';
 
@@ -31,11 +31,10 @@ const AddCarForm = (props) => {
       Notes: Notes || ''
     },
     onSubmit: values => {
-      console.log(props)
-      // setSubmitLoading(true);
-      // createCar(values).then((carId) => {
-      //   history.push(`/home/mycarlist/1003/${carId}/info`)
-      // });;
+      setSubmitLoading(true);
+      createCar(values).then(({data: carId}) => 
+        history.push(`/home/mycarlist/1003/${carId}/info`)
+      );
     },
   });
 
@@ -44,75 +43,82 @@ const AddCarForm = (props) => {
   );
 
   return (
-    <div>
-      <Divider horizontal>
-        <Header as='h4'>
-          <Icon name='file alternate outline' />
-          Car Information
-        </Header>
-      </Divider>
-      
-      <Form>
-        <Form.Group widths='equal'>
+    submitLoading
+    ? (<div style={{height: '80vh'}}>
+        <Dimmer active inverted>
+          <Loader inverted>Loading</Loader>
+        </Dimmer>
+      </div>)
 
-          <Form.Input
-            name="Year"
-            type="text"
-            label='Year'
-            onChange={formik.handleChange}
-            value={formik.values.Year} />
+    : (<div>
+        <Divider horizontal>
+          <Header as='h4'>
+            <Icon name='file alternate outline' />
+            Car Information
+          </Header>
+        </Divider>
+        
+        <Form>
+          <Form.Group widths='equal'>
 
-          <Form.Input
-            name="Brand"
-            type="text"
-            label='Brand'
-            onChange={formik.handleChange}
-            value={formik.values.Brand} />
+            <Form.Input
+              name="Year"
+              type="text"
+              label='Year'
+              onChange={formik.handleChange}
+              value={formik.values.Year} />
 
-          <Form.Input
-            name="Model"
-            type="text"
-            label='Model'
-            onChange={formik.handleChange}
-            value={formik.values.Model} />
-        </Form.Group>
+            <Form.Input
+              name="Brand"
+              type="text"
+              label='Brand'
+              onChange={formik.handleChange}
+              value={formik.values.Brand} />
 
-        <Form.Group inline style={{lineHeight: '45px'}}>
-          <Form.Input
-            name="Cost"
-            type="number"
-            label='Cost'
-            onChange={formik.handleChange}
-            value={formik.values.Cost} />
-          
-          <Form.Checkbox
-            toggle
-            label='Clean Title'
-            id="CleanTitle"
-            name="CleanTitle"
-            checked={formik.values.CleanTitle}
-            onChange={formik.handleChange} />
-        </Form.Group> 
+            <Form.Input
+              name="Model"
+              type="text"
+              label='Model'
+              onChange={formik.handleChange}
+              value={formik.values.Model} />
+          </Form.Group>
 
-        <Form.Group widths="equal">
-          <Form.TextArea
-            name="Notes"
-            label='Notes'
-            onChange={formik.handleChange}
-            value={formik.values.Notes} />
-        </Form.Group>
+          <Form.Group inline style={{lineHeight: '45px'}}>
+            <Form.Input
+              name="Cost"
+              type="number"
+              label='Cost'
+              onChange={formik.handleChange}
+              value={formik.values.Cost} />
+            
+            <Form.Checkbox
+              toggle
+              label='Clean Title'
+              id="CleanTitle"
+              name="CleanTitle"
+              checked={formik.values.CleanTitle}
+              onChange={formik.handleChange} />
+          </Form.Group> 
 
-        <Button
-          basic
-          fluid
-          disabled={!pass}
-          color="teal"
-          content="Save"
-          type="button"
-          onClick={formik.handleSubmit} />
+          <Form.Group widths="equal">
+            <Form.TextArea
+              name="Notes"
+              label='Notes'
+              onChange={formik.handleChange}
+              value={formik.values.Notes} />
+          </Form.Group>
 
-      </Form>
-    </div>
+          <Button
+            basic
+            fluid
+            disabled={!pass}
+            color="teal"
+            content="Save"
+            type="button"
+            onClick={formik.handleSubmit} />
+
+        </Form>
+      </div>)
   )
 }
 

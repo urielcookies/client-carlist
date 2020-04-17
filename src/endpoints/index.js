@@ -45,6 +45,12 @@ export const loginUser = (userInfo, push, setErrorMessage, setSubmitLoading) => 
     });
 };
 
+export const fetchActiveUser = () => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  return get(`${URL}/api/useraccounts/getuserinfo`, {headers})         
+    .catch((error) => console.log(error))
+};
+
 export const fetchActiveAccount = ({isActiveLoading, setIsActiveAccountLoading, setActiveAccount}) => {
   if (isActiveLoading) {
     const headers = {'Content-Type': 'application/json', token: getCookie('token')};
