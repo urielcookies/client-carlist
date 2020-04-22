@@ -50,16 +50,16 @@ const DetailsForm = (props) => {
 
   if (isEmpty(carInfo)) {
     return (
-      <div style={{height: '80vh'}}>
+      <div style={{minHeight: '80vh'}}>
         <Dimmer active inverted>
           <Loader inverted>Loading</Loader>
         </Dimmer>
       </div>
     );
   }
- 
+
   const panes = [
-    { menuItem: 'Info', render: () => <Tab.Pane><Information {...carInfo} isCarInfoLoading={isCarInfoLoading} userHasWritePermissions={userHasWritePermissions} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
+    { menuItem: 'Info', render: () => <Tab.Pane><Information {...carInfo} activeUserId={props.activeUser.Id} isCarInfoLoading={isCarInfoLoading} userHasWritePermissions={userHasWritePermissions} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
     { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses userHasWritePermissions={userHasWritePermissions} expenses={carExpenses} carId={carInfoId} setCarExpenses={setCarExpenses} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
     { menuItem: 'Data', render: () => <Tab.Pane><CarEstimations cost={carInfo.Cost} expenses={carExpenses} /></Tab.Pane> },
     // { menuItem: 'Pics', render: () => <Tab.Pane><CarImages carImages={carImages} carId={carInfoId} setIsImagesLoaded={setIsImagesLoaded} /></Tab.Pane> },

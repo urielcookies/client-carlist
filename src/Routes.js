@@ -21,9 +21,9 @@ const Routes = (props) => {
 
   useEffect(() => {
     fetchActiveUser()
-      .then(({data}) => {
+      .then((response) => {
+        if (response && response.data) setActiveUser(response.data);
         setActiveUserLoading(false);
-        setActiveUser(data);
       })
   }, []);
 

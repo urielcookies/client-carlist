@@ -131,6 +131,7 @@ const CarInvestment = (props) => {
                       <Form.Input
                         name="Cost"
                         type="number"
+                        step="any"
                         label='Cost'
                         placeholder='3.14'
                         onChange={formik.handleChange}

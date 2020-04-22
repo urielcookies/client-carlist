@@ -279,11 +279,11 @@ export const fetchCarStatus = ({isCarStatusLoading, setIsCarStatusLoading, setCa
   }
 };
 
-export const createUpdateCarStatus = (carStatus, setIsCarStatusLoading) => {
+export const updateCarStatus = (carStatus, setIsCarStatusLoading) => {
   var data = JSON.stringify(carStatus);
 
   const headers = {'Content-Type': 'application/json', token: getCookie('token')};
-  return post(`${URL}/api/carstatus`, data, {headers})
+  return put(`${URL}/api/carstatus`, data, {headers})
     .then(({status}) => {
       if (status === 201) setIsCarStatusLoading(true)
     })

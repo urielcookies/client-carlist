@@ -9,6 +9,7 @@ import InformationStyle from './InformationStyle';
 
 const AddCarForm = (props) => {
   const {
+    activeUserId,
     Brand,
     CleanTitle,
     Cost,
@@ -17,6 +18,7 @@ const AddCarForm = (props) => {
     Notes,
     setIsCarInfoLoading,
     userHasWritePermissions,
+    UserAccountId,
     Year
   } = props;
 
@@ -52,14 +54,14 @@ const AddCarForm = (props) => {
         </Header>
       </Divider>
 
-      {userHasWritePermissions && !editMode && (
-      <Button
-        fluid
-        content='Edit Information'
-        color="teal"
-        basic
-        loading={submitLoading}
-        onClick={editModeHandler} />
+      {!editMode && (
+        <Button
+          fluid
+          content='Edit Information'
+          color="teal"
+          basic
+          loading={submitLoading}
+          onClick={editModeHandler} />
       )}
         
       {editMode && (
@@ -69,7 +71,27 @@ const AddCarForm = (props) => {
         </div>
       )}
       
-      <Divider hidden />
+      <Divider style={{margin: '5px'}} hidden />
+
+      {!editMode && UserAccountId === activeUserId && (
+        <div className="actionButtons">
+          <Button
+            fluid
+            content='Delete Car'
+            color="red"
+            basic
+            onClick={() => console.log('DELETE CAR')} />
+
+          <Button
+            fluid
+            content='Give Permissions'
+            color="teal"
+            basic
+            onClick={() => console.log('GIVE PERMISSIONS')} />
+        </div>
+      )}
+
+      <Divider />
 
       {editMode 
       ? (
@@ -102,6 +124,7 @@ const AddCarForm = (props) => {
               <Form.Input
                 name="Cost"
                 type="number"
+                step="any"
                 label='Cost'
                 onChange={formik.handleChange}
                 value={formik.values.Cost} />

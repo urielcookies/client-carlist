@@ -4,7 +4,7 @@ import {isEqual, reduce} from 'lodash';
 import {useFormik} from 'formik';
 import numeral from 'numeral';
 
-import {createUpdateCarStatus} from '../../../endpoints';
+import {updateCarStatus} from '../../../endpoints';
 
 import StatusStyle from './StatusStyle';
 
@@ -35,7 +35,7 @@ const Status = (props) => {
     },
     onSubmit: values => {
       setSubmitLoading(true);
-      createUpdateCarStatus({...values, CarInformationId}, setIsCarStatusLoading).then(() => {
+      updateCarStatus({...values, CarInformationId}, setIsCarStatusLoading).then(() => {
         editModeHandler();
         setSubmitLoading(false);
       });
