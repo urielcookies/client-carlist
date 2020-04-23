@@ -78,7 +78,7 @@ const CarInvestment = (props) => {
           
           {isCarExpensesLoading
           ? <div style={{height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}><Loader active inline='centered' /></div>
-          : <div style={{maxHeight: '50vh', overflowX: 'auto'}}>
+          : !isEmpty(expenses) && <div style={{maxHeight: '50vh', overflowX: 'auto'}}>
               <Table unstackable basic='very'>
                 <Table.Header>
                   <Table.Row>
