@@ -5,6 +5,7 @@ import {useFormik} from 'formik';
 
 import {updateCarInfo} from '../../../endpoints';
 
+import PermissionsModal from './PermissionsModal';
 import InformationStyle from './InformationStyle';
 
 const AddCarForm = (props) => {
@@ -23,6 +24,7 @@ const AddCarForm = (props) => {
   } = props;
 
   const [editMode, setEditMode] = useState(false);
+  const [permissionsModalActive, setPermissionsModalActive] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const editModeHandler = () => setEditMode(!editMode);
@@ -87,7 +89,7 @@ const AddCarForm = (props) => {
             content='Give Permissions'
             color="teal"
             basic
-            onClick={() => console.log('GIVE PERMISSIONS')} />
+            onClick={() => setPermissionsModalActive(true)} />
         </div>
       )}
 
@@ -191,6 +193,8 @@ const AddCarForm = (props) => {
           </Table>
         )
       }
+
+      {permissionsModalActive && <PermissionsModal show={permissionsModalActive} close={() => setPermissionsModalActive(false)} />}
     </InformationStyle>
   );
 }
