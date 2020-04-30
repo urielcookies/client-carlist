@@ -303,16 +303,37 @@ export const fetchUserPermission = ({isUserPermissionsLoaded, setIsUserPermissio
     .catch((error) => console.log(error))
   }
 };
-// -------------------------------------------------------------
-let host = null;
-if (window.location.hostname === 'localhost') {
-  host = 'http://localhost:5000';
-} else {
-  // host = 'http://uriel.sellingcrap.com';
-  host = 'https://be-carlist.herokuapp.com';
-}
 
-export const url = host;
+export const deleteCarInformation = (carInfoId, setIsCarExpensesLoading) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  const requestOptions = {
+    method: 'DELETE',
+    headers,
+    redirect: 'follow'
+  };
+
+  return fetch(`${URL}/api/carinformation/${carInfoId}`, requestOptions)
+    .catch(error => console.log('error', error));
+
+  // _delete(`${URL}/api/carexpenses/${Id}`,  {params: {Id}}, {headers})
+  //   .then(({status}) => {
+  //     if (status === 200) setIsCarExpensesLoading(true)
+  //   })
+  //   .catch((error) => {
+  //     console.log('error', error)
+  //   });
+};
+
+// -------------------------------------------------------------
+// let host = null;
+// if (window.location.hostname === 'localhost') {
+//   host = 'http://localhost:5000';
+// } else {
+//   // host = 'http://uriel.sellingcrap.com';
+//   host = 'https://be-carlist.herokuapp.com';
+// }
+
+// export const url = host;
 
 // export const fetchCars = ({isLoaded, setLoaded, setCarList}) => {
 //   if (!isLoaded) {
@@ -367,25 +388,25 @@ export const url = host;
 //   }
 // };
 
-export const deleteCarExpense = (expenseId, state) => {
-  const formData = new FormData();
-  formData.append('expenseId', expenseId);
+// export const deleteCarExpense = (expenseId, state) => {
+//   const formData = new FormData();
+//   formData.append('expenseId', expenseId);
 
-  post(`${url}/deleteexpense/${expenseId}`, formData, {
-    headers: {
-    'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": "*",
-    'Accept': '*',
-    }
-  })
-  .then(function (response) {
-    console.log(response);
-    state(false);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-};
+//   post(`${url}/deleteexpense/${expenseId}`, formData, {
+//     headers: {
+//     'Content-Type': 'application/json',
+//     "Access-Control-Allow-Origin": "*",
+//     'Accept': '*',
+//     }
+//   })
+//   .then(function (response) {
+//     console.log(response);
+//     state(false);
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// };
 
 // export const fetchCarStatus = ({carId, isCarStatusLoaded, setIsCarStatusLoaded, setCarStatus}) => {
 //   if (!isCarStatusLoaded) {
@@ -400,14 +421,14 @@ export const deleteCarExpense = (expenseId, state) => {
 //   }
 // };
 
-export const fetchPartners = (partner, setPartners) => {
-  if (!partner.length) {
-    get(`${url}/fetchpartners`)
-    .then((response) => {
-      setPartners(response.data)
-    })           
-    .catch((error) => {
-        console.log(error);
-    })
-  }
-};
+// export const fetchPartners = (partner, setPartners) => {
+//   if (!partner.length) {
+//     get(`${url}/fetchpartners`)
+//     .then((response) => {
+//       setPartners(response.data)
+//     })           
+//     .catch((error) => {
+//         console.log(error);
+//     })
+//   }
+// };

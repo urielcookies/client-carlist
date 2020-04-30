@@ -5,6 +5,7 @@ import {useFormik} from 'formik';
 
 import {updateCarInfo} from '../../../endpoints';
 
+import DeleteModal from './DeleteModal';
 import PermissionsModal from './PermissionsModal';
 import InformationStyle from './InformationStyle';
 
@@ -25,6 +26,7 @@ const AddCarForm = (props) => {
 
   const [editMode, setEditMode] = useState(false);
   const [permissionsModalActive, setPermissionsModalActive] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const editModeHandler = () => setEditMode(!editMode);
@@ -82,7 +84,7 @@ const AddCarForm = (props) => {
             content='Delete Car'
             color="red"
             basic
-            onClick={() => console.log('DELETE CAR')} />
+            onClick={() => setDeleteModal(true)} />
 
           <Button
             fluid
@@ -194,7 +196,18 @@ const AddCarForm = (props) => {
         )
       }
 
-      {permissionsModalActive && <PermissionsModal show={permissionsModalActive} close={() => setPermissionsModalActive(false)} />}
+      {deleteModal && (
+        <DeleteModal
+          carInfoId={Id}
+          show={deleteModal}
+          close={() => setDeleteModal(false)} />
+      )}
+
+      {permissionsModalActive && (
+        <PermissionsModal
+          show={permissionsModalActive}
+          close={() => setPermissionsModalActive(false)} />
+      )}
     </InformationStyle>
   );
 }

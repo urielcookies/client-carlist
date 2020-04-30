@@ -12,6 +12,7 @@ const PermissionsModal = ({close, show}) => {
     // setIsLoading(true)
     // API
     console.log('Send', {username, edit});
+    // setIsLoading(false)
     close();
   };
 
