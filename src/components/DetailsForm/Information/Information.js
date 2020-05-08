@@ -88,7 +88,7 @@ const AddCarForm = (props) => {
 
           <Button
             fluid
-            content='Give Permissions'
+            content='Permissions'
             color="teal"
             basic
             onClick={() => setPermissionsModalActive(true)} />
