@@ -6,7 +6,7 @@ import {useFormik} from 'formik';
 import {updateCarInfo} from '../../../endpoints';
 
 import DeleteModal from './DeleteModal';
-import PermissionsModal from './PermissionsModal';
+import PermissionsModal from './PermissionsModal/PermissionsModal';
 import InformationStyle from './InformationStyle';
 
 const AddCarForm = (props) => {
