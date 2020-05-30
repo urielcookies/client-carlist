@@ -205,6 +205,7 @@ const AddCarForm = (props) => {
 
       {permissionsModalActive && (
         <PermissionsModal
+          carInfoId={Id}
           show={permissionsModalActive}
           close={() => setPermissionsModalActive(false)} />
       )}
