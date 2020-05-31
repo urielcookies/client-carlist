@@ -3,9 +3,9 @@ import {Modal, Tab} from 'semantic-ui-react'
 import GivePermissions from './GivePermission'
 import LoadAllUserPermission from './LoadAllUserPermission';
 
-const PermissionsModal = ({close, show}) => {
+const PermissionsModal = ({carInfoId, close, show}) => {
   const panes = [
-    { menuItem: 'All Users Permissions', render: () => <Tab.Pane><LoadAllUserPermission {...{close}} /></Tab.Pane> },
+    { menuItem: 'All Users Permissions', render: () => <Tab.Pane><LoadAllUserPermission {...{carInfoId, close}} /></Tab.Pane> },
     { menuItem: 'Give Permission', render: () => <Tab.Pane><GivePermissions {...{close}} /></Tab.Pane> },
   ]
 

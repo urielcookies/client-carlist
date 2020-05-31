@@ -324,6 +324,12 @@ export const deleteCarInformation = (carInfoId, setIsCarExpensesLoading) => {
   //   });
 };
 
+
+export const fetchUsersWithCarAccess = (carId) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  return get(`${URL}/api/caraccess/get-all-car-permissions/${carId}`, {headers})         
+    .catch((error) => console.log(error))
+};
 // -------------------------------------------------------------
 // let host = null;
 // if (window.location.hostname === 'localhost') {
