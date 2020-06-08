@@ -284,9 +284,7 @@ export const updateCarStatus = (carStatus, setIsCarStatusLoading) => {
 
   const headers = {'Content-Type': 'application/json', token: getCookie('token')};
   return put(`${URL}/api/carstatus`, data, {headers})
-    .then(({status}) => {
-      if (status === 201) setIsCarStatusLoading(true)
-    })
+    .then(() => setIsCarStatusLoading(true))
     .catch((error) => {
       console.log('error', error)
     });
