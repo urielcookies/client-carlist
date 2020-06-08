@@ -1,21 +1,38 @@
 import React, {useState} from 'react';
 
 import {isEqual} from 'lodash';
-import {Button, Form, Modal, Tab} from 'semantic-ui-react'
+import {Button, Form} from 'semantic-ui-react'
 
-const GivePermissions = ({close}) => {
-  const [removeMode, setRemoveMode] = useState(false);
+import {giveUserCarPermissions} from '../../../../endpoints';
+
+const USER_HAS_ACCESS = 'USER_HAS_ACCESS';
+const USER_NO_EXIST = 'USER_NO_EXIST';
+
+const GivePermissions = ({carInfoId, close, getUsers}) => {
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const givePermissionHandler = () => {
-    // setIsLoading(true)
-    // API
-    console.log('Send', {username, edit});
-    // setIsLoading(false)
-    // close();
+    setIsLoading(true);
+    errorMessage && setErrorMessage(null);
+    const carAccess = {
+      CarInformationId: carInfoId,
+      Write: edit,
+      Username: username
+    };
+    giveUserCarPermissions(carAccess).then((response) => {
+      if (response && response.data === USER_HAS_ACCESS)
+        setErrorMessage('This user has permissions already');
+      else if (response && response.data === USER_NO_EXIST)
+        setErrorMessage('This user does not exist');
+      else
+        getUsers()
+
+      setIsLoading(false)
+      setUsername('');
+    })
   };
 
   return (
@@ -39,9 +56,9 @@ const GivePermissions = ({close}) => {
                   
       </Form.Group>
 
-        {isEqual(errorMessage, '') && (
+        {!isEqual(errorMessage, null) && (
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px'}}>
-            <small style={{color: 'red'}}>Username does not exist</small>
+            <small style={{color: 'red'}}>{errorMessage}</small>
           </div>
         )}
             

@@ -330,6 +330,38 @@ export const fetchUsersWithCarAccess = (carId) => {
   return get(`${URL}/api/caraccess/get-all-car-permissions/${carId}`, {headers})         
     .catch((error) => console.log(error))
 };
+
+export const giveUserCarPermissions = (data) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  return post(`${URL}/api/caraccess/give-car-access`, data, {headers})
+    .catch((error) => {
+      console.log('error', error)
+    });
+};
+
+export const editCarAccess = (data) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  return put(`${URL}/api/caraccess`, data, {headers})
+    .catch((error) => {
+      console.log('error', error)
+    });
+};
+
+export const removeUserCarPermissions = (data) => {
+  const headers = {'Content-Type': 'application/json', token: getCookie('token')};
+  
+  var body = JSON.stringify(data);
+  const requestOptions = {
+    body,
+    method: 'DELETE',
+    headers,
+    redirect: 'follow'
+  };
+
+  // var data = JSON.stringify(carAccess);
+  return fetch(`${URL}/api/caraccess/remove-user-permissions`, requestOptions)
+    .catch(error => console.log('error', error));
+}
 // -------------------------------------------------------------
 // let host = null;
 // if (window.location.hostname === 'localhost') {
