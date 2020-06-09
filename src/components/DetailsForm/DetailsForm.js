@@ -9,7 +9,14 @@ import CarExpenses from './CarExpenses/CarExpenses' ;
 import CarEstimations from './CarEstimations/CarEstimations' ;
 import Status from './Status/Status';
 
-import {fetchCarExpenses, fetchCarInfo, fetchOtherCarInfo, fetchCarImages, fetchCarStatus, fetchUserPermission} from '../../endpoints';
+import {
+  fetchCarExpenses,
+  fetchCarInfo,
+  fetchOtherCarInfo,
+  fetchCarImages,
+  fetchCarStatus,
+  fetchUserPermission
+} from '../../endpoints';
 
 const DetailsForm = (props) => {
   const {carInfoId} = props.match.params;
