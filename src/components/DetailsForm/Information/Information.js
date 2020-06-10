@@ -58,7 +58,7 @@ const AddCarForm = (props) => {
         </Header>
       </Divider>
 
-      {!editMode && (
+      {!editMode && userHasWritePermissions && (
         <Button
           fluid
           content='Edit Information'
