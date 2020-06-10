@@ -63,7 +63,7 @@ const AddCarForm = (props) => {
 
             <Form.Input
               name="Year"
-              type="text"
+              type="number"
               label='Year'
               onChange={formik.handleChange}
               value={formik.values.Year} />
@@ -88,6 +88,7 @@ const AddCarForm = (props) => {
               name="Cost"
               type="number"
               label='Cost'
+              step="any"
               onChange={formik.handleChange}
               value={formik.values.Cost} />
             
