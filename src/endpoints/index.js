@@ -356,7 +356,6 @@ export const removeUserCarPermissions = (data) => {
     redirect: 'follow'
   };
 
-  // var data = JSON.stringify(carAccess);
   return fetch(`${URL}/api/caraccess/remove-user-permissions`, requestOptions)
     .catch(error => console.log('error', error));
 }
