@@ -66,6 +66,7 @@ const DetailsForm = (props) => {
   }
 
   // TODO FIX ERROR HERE
+  // Fix when non owner with permissions to edit tries to update sold
   const panes = [
     { menuItem: 'Info', render: () => <Tab.Pane><Information {...carInfo} activeUserId={props.activeUser.Id} isCarInfoLoading={isCarInfoLoading} userHasWritePermissions={userHasWritePermissions} setIsCarInfoLoading={setIsCarInfoLoading} edit carId={carInfoId}/></Tab.Pane> },
     { menuItem: 'Expenses', render: () => <Tab.Pane><CarExpenses userHasWritePermissions={userHasWritePermissions} expenses={carExpenses} carId={carInfoId} setCarExpenses={setCarExpenses} setIsCarExpensesLoading={setIsCarExpensesLoading} Cost={carInfo.Cost} isCarExpensesLoading={isCarExpensesLoading}/></Tab.Pane> },
