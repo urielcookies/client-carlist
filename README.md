@@ -1,4 +1,4 @@
 # Q. What is the logo of GitHub?
 
 ## Answer:
-![GitHub Logo](/public/images/.png)
+![GitHub Logo](./public/images/cookiez.png)
