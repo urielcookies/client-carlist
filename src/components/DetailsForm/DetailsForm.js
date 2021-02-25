@@ -57,7 +57,7 @@ const DetailsForm = (props) => {
 
   if (isEmpty(carInfo) || isEmpty(carStatus) || !props.activeUser) {
     return (
-      <div style={{minHeight: '80vh'}}>
+      <div /* style={{minHeight: '80vh'}} */>
         <Dimmer active inverted>
           <Loader inverted>Loading</Loader>
         </Dimmer>
@@ -109,7 +109,7 @@ const DetailsForm = (props) => {
   };
 
   return (
-    <div style={{minHeight: '80vh'}}>
+    <div /*  style={{minHeight: '80vh'}} */>
       <Container textAlign="center">
         <Header as='h2'>
           {carInfo.Year} {carInfo.Brand} {carInfo.Model}

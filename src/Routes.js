@@ -35,14 +35,14 @@ const Routes = (props) => {
     : <Component {...{...ComponentProps,  activeUser}}/>;
 
   const My404Component = () => (
-    <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <div style={{/* height: '80vh',  */display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       <h1>404 Page Not Found</h1>
     </div>
   );
   
-  const SUP = () => <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Hey</div>
+  const SUP = () => <div style={{/* height: '80vh',  */display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Hey</div>
   return (
-    <div style={{minHeight: '80vh'}}>
+    <div /* style={{minHeight: '80vh'}} */>
       {<Navbar showLogin={getCookie('token')} />}
       {getCookie('token') && <Breadcrumb {...props}/>}
       <Container>

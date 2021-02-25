@@ -41,7 +41,7 @@ const AddCarForm = (props) => {
 
   return (
     submitLoading
-    ? (<div style={{height: '80vh'}}>
+    ? (<div /* style={{height: '80vh'}} */>
         <Dimmer active inverted>
           <Loader inverted>Loading</Loader>
         </Dimmer>

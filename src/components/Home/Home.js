@@ -24,7 +24,7 @@ const Home = (props) => {
   }, [isActiveLoading, isUsersLoading]);
 
   return (
-    <div style={{height: '80vh'}}>
+    <div /* style={{height: '80vh'}} */>
       {isActiveLoading || isUsersLoading
       ? <Dimmer active inverted page>
           <Loader inverted>Loading</Loader>

@@ -8,8 +8,14 @@ import {
     Segment,
 } from 'semantic-ui-react';
 
+const style = {
+        // position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        overflow:'hidden'
+}
 const Footer = () => (
-    <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+    <Segment inverted vertical style={style}>
         <Container textAlign='center'>
             <Grid divided inverted stackable>
                 <Grid.Row>

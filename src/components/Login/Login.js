@@ -10,7 +10,7 @@ const Login = ({history: {push}}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [submitLoading, setSubmitLoading] = useState(false);
   return (
-    <Grid textAlign='center' style={{ height: '80vh' }} verticalAlign='middle'>
+    <Grid textAlign='center' /* style={{ height: '80vh' }} */ verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h2' color='teal' textAlign='center'>
           {/* <Image src='/logo.png' />  */}

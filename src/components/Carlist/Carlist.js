@@ -22,7 +22,7 @@ const CarList = (props) => {
   const carListOwner = !userId;
 
   return (
-    <div style={{minHeight: '80vh'}}>
+    <div /* style={{minHeight: '80vh'}} */>
 
       {carListOwner && (
         <Button
