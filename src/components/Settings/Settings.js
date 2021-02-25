@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-
+import {withRouter} from 'react-router-dom';
 import {post} from 'axios';
-import {Button, Header, Icon, Modal} from 'semantic-ui-react';
-import {hasSubscription} from '../../endpoints';
+import {Button, Divider, Header, Icon, Modal} from 'semantic-ui-react';
+import {hasSubscription, writeCookie} from '../../endpoints';
 
-const Settings = () => {
+const Settings = ({history: {push}}) => {
   const [openModal, setOpenModal] = useState(false);
   const [notification, setNotifications] = useState(false);
 
@@ -78,8 +78,22 @@ const Settings = () => {
         // in the succes of axios displayConfirmNotification()
     });
 
+  const logout = () => {
+    writeCookie('token', '')
+    push('/')
+  };
+
   return (
-    <div style={{height: '80vh'}}>
+    <div>
+      <Button
+        basic
+        fluid
+        color="grey"
+        content="Log out"
+        onClick={logout}/>
+
+      <Divider />
+      
       {window.Notification && (
         <Button
           basic
@@ -110,4 +124,4 @@ const Settings = () => {
   );
 }
 
-export default Settings;
+export default withRouter(Settings);

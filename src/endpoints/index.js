@@ -13,7 +13,7 @@ export const getCookie = (name) => {
 // This is not reliable
 // const headers = {'Content-Type': 'application/json', token: getCookie('token')};
 
-const writeCookie = (key, value, days) => {
+export const writeCookie = (key, value, days) => {
   let date = new Date();
 
   // Default at 365 days.
