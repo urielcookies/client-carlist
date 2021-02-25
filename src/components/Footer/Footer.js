@@ -15,7 +15,7 @@ const style = {
         overflow:'hidden'
 }
 const Footer = () => (
-    <Segment inverted vertical style={style}>
+    <Segment id="footer" inverted vertical style={style}>
         <Container textAlign='center'>
             <Grid divided inverted stackable>
                 <Grid.Row>
@@ -29,7 +29,7 @@ const Footer = () => (
                     </List>
                     </Grid.Column>
                     <Grid.Column width={3}>
-                    <Header inverted as='h4' content='Uriel Cookies Incorporated 2020' />
+                    <Header inverted as='h4' content='Uriel Cookies Incorporated 2021' />
                     <p>
                         {/* Extra space for a call to action inside the footer that could help re-engage users. */}
                     </p>

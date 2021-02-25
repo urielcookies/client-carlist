@@ -55,7 +55,7 @@ const Breadcrumbs = (props) => {
   });
 
   return (
-    <Container>
+    <Container id="breadcrumb" style={{height: '7vh'}}>
       <Breadcrumb size="large">
         {routes.map((route, index) => (
           <React.Fragment key={`route-${index}`}>

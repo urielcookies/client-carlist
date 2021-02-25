@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {Container, Icon, Menu} from 'semantic-ui-react';
 
 const Navbar = ({history, showLogin}) => (
-  <Menu inverted style={{borderRadius: '0px'}}>
+  <Menu id="navigation" inverted style={{borderRadius: '0px', height: '5vh'}}>
     <Container>
       <Menu.Item as='span' header>
         <Icon size='large' name='car' />

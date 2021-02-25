@@ -44,8 +44,8 @@ const Routes = (props) => {
   return (
     <div /* style={{minHeight: '80vh'}} */>
       {<Navbar showLogin={getCookie('token')} />}
-      {getCookie('token') && <Breadcrumb {...props}/>}
-      <Container>
+      {getCookie('token') ? <Breadcrumb {...props}/> : <div style={{height: '7vh'}}/>}
+      <Container id="content" style={{minHeight: '88vh'}}>
         {activeUserLoading
         ? (<Dimmer active inverted>
             <Loader inverted>Loading</Loader>
