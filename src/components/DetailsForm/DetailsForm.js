@@ -55,7 +55,7 @@ const DetailsForm = (props) => {
     window.scrollTo(0, 0);
   }
 
-  if (isEmpty(carInfo) || isEmpty(carStatus)) {
+  if (isEmpty(carInfo) || isEmpty(carStatus) || !props.activeUser) {
     return (
       <div style={{minHeight: '80vh'}}>
         <Dimmer active inverted>
