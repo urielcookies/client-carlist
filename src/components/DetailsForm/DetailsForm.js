@@ -48,7 +48,7 @@ const DetailsForm = (props) => {
     fetchCarImages({carInfoId, isImagesLoaded, setIsImagesLoaded, setCarImages});
     fetchCarStatus({carInfoId, isCarStatusLoading, setIsCarStatusLoading, setCarStatus});
     fetchUserPermission({carInfoId, isUserPermissionsLoaded, setIsUserPermissionsLoaded, setUserHasWritePermissions})
-  }, [isCarInfoLoading, isCarExpensesLoading, isCarStatusLoading]); // All loading that updates need to be here
+  }, [isCarInfoLoading, isCarExpensesLoading, isCarStatusLoading, props.match.params.carlist, carInfoId, isImagesLoaded, isUserPermissionsLoaded]); // All loading that updates need to be here
 
   if (!up) {
     goUp(true);
@@ -96,8 +96,8 @@ const DetailsForm = (props) => {
   })
 
   const tabs = ['info', 'expenses', 'data', 'pics', 'status'];
-  let indexTab = tabs.indexOf(props.match.params.tab);
-  indexTab = props.match.params.tab ? indexTab : 0;
+  // let indexTab = tabs.indexOf(props.match.params.tab);
+  // indexTab = props.match.params.tab ? indexTab : 0;
   const tabOnChange = (e, d) => {
     if (activeIndexTab !== d.activeIndex) {
       // props.history.push(tabs[d.activeIndex]);

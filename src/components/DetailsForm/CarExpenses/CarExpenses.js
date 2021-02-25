@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import moment from 'moment';
 import numeral from 'numeral';
 import {isEmpty} from 'lodash';
-import {Table, Button, Divider, Icon, Header, Modal, Form, Dimmer, Loader } from 'semantic-ui-react';
-import {useFormik, withFormik, Form as FormikForm, Field} from 'formik';
+import {Table, Button, Divider, Icon, Header, Modal, Form, Loader } from 'semantic-ui-react';
+import {useFormik} from 'formik';
 
 import {createExpense, updateExpense, deleteExpense} from '../../../endpoints/index';
 

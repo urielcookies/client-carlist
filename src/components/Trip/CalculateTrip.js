@@ -29,7 +29,7 @@ const CalculateTrip = (props) => {
       setTripCost(`$${staceys_formula}`);
       setRoundTripCost(`$${staceys_formula * 2}`);
     }
-  });
+  }, [directions, distance, gasPrice, mpg, setTripCost]);
 
   const reset = () => {
     setDistance('N/A');
@@ -81,7 +81,6 @@ const CalculateTrip = (props) => {
       setMpg(Number(event.target.value));
     }
     if (event.target.value === '') {
-      console.log('???');
       setMpg(0);
       setTripCost('N/A');
     }

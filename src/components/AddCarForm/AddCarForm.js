@@ -11,14 +11,11 @@ const AddCarForm = (props) => {
     CleanTitle,
     Cost,
     history,
-    Id,
     Model,
     Notes,
-    setIsCarInfoLoading,
-    userHasWritePermissions,
     Year
   } = props;
-
+  
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const formik = useFormik({

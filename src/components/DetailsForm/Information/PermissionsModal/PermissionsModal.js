@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Modal, Tab} from 'semantic-ui-react'
 import GivePermissions from './GivePermission'
 import LoadAllUserPermission from './LoadAllUserPermission';
@@ -8,14 +8,10 @@ import {fetchUsersWithCarAccess} from '../../../../endpoints';
 const PermissionsModal = ({carInfoId, close, show}) => {
   const [usersWithPermissions, setUsersWithPermissions] = useState([]);
 
-  useEffect(() => {
-    getUsers()
-  }, []);
-
-  const getUsers = () => fetchUsersWithCarAccess(carInfoId)
+  const getUsers = useCallback(() => fetchUsersWithCarAccess(carInfoId)
     .then(({data}) => {
       setUsersWithPermissions(data);
-    })
+    }), [carInfoId])
 
   const panes = [
     { 
@@ -35,6 +31,10 @@ const PermissionsModal = ({carInfoId, close, show}) => {
       ) 
     },
   ]
+
+  useEffect(() => {
+    getUsers()
+  }, [getUsers]);
 
   return (
     <Modal

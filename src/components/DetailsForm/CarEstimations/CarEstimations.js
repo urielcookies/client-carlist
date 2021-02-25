@@ -66,7 +66,7 @@ const CarEstimations = (props) => {
       ((( Number((((30 * totalInvestment) / 100) + totalInvestment).toFixed(2)) - totalInvestment) / totalInvestment) * 100).toFixed(2)
     )
   }
-  }, [totalInvestment])
+  }, [division, totalInvestment])
 
   // require("./stylez.css");
   return (

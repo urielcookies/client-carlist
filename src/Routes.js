@@ -13,25 +13,21 @@ import Settings from './components/Settings/Settings';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 
-import {fetchActiveUser} from './endpoints/index';
+import {getCookie, fetchActiveUser} from './endpoints/index';
 
 const Routes = (props) => {
   const [activeUser, setActiveUser] = useState(null);
   const [activeUserLoading, setActiveUserLoading] = useState(true);
 
   useEffect(() => {
-    fetchActiveUser()
-      .then((response) => {
-        if (response && response.data) setActiveUser(response.data);
-        setActiveUserLoading(false);
-      })
+    if (getCookie('token')) {
+      fetchActiveUser()
+        .then((response) => {
+          if (response && response.data) setActiveUser(response.data);
+          setActiveUserLoading(false);
+        })
+    } else setActiveUserLoading(false);
   }, []);
-
-  const getCookie = (name) => {
-    const value = "; " + document.cookie;
-    const parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  }
 
   const withLogin = (Component) => (ComponentProps) =>
     !getCookie('token') 
@@ -44,7 +40,7 @@ const Routes = (props) => {
     </div>
   );
   
-  const SUP = () => <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>SUP</div>
+  const SUP = () => <div style={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Hey</div>
   return (
     <div style={{minHeight: '80vh'}}>
       {<Navbar showLogin={getCookie('token')} />}

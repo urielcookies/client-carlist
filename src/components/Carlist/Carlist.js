@@ -16,7 +16,7 @@ const CarList = (props) => {
       fetchOtherUsersCars({isLoading, setIsLoading, setCarList, userId});
     else 
       fetchCars({isLoading, setIsLoading, setCarList})
-  }, [isLoading]);
+  }, [isLoading, userId]);
 
 
   const carListOwner = !userId;

@@ -1,14 +1,8 @@
 import React, {useState} from 'react'
-import {isEmpty} from 'lodash';
 import {withRouter} from 'react-router-dom';
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 
 import {loginUser} from '../../endpoints';
-
-// import {Link} from 'react-router-dom';
-// import axios from 'axios';
-// import {url} from '../../endpoints/index';
-// import {Redirect} from 'react-router-dom';
 
 const Login = ({history: {push}}) => {
   const [email, setEmail] = useState('');

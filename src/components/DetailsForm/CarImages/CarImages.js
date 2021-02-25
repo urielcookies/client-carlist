@@ -1,21 +1,21 @@
 import React, {useState} from 'react';
-import axios from 'axios';
-import {Image, Dimmer, Divider, Card, Button, Modal, Form, Loader} from 'semantic-ui-react'
+// import axios from 'axios';
+import {Image, Dimmer, Divider, Card, Button, Modal, /* Form, */ Loader} from 'semantic-ui-react'
 
-import {url} from '../../../endpoints';
+// import {url} from '../../../endpoints';
 
 const CarImages = (props) => {
-  const {carId, carImages: images, setIsImagesLoaded} = props;
+  const {/* carId,  */carImages: images/* , setIsImagesLoaded */} = props;
   const [selectedImage, setSelectedImage] = useState('');
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading/* , setLoading */] = useState(false);
 
   const show = () => setOpen(true)
   const close = () => setOpen(false) 
 
-  const makeMain = () => console.log('Make Main');
-  const deleteImage = () => console.log('Delete Main');
-  const onUpload = () => console.log('onUpload');
+  // const makeMain = () => console.log('Make Main');
+  // const deleteImage = () => console.log('Delete Main');
+  // const onUpload = () => console.log('onUpload');
 
   const handleImage = (image) => {
     show();

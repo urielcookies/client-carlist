@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {upperFirst} from 'lodash';
 import {Link} from 'react-router-dom';
 import {Breadcrumb, Container, Divider} from 'semantic-ui-react'
-import {fetchActiveAccount} from '../../endpoints';
 
 const Breadcrumbs = (props) => {
   const paths = props.location.pathname.split('/');
@@ -10,9 +9,6 @@ const Breadcrumbs = (props) => {
   const filtered = paths.filter(path => !Number(path)).slice(1);
 
   const routes = [];
-
-  const [isActiveLoading, setIsActiveAccountLoading] = useState(true);
-  const [activeAccount, setActiveAccount] = useState({});
 
   filtered.map((path, index) => {
     const lastIndex = index === filtered.length - 1;

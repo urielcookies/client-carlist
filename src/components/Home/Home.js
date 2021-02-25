@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {withRouter} from 'react-router-dom';
-import {Button, Card, Dimmer, Icon, Grid, Loader, Container} from 'semantic-ui-react'
+import {Card, Dimmer, Icon, Grid, Loader, Container} from 'semantic-ui-react'
 import {fetchActiveAccount, fetchUsers} from '../../endpoints';
 
 const Home = (props) => {
@@ -21,7 +21,7 @@ const Home = (props) => {
     }
     fetchActiveAccount({isActiveLoading, setIsActiveAccountLoading, setActiveAccount})
     fetchUsers({isUsersLoading, setIsUsersLoading, setUsers});
-  }, []);
+  }, [isActiveLoading, isUsersLoading]);
 
   return (
     <div style={{height: '80vh'}}>
