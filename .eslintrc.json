@@ -1,0 +1,39 @@
+{
+    "extends": [
+        "airbnb",
+				"plugin:lodash/recommended",
+        "prettier",
+        "plugin:react/recommended"
+    ],
+    "plugins": [
+				"lodash",
+        "prettier",
+        "react"
+    ],
+    "globals": {
+        "window": true,
+        "document": true
+    },
+    "rules": {
+        "indent": [
+            "error",
+            "tab"
+        ],
+				"lodash/prefer-lodash-method": [2],
+				"lodash/import-scope": [2, "member"],
+				"no-use-before-define": ["warn", { "functions": true, "classes": true }],
+        "quotes": [
+            "error",
+            "single"
+        ],
+				"react/destructuring-assignment": [1, "always"],
+				"react/jsx-props-no-spreading": [0],
+				"react/prop-types": [1],
+				"react/display-name": [0, { "ignoreTranspilerName": true }],
+        "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}
