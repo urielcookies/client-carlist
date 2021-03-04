@@ -18,15 +18,15 @@ const AddCarForm = (props) => {
 	} = props;
   
 	const [submitLoading, setSubmitLoading] = useState(false);
-	         
+
 	const formik = useFormik({
 		initialValues: {
-			Year: Year || '',
-			Brand: Brand || '',
-			Model: Model || '',
-			Cost: Cost || '',
-			CleanTitle: Boolean(CleanTitle),
-			Notes: Notes || ''
+			Year,
+			Brand,
+			Model,
+			Cost,
+			CleanTitle,
+			Notes
 		},
 		onSubmit: values => {
 			setSubmitLoading(true);
@@ -128,23 +128,23 @@ AddCarForm.propTypes = {
 	// parent
 	Brand: PropTypes.string,
 	CleanTitle: PropTypes.bool,
-	Cost: PropTypes.number,
+	Cost: PropTypes.string,
 	history: PropTypes.shape({
 		push: PropTypes.func
 	}),
 	Model: PropTypes.string,
 	Notes: PropTypes.string,
-	Year: PropTypes.number,
+	Year: PropTypes.string,
 };
 
 AddCarForm.defaultProps = {
 	Brand: '',
 	CleanTitle: true,
-	Cost: 0,
+	Cost: '',
 	history: {},
 	Model: '',
 	Notes: '',
-	Year: new Date().getFullYear(),
+	Year: '',
 };
 
 export default AddCarForm;
