@@ -54,6 +54,7 @@ const Breadcrumbs = (props) => {
 		});
 	});
 
+	
 	return (
 		<Container id="breadcrumb" style={{height: '7vh'}}>
 			<Breadcrumb size="large">
