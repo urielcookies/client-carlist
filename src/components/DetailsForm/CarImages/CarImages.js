@@ -6,7 +6,6 @@ import CarImagesStyle from './CarImagesStyle';
 // Christine Chubukk suicide
 const CarImages = (props) => {
 	const {userHasWritePermissions} = props;
-	
 	return (
 		<CarImagesStyle>
 			<Divider horizontal>
