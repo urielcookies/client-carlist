@@ -4,6 +4,7 @@ import {Button, Divider, Header, Icon} from 'semantic-ui-react';
 import CarImagesStyle from './CarImagesStyle';
 
 // Christine Chubukk suicide
+
 const CarImages = (props) => {
 	const {userHasWritePermissions} = props;
 	return (
