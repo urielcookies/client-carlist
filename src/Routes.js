@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 
-import Breadcrumb from './components/Breadcrumb/Breadcrumb';
+// import Breadcrumb from './components/Breadcrumb/Breadcrumb';
 import AddCarForm from './components/AddCarForm/AddCarForm';
 import Carlist from './components/Carlist/Carlist';
 import DetailsForm from './components/DetailsForm/DetailsForm';
@@ -10,7 +10,7 @@ import Login from './components/Login/Login';
 import Trip from './components/Trip/Trip';
 import Home from './components/Home/Home';
 import Settings from './components/Settings/Settings';
-// import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
+import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
 
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
@@ -42,8 +42,9 @@ const Routes = (props) => {
 	return (
 		<div>
 			<Navbar showLogin={getCookie('token')} />
-			{getCookie('token') ? <Breadcrumb {...props} /> : <div style={{ height: '7vh' }} />}
-			<Container id="content" style={{ minHeight: '88vh' }}>
+			<div style={{ height: '2vh' }} />
+			{/* {getCookie('token') ? <Breadcrumb {...props} /> : <div style={{ height: '7vh' }} />} */}
+			<Container id="content" style={{ height: '93vh', borderBottom: '1px solid red', overflowY: 'hidden' }}>
 				{activeUserLoading
 					? (
 						<Dimmer active inverted>
@@ -67,8 +68,8 @@ const Routes = (props) => {
 						</Switch>
 					)}
 			</Container>
-			<Footer />
-			{/* {getCookie('token') ? <TypeScriptTest /> : <Footer />} */}
+			{/* <Footer /> */}
+			{getCookie('token') ? <TypeScriptTest /> : <Footer />}
 		</div>
 	);
 };
