@@ -10,10 +10,10 @@ import Login from './components/Login/Login';
 import Trip from './components/Trip/Trip';
 import Home from './components/Home/Home';
 import Settings from './components/Settings/Settings';
-import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
+// import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
 
 import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
+// import Footer from './components/Footer/Footer';
 
 import NotFound from './components/NotFound/NotFound';
 
@@ -42,9 +42,10 @@ const Routes = (props) => {
 	return (
 		<div>
 			<Navbar showLogin={getCookie('token')} />
-			<div style={{ height: '2vh' }} />
+
+			{getCookie('token') && <div style={{ height: '2vh' }} />}
 			{/* {getCookie('token') ? <Breadcrumb {...props} /> : <div style={{ height: '7vh' }} />} */}
-			<Container id="content" style={{ height: '93vh', borderBottom: '1px solid red', overflowY: 'hidden' }}>
+			<Container id="content" style={{ height: '93vh', borderBottom: '1px solid red' }}>
 				{activeUserLoading
 					? (
 						<Dimmer active inverted>
@@ -53,7 +54,7 @@ const Routes = (props) => {
 					)
 					: (
 						<Switch>
-							<Route exact path='/' component={SUP} />
+							<Route exact path='/' component={Login} />
 							<Route exact path='/home' component={withLogin(Home)} />
 							<Route exact path='/login' component={Login} />
 							<Route exact path='/home/mycarlist/addcar' component={withLogin(AddCarForm)} />
@@ -69,7 +70,7 @@ const Routes = (props) => {
 					)}
 			</Container>
 			{/* <Footer /> */}
-			{getCookie('token') ? <TypeScriptTest /> : <Footer />}
+			{/* {getCookie('token') ? <TypeScriptTest /> : <Footer />} */}
 		</div>
 	);
 };

@@ -7,7 +7,7 @@ const Navbar = ({ history, showLogin }) => (
 		<Container>
 			<Menu.Item as='span' header>
 				<Icon size='large' name='car' />
-				<Link to={showLogin ? '/home' : '/'}>Cookiez Carz</Link>
+				<Link to={showLogin ? '/home' : '/'}>Car Flipz</Link>
 			</Menu.Item>
 
 			<Menu.Menu position='right'>
