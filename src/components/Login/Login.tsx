@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,19 +11,25 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withTheme } from '@material-ui/core/styles';
 
-import { isEmpty } from 'lodash';
+import { useFormik } from 'formik';
 
 import LoginStyle from './LoginStyle';
 
-const Login = () => {
-  const themeRef = useRef({});
-  if (isEmpty(themeRef.current))
-    makeStyles((theme) => { themeRef.current = theme })()
+const Login = ({ theme }: any) => {
+  const formik = useFormik({
+    initialValues: {
+      Email: '',
+      Password: '',
+    },
+    onSubmit: values => {
+      console.log('SUBMIT!!!', values);
+    },
+  });
 
   return (
-    <LoginStyle theme={themeRef.current}>
+    <LoginStyle theme={theme}>
       <Grid container component="main" className="root">
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className="image" />
@@ -35,7 +41,7 @@ const Login = () => {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <form className="form" noValidate>
+            <form className="form" onSubmit={formik.handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -43,31 +49,35 @@ const Login = () => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
+                name="Email"
                 autoComplete="email"
                 autoFocus
+                onChange={formik.handleChange}
+                value={formik.values.Email}
               />
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                name="password"
+                name="Password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={formik.handleChange}
+                value={formik.values.Password}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 className="submit"
+                type="submit"
               >
                 Sign In
               </Button>
@@ -101,4 +111,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withTheme(Login);
