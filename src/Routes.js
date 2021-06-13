@@ -12,6 +12,8 @@ import Home from './components/Home/Home';
 import Settings from './components/Settings/Settings';
 // import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
 
+import LoginTSX from './components/Login/Login.tsx';
+
 import Navbar from './components/Navbar/Navbar';
 // import Footer from './components/Footer/Footer';
 
@@ -38,37 +40,47 @@ const Routes = (props) => {
 			? <Redirect to="/login" />
 			: <Component {...{ ...ComponentProps, activeUser }} />;
 
-	const SUP = () => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Hey</div>;
+	// const SUP = () => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Hey</div>;
+
+	const AppRoutes = (
+		<div>{activeUserLoading
+			? (
+				<Dimmer active inverted>
+					<Loader inverted>Loading</Loader>
+				</Dimmer>
+			)
+			: (
+				<Switch>
+					<Route exact path='/' component={LoginTSX} />
+					<Route exact path='/home' component={withLogin(Home)} />
+					<Route exact path='/login' component={Login} />
+					<Route exact path='/home/mycarlist/addcar' component={withLogin(AddCarForm)} />
+					<Route exact path='/trip' component={Trip} />
+					<Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)} />
+					<Route exact path='/home/settings' component={withLogin(Settings)} />
+					<Route exact path='/home/:carlist' component={withLogin(Carlist)} />
+					<Route exact path='/home/:carlist/:userId' component={withLogin(Carlist)} />
+					<Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={withLogin(DetailsForm)} />
+					<Route path='/404' component={NotFound} />
+					<Redirect from='*' to='/404' />
+				</Switch>
+			)}
+		</div>
+	);
+
+	const withContainer = (Component) => () =>
+		getCookie('token')
+			? <Container id="content" style={{ height: getCookie('token') ? '93vh' : '95vh', borderBottom: '1px solid red' }}>{Component}</Container>
+			: <div id="content" style={{ height: getCookie('token') ? '93vh' : '95vh', borderBottom: '1px solid red' }}>{Component}</div>;
+
+	const MainContent = withContainer(AppRoutes);
 	return (
 		<div>
 			<Navbar showLogin={getCookie('token')} />
 
 			{getCookie('token') && <div style={{ height: '2vh' }} />}
 			{/* {getCookie('token') ? <Breadcrumb {...props} /> : <div style={{ height: '7vh' }} />} */}
-			<Container id="content" style={{ height: '93vh', borderBottom: '1px solid red' }}>
-				{activeUserLoading
-					? (
-						<Dimmer active inverted>
-							<Loader inverted>Loading</Loader>
-						</Dimmer>
-					)
-					: (
-						<Switch>
-							<Route exact path='/' component={Login} />
-							<Route exact path='/home' component={withLogin(Home)} />
-							<Route exact path='/login' component={Login} />
-							<Route exact path='/home/mycarlist/addcar' component={withLogin(AddCarForm)} />
-							<Route exact path='/trip' component={Trip} />
-							<Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)} />
-							<Route exact path='/home/settings' component={withLogin(Settings)} />
-							<Route exact path='/home/:carlist' component={withLogin(Carlist)} />
-							<Route exact path='/home/:carlist/:userId' component={withLogin(Carlist)} />
-							<Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={withLogin(DetailsForm)} />
-							<Route path='/404' component={NotFound} />
-							<Redirect from='*' to='/404' />
-						</Switch>
-					)}
-			</Container>
+			<MainContent />
 			{/* <Footer /> */}
 			{/* {getCookie('token') ? <TypeScriptTest /> : <Footer />} */}
 		</div>
