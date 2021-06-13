@@ -43,28 +43,29 @@ const Routes = (props) => {
 	// const SUP = () => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Hey</div>;
 
 	const AppRoutes = (
-		<div>{activeUserLoading
-			? (
-				<Dimmer active inverted>
-					<Loader inverted>Loading</Loader>
-				</Dimmer>
-			)
-			: (
-				<Switch>
-					<Route exact path='/' component={LoginTSX} />
-					<Route exact path='/home' component={withLogin(Home)} />
-					<Route exact path='/login' component={Login} />
-					<Route exact path='/home/mycarlist/addcar' component={withLogin(AddCarForm)} />
-					<Route exact path='/trip' component={Trip} />
-					<Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)} />
-					<Route exact path='/home/settings' component={withLogin(Settings)} />
-					<Route exact path='/home/:carlist' component={withLogin(Carlist)} />
-					<Route exact path='/home/:carlist/:userId' component={withLogin(Carlist)} />
-					<Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={withLogin(DetailsForm)} />
-					<Route path='/404' component={NotFound} />
-					<Redirect from='*' to='/404' />
-				</Switch>
-			)}
+		<div>{
+			activeUserLoading
+				? (
+					<Dimmer active inverted>
+						<Loader inverted>Loading</Loader>
+					</Dimmer>
+				)
+				: (
+					<Switch>
+						<Route exact path='/' component={LoginTSX} />
+						<Route exact path='/home' component={withLogin(Home)} />
+						<Route exact path='/login' component={Login} />
+						<Route exact path='/home/mycarlist/addcar' component={withLogin(AddCarForm)} />
+						<Route exact path='/trip' component={Trip} />
+						<Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)} />
+						<Route exact path='/home/settings' component={withLogin(Settings)} />
+						<Route exact path='/home/:carlist' component={withLogin(Carlist)} />
+						<Route exact path='/home/:carlist/:userId' component={withLogin(Carlist)} />
+						<Route exact path='/home/:carlist/:userId/:carInfoId/:tab' component={withLogin(DetailsForm)} />
+						<Route path='/404' component={NotFound} />
+						<Redirect from='*' to='/404' />
+					</Switch>
+				)}
 		</div>
 	);
 
