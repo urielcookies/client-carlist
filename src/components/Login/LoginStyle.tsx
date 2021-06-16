@@ -43,6 +43,12 @@ const LoginStyle = styled.div`
   .submit: {
     margin: ${props => props.theme.spacing(3, 0, 2)};
   }
+
+  #errorMessage {
+    color: red;
+    height: 20px;
+    text-align: center;
+  }
 `;
 
 export default LoginStyle;

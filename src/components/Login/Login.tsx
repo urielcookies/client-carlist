@@ -1,30 +1,51 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { withTheme } from '@material-ui/core/styles';
-
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { flowRight as compose, isUndefined } from 'lodash';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { withTheme } from '@material-ui/core/styles';
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  CssBaseline,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Theme,
+  Typography,
+} from '@material-ui/core';
 
 import LoginStyle from './LoginStyle';
+import { loginUser, writeCookie } from '../../endpoints';
 
-const Login = ({ theme }: any) => {
+interface LoginParams {
+  theme: Theme
+  history: {
+    push: (arg0: string) => void
+  }
+}
+
+const Login = ({ history: { push }, theme }: LoginParams) => {
+  const [errorMessage, setErrorMessage] = useState('');
+  const [submitLoading, setSubmitLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       Email: '',
       Password: '',
     },
-    onSubmit: values => {
-      console.log('SUBMIT!!!', values);
+    onSubmit: async values => {
+      setSubmitLoading(true);
+      const response = await loginUser(values)
+      if (isUndefined(response)) setErrorMessage('Wrong email or password');
+      else {
+        writeCookie('token', response.data);
+        push('/home');
+      }
+      setSubmitLoading(false);
     },
   });
 
@@ -68,10 +89,11 @@ const Login = ({ theme }: any) => {
                 onChange={formik.handleChange}
                 value={formik.values.Password}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
+              <div id="errorMessage">
+                <small>{errorMessage}</small>
+              </div>
+
               <Button
                 fullWidth
                 variant="contained"
@@ -79,20 +101,8 @@ const Login = ({ theme }: any) => {
                 className="submit"
                 type="submit"
               >
-                Sign In
+                {submitLoading ? <CircularProgress color="secondary" className="loadingSpinner" size={24} /> : 'Sign In'}
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
               <Box mt={5}>
                 <Typography variant="body2" color="textSecondary" align="center">
                   {'Copyright © '}
@@ -107,8 +117,11 @@ const Login = ({ theme }: any) => {
           </div>
         </Grid>
       </Grid>
-    </LoginStyle>
+    </LoginStyle >
   );
 };
 
-export default withTheme(Login);
+export default compose(
+  withTheme,
+  withRouter
+)(Login);

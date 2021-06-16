@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {Button, Dimmer, Divider, Header, Form, Icon, Loader} from 'semantic-ui-react';
-import {useFormik} from 'formik';
-import {every} from 'lodash';
+import { Button, Dimmer, Divider, Header, Form, Icon, Loader } from 'semantic-ui-react';
+import { useFormik } from 'formik';
+import { every } from 'lodash';
 
-import {createCar} from '../../endpoints/index';
+import { createCar } from '../../endpoints/index';
 
 const AddCarForm = (props) => {
 	const {
@@ -16,7 +16,7 @@ const AddCarForm = (props) => {
 		Notes,
 		Year
 	} = props;
-  
+
 	const [submitLoading, setSubmitLoading] = useState(false);
 
 	const formik = useFormik({
@@ -30,8 +30,8 @@ const AddCarForm = (props) => {
 		},
 		onSubmit: values => {
 			setSubmitLoading(true);
-			createCar(values).then(({data: carId}) =>
-				history.push(`/home/mycarlist/1003/${carId}/info`)
+			createCar(values).then(({ data: carId }) =>
+				history.push(`/home/mycarlist/1003/${carId}/info`) // change 1003 to actual ID, this isnt breaking amnythin at the moment
 			);
 		},
 	});
@@ -54,10 +54,10 @@ const AddCarForm = (props) => {
 					<Divider horizontal>
 						<Header as='h4'>
 							<Icon name='file alternate outline' />
-            Car Information
+							Car Information
 						</Header>
 					</Divider>
-        
+
 					<Form>
 						<Form.Group widths='equal'>
 
@@ -83,7 +83,7 @@ const AddCarForm = (props) => {
 								value={formik.values.Model} />
 						</Form.Group>
 
-						<Form.Group inline style={{lineHeight: '45px'}}>
+						<Form.Group inline style={{ lineHeight: '45px' }}>
 							<Form.Input
 								name="Cost"
 								type="number"
@@ -91,7 +91,7 @@ const AddCarForm = (props) => {
 								step="any"
 								onChange={formik.handleChange}
 								value={formik.values.Cost} />
-            
+
 							<Form.Checkbox
 								toggle
 								label='Clean Title'
