@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
+import { toLower } from 'lodash';
 
 // import Breadcrumb from './components/Breadcrumb/Breadcrumb';
 import AddCarForm from './components/AddCarForm/AddCarForm';
@@ -10,7 +11,7 @@ import Login from './components/Login/Login';
 import Trip from './components/Trip/Trip';
 import Home from './components/Home/Home';
 import Settings from './components/Settings/Settings';
-// import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
+import TypeScriptTest from './components/TypeScriptTest/TypeScriptTest.tsx';
 
 import LoginTSX from './components/Login/Login.tsx';
 
@@ -84,6 +85,7 @@ const Routes = (props) => {
 			<MainContent />
 			{/* <Footer /> */}
 			{/* {getCookie('token') ? <TypeScriptTest /> : <Footer />} */}
+			{getCookie('token') && toLower(window.navigator.userAgent).match(/mobile/i) && <TypeScriptTest />}
 		</div>
 	);
 };
