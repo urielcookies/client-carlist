@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { flowRight as compose, isUndefined } from 'lodash';
@@ -19,18 +19,19 @@ import {
 } from '@material-ui/core';
 
 import LoginStyle from './LoginStyle';
-import { loginUser, writeCookie } from '../../endpoints';
+import { fetchActiveUser, loginUser, writeCookie } from '../../endpoints';
 
 interface LoginParams {
   theme: Theme
   history: {
     push: (arg0: string) => void
-  }
+  },
+  setActiveUser: (arg0: any) => void
 }
 
-const Login = ({ history: { push }, theme }: LoginParams) => {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [submitLoading, setSubmitLoading] = useState(false);
+const Login = ({ history: { push }, setActiveUser, theme }: LoginParams) => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -39,11 +40,14 @@ const Login = ({ history: { push }, theme }: LoginParams) => {
     },
     onSubmit: async values => {
       setSubmitLoading(true);
-      const response = await loginUser(values)
+      const response = await loginUser(values);
       if (isUndefined(response)) setErrorMessage('Wrong email or password');
       else {
         writeCookie('token', response.data);
+        const userResponse = await fetchActiveUser();
+
         push('/home');
+        setActiveUser(userResponse.data);
       }
       setSubmitLoading(false);
     },

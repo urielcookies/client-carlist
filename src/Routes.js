@@ -7,7 +7,7 @@ import { toLower } from 'lodash';
 import AddCarForm from './components/AddCarForm/AddCarForm';
 import Carlist from './components/Carlist/Carlist';
 import DetailsForm from './components/DetailsForm/DetailsForm';
-import Login from './components/Login/Login';
+// import Login from './components/Login/Login';
 import Trip from './components/Trip/Trip';
 import Home from './components/Home/Home';
 import Settings from './components/Settings/Settings';
@@ -53,9 +53,9 @@ const Routes = (props) => {
 				)
 				: (
 					<Switch>
-						<Route exact path='/' component={LoginTSX} />
+						<Route exact path='/' component={() => <LoginTSX setActiveUser={setActiveUser} />} />
 						<Route exact path='/home' component={withLogin(Home)} />
-						<Route exact path='/login' component={Login} />
+						{/* <Route exact path='/login' component={Login} /> */}
 						<Route exact path='/home/mycarlist/addcar' component={withLogin(AddCarForm)} />
 						<Route exact path='/trip' component={Trip} />
 						<Route exact path='/details/:id/:tab' component={withLogin(DetailsForm)} />
@@ -76,6 +76,7 @@ const Routes = (props) => {
 			: <div id="content" style={{ height: getCookie('token') ? '93vh' : '95vh', borderBottom: '1px solid red' }}>{Component}</div>;
 
 	const MainContent = withContainer(AppRoutes);
+
 	return (
 		<div>
 			<Navbar showLogin={getCookie('token')} />

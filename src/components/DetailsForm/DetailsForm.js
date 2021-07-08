@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {isEmpty} from 'lodash';
+import { isEmpty } from 'lodash';
 import { Dimmer, Loader, Tab, Header, Container, Divider } from 'semantic-ui-react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Information from './Information/Information';
 import CarImages from './CarImages/CarImages';
-import CarExpenses from './CarExpenses/CarExpenses' ;
-import CarEstimations from './CarEstimations/CarEstimations' ;
+import CarExpenses from './CarExpenses/CarExpenses';
+import CarEstimations from './CarEstimations/CarEstimations';
 import Status from './Status/Status';
 
 import {
@@ -22,9 +22,9 @@ import {
 const DetailsForm = (props) => {
 	const {
 		activeUser,
-		activeUser:{Id},
-		match: {params: {carInfoId, carlist, tab}},
-		history: {location: {pathname}}
+		activeUser: { Id },
+		match: { params: { carInfoId, carlist, tab } },
+		history: { location: { pathname } }
 	} = props;
 
 	const [activeIndexTab, setActiveIndexTab] = useState(() =>
@@ -46,14 +46,14 @@ const DetailsForm = (props) => {
 
 	useEffect(() => {
 		if (carlist === 'mycarlist')
-			fetchCarInfo({carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo});
-		 else
-			fetchOtherCarInfo({carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo});
-		
-		fetchCarExpenses({carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses});
-		fetchCarImages({carInfoId, isImagesLoaded, setIsImagesLoaded, setCarImages});
-		fetchCarStatus({carInfoId, isCarStatusLoading, setIsCarStatusLoading, setCarStatus});
-		fetchUserPermission({carInfoId, isUserPermissionsLoaded, setIsUserPermissionsLoaded, setUserHasWritePermissions});
+			fetchCarInfo({ carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo });
+		else
+			fetchOtherCarInfo({ carInfoId, isCarInfoLoading, setIsCarInfoLoading, setCarInfo });
+
+		fetchCarExpenses({ carInfoId, isCarExpensesLoading, setIsCarExpensesLoading, setCarExpenses });
+		fetchCarImages({ carInfoId, isImagesLoaded, setIsImagesLoaded, setCarImages });
+		fetchCarStatus({ carInfoId, isCarStatusLoading, setIsCarStatusLoading, setCarStatus });
+		fetchUserPermission({ carInfoId, isUserPermissionsLoaded, setIsUserPermissionsLoaded, setUserHasWritePermissions });
 	}, [isCarInfoLoading, isCarExpensesLoading, isCarStatusLoading, carlist, carInfoId, isImagesLoaded, isUserPermissionsLoaded]); // All loading that updates need to be here
 
 	if (!up) {
@@ -73,7 +73,6 @@ const DetailsForm = (props) => {
 
 	// TODO FIX ERROR HERE
 	// Fix when non owner with permissions to edit tries to update sold
-  
 	const panes = [
 		{
 			menuItem: 'Info',

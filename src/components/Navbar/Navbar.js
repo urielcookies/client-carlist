@@ -11,12 +11,12 @@ const Navbar = ({ history, showLogin }) => (
 			</Menu.Item>
 
 			<Menu.Menu position='right'>
-				{!showLogin && (
+				{/* {!showLogin && (
 					<Menu.Item>
 						<Icon size='small' name='user outline' />
 						<Link to="/login">Login</Link>
 					</Menu.Item>
-				)}
+				)} */}
 				{showLogin && (
 					<Menu.Item>
 						<Icon name='settings' onClick={() => history.push('/home/settings')} />
