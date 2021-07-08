@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { flowRight as compose, isUndefined } from 'lodash';
