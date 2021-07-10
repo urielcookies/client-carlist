@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { History } from 'history';
 import { useFormik } from 'formik';
-import { flowRight as compose, isUndefined } from 'lodash';
+import { flow as compose, isUndefined } from 'lodash';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { withTheme } from '@material-ui/core/styles';
 import {
@@ -21,15 +22,14 @@ import {
 import LoginStyle from './LoginStyle';
 import { fetchActiveUser, loginUser, writeCookie } from '../../endpoints';
 
-interface LoginParams {
-  theme: Theme
-  history: {
-    push: (arg0: string) => void
-  },
-  setActiveUser: (arg0: any) => void
+interface LoginProps {
+  history: History;
+  theme: Theme;
+  // eslint-disable-next-line no-unused-vars
+  setActiveUser: (arg0: object) => void;
 }
 
-const Login = ({ history: { push }, setActiveUser, theme }: LoginParams) => {
+const Login: FC<LoginProps> = ({ history: { push }, setActiveUser, theme }) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
@@ -38,7 +38,7 @@ const Login = ({ history: { push }, setActiveUser, theme }: LoginParams) => {
       Email: '',
       Password: '',
     },
-    onSubmit: async values => {
+    onSubmit: async (values) => {
       setSubmitLoading(true);
       const response = await loginUser(values);
       if (isUndefined(response)) setErrorMessage('Wrong email or password');
@@ -112,7 +112,8 @@ const Login = ({ history: { push }, setActiveUser, theme }: LoginParams) => {
                   {'Copyright © '}
                   <Link color="inherit" href="https://everscode.com/">
                     urielcookies
-                  </Link> &nbsp;
+                  </Link>
+                  &nbsp;
                   {new Date().getFullYear()}
                   &nbsp;
                 </Typography>
@@ -121,11 +122,11 @@ const Login = ({ history: { push }, setActiveUser, theme }: LoginParams) => {
           </div>
         </Grid>
       </Grid>
-    </LoginStyle >
+    </LoginStyle>
   );
 };
 
 export default compose(
   withTheme,
-  withRouter
+  withRouter,
 )(Login);

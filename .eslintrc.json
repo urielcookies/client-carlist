@@ -1,56 +1,127 @@
 {
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
 	"extends": [
+		"plugin:react/recommended",
 		"airbnb",
-		"plugin:lodash/recommended",
-		"prettier",
-		"plugin:react/recommended"
+		"plugin:lodash/recommended"
 	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 12,
+		"sourceType": "module"
+	},
 	"plugins": [
-		"lodash",
-		"prettier",
 		"react",
-		"react-hooks"
+		"react-hooks",
+		"@typescript-eslint",
+		"lodash"
 	],
-	"globals": {
-		"window": true,
-		"document": true
+	"settings": {
+		"import/resolver": {
+			"typescript": {}
+		}
 	},
 	"rules": {
-		"indent": [
-			"error",
-			"tab"
+		// "indent": [
+		// 	"error",
+		// 	"tab"
+		// ],
+		"lodash/prefer-lodash-method": [
+			2
 		],
-
-		"lodash/prefer-lodash-method": [2],
-		"lodash/import-scope": [2, "member"],
-
-		"array-bracket-spacing": [2],
-		"comma-spacing": [2],
-		"prefer-template": [2],
-		"newline-per-chained-call": [2],
-		"object-shorthand": [2],
-		"no-multiple-empty-lines": [1, {"max": 1, "maxEOF": 0}],
-		"no-multi-spaces": [2],
-		"no-trailing-spaces": [2, { "ignoreComments": true, "skipBlankLines": true }],
-		"no-use-before-define": [2, { "functions": true, "classes": true }],
-		"no-unused-vars": [2],
+		"lodash/import-scope": [
+			2,
+			"member"
+		],
+		"array-bracket-spacing": [
+			2
+		],
+		"comma-spacing": [
+			2
+		],
+		"prefer-template": [
+			2
+		],
+		"newline-per-chained-call": [
+			2
+		],
+		"object-shorthand": [
+			2
+		],
+		"no-multiple-empty-lines": [
+			1,
+			{
+				"max": 1,
+				"maxEOF": 0
+			}
+		],
+		"no-multi-spaces": [
+			2
+		],
+		"no-trailing-spaces": [
+			2,
+			{
+				"ignoreComments": true,
+				"skipBlankLines": true
+			}
+		],
+		// "no-use-before-define": [
+		// 	2,
+		// 	{
+		// 		"functions": true,
+		// 		"classes": true
+		// 	}
+		// ],
+		"no-use-before-define": "off",
+		"no-unused-vars": [
+			2
+		],
 		"quotes": [
 			"error",
 			"single"
 		],
-
-		"react/destructuring-assignment": [1, "always"],
-		"react/jsx-props-no-spreading": [0],
-		"react/jsx-tag-spacing": [1],
-		"react/prop-types": [1],
-		"react/display-name": [0, { "ignoreTranspilerName": true }],
-		"react/jsx-filename-extension": [0, { "extensions": [".js"] }],
-
-		"react-hooks/rules-of-hooks": [2],
-
+		"react/destructuring-assignment": [
+			1,
+			"always"
+		],
+		"react/jsx-props-no-spreading": [
+			0
+		],
+		"react/jsx-tag-spacing": [
+			1
+		],
+		"react/prop-types": [
+			0
+		],
+		"react/display-name": [
+			0,
+			{
+				"ignoreTranspilerName": true
+			}
+		],
+		"react/jsx-filename-extension": [
+			1,
+			{
+				"extensions": [
+					".js",
+					".tsx"
+				]
+			}
+		],
+		"react-hooks/rules-of-hooks": [
+			2
+		],
 		"semi": [
 			"error",
 			"always"
-		]
+		],
+		"import/extensions": "off",
+		"@typescript-eslint/no-unused-vars": "off"
 	}
 }
