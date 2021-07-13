@@ -4,13 +4,16 @@ import {
   Card, Dimmer, Icon, Grid, Loader, Container,
 } from 'semantic-ui-react';
 import { map } from 'lodash';
-import { fetchActiveAccount, fetchUsers } from '../../endpoints';
+import { useActiveUser } from '../../context/ActiveUserContext';
+
+import { fetchUsers } from '../../endpoints';
 
 const Home = (props) => {
-  const [isActiveLoading, setIsActiveAccountLoading] = useState(true);
+  const activeUser = useActiveUser();
+  // const [isActiveLoading, setIsActiveAccountLoading] = useState(true);
   const [isUsersLoading, setIsUsersLoading] = useState(true);
 
-  const [activeAccount, setActiveAccount] = useState({});
+  // const [activeAccount, setActiveAccount] = useState({});
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -23,13 +26,13 @@ const Home = (props) => {
       });
       window.deferredPrompt = null;
     }
-    fetchActiveAccount({ isActiveLoading, setIsActiveAccountLoading, setActiveAccount });
+    // fetchActiveAccount({ isActiveLoading, setIsActiveAccountLoading, setActiveAccount });
     fetchUsers({ isUsersLoading, setIsUsersLoading, setUsers });
-  }, [isActiveLoading, isUsersLoading]);
+  }, [isUsersLoading]);
 
   return (
     <div>
-      {isActiveLoading || isUsersLoading
+      {isUsersLoading
         ? (
           <Dimmer active inverted page>
             <Loader inverted>Loading</Loader>
@@ -43,8 +46,8 @@ const Home = (props) => {
                   <Card centered onClick={() => props.history.push('/home/mycarlist')}>
                     <Card.Content>
                       <Icon name="folder open outline" color="black" size="big" />
-                      <Card.Header style={ellipsisStyle} title={activeAccount.Username} content={activeAccount.Username} />
-                      <Card.Meta style={ellipsisStyle} title={activeAccount.Email} content={activeAccount.Email} />
+                      <Card.Header style={ellipsisStyle} title={activeUser.Username} content={activeUser.Username} />
+                      <Card.Meta style={ellipsisStyle} title={activeUser.Email} content={activeUser.Email} />
                     </Card.Content>
                   </Card>
                 </Grid.Column>
