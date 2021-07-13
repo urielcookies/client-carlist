@@ -6,11 +6,11 @@ import Navbar from '../components/Navbar/Navbar.js';
 import AddCarForm from '../components/AddCarForm/AddCarForm';
 import Carlist from '../components/Carlist/Carlist';
 import DetailsForm from '../components/DetailsForm/DetailsForm';
-import LoginTSX from '../components/Login/Login';
 import Home from '../components/Home/Home';
+import LoginTSX from '../components/Login/Login';
+import MobileFooterNavigation from '../components/MobileFooterNavigation/MobileFooterNavigation';
 import Settings from '../components/Settings/Settings';
 import Trip from '../components/Trip/Trip';
-import TypeScriptTest from '../components/TypeScriptTest/TypeScriptTest';
 
 import withLoginAuthentication from './withLoginAuthentication';
 import withContainerUI from './withContainerUI';
@@ -64,14 +64,14 @@ const Routes: FC = () => {
   const Divider = hasCookie && <div style={{ height: '2vh' }} />;
   const MainContent = withContainerUI(AppRoutes);
   const isMobile = toLower(window.navigator.userAgent).match(/mobile/i);
-  const Footer = hasCookie && isMobile && <TypeScriptTest />;
+  const Footer = hasCookie && isMobile && <MobileFooterNavigation />;
   return (
-    <div>
+    <>
       <Navbar />
       {Divider}
       <MainContent />
       {Footer}
-    </div>
+    </>
   );
 };
 
