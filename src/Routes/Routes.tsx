@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { noop, toLower } from 'lodash';
 
 import Navbar from '../components/Navbar/Navbar.js';
 import AddCarForm from '../components/AddCarForm/AddCarForm';
@@ -9,19 +10,26 @@ import LoginTSX from '../components/Login/Login';
 import Home from '../components/Home/Home';
 import Settings from '../components/Settings/Settings';
 import Trip from '../components/Trip/Trip';
+import TypeScriptTest from '../components/TypeScriptTest/TypeScriptTest';
 
 import withLoginAuthentication from './withLoginAuthentication';
 import withContainerUI from './withContainerUI';
 
 import PageLoad from '../components/PageLoad/PageLoad';
 
-import { ActiveUser, useActiveUserUpdate } from '../context/ActiveUserContext';
+import { ActiveUser, useActiveUser, useActiveUserUpdate } from '../context/ActiveUserContext';
 import { getCookie, fetchActiveUser } from '../endpoints/index';
 
 const Routes: FC = () => {
+  const activeUser = useActiveUser();
   const setActiveUserUpdate = useActiveUserUpdate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const hasCookie = getCookie('token');
+
+  useEffect(() => {
+    // Need to re-render component for container div to fix itself
+    noop();
+  }, [activeUser]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,11 +63,14 @@ const Routes: FC = () => {
 
   const Divider = hasCookie && <div style={{ height: '2vh' }} />;
   const MainContent = withContainerUI(AppRoutes);
+  const isMobile = toLower(window.navigator.userAgent).match(/mobile/i);
+  const Footer = hasCookie && isMobile && <TypeScriptTest />;
   return (
     <div>
       <Navbar />
       {Divider}
       <MainContent />
+      {Footer}
     </div>
   );
 };

@@ -18,3 +18,9 @@ code {
   display: flex !important;
   justify-content: center !important;
 }
+
+#semanticGrid.ui.grid  {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  color: red;
+}
