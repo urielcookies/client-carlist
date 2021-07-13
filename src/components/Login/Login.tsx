@@ -21,17 +21,18 @@ import {
 
 import LoginStyle from './LoginStyle';
 import { fetchActiveUser, loginUser, writeCookie } from '../../endpoints';
+import { ActiveUser, useActiveUserUpdate } from '../../context/ActiveUserContext';
 
 interface LoginProps {
   history: History;
   theme: Theme;
-  // eslint-disable-next-line no-unused-vars
-  setActiveUser: (arg0: object) => void;
 }
 
-const Login: FC<LoginProps> = ({ history: { push }, setActiveUser, theme }) => {
+const Login: FC<LoginProps> = ({ history: { push }, theme }) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+
+  const setActiveUserUpdate = useActiveUserUpdate();
 
   const formik = useFormik({
     initialValues: {
@@ -40,14 +41,13 @@ const Login: FC<LoginProps> = ({ history: { push }, setActiveUser, theme }) => {
     },
     onSubmit: async (values) => {
       setSubmitLoading(true);
-      const response = await loginUser(values);
-      if (isUndefined(response)) setErrorMessage('Wrong email or password');
+      const JWTResponse = await loginUser(values);
+      if (isUndefined(JWTResponse)) setErrorMessage('Wrong email or password');
       else {
-        writeCookie('token', response.data);
+        writeCookie('token', JWTResponse.data);
         const userResponse = await fetchActiveUser();
-
+        setActiveUserUpdate(userResponse.data as ActiveUser);
         push('/home');
-        setActiveUser(userResponse.data);
       }
       setSubmitLoading(false);
     },
